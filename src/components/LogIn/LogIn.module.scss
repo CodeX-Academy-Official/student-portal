@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.SignUp {
+.LogIn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -50,10 +50,27 @@
   margin-bottom: 2rem;
 }
 
-.signupBtn {
+.loginBtn {
   margin: unset !important;
   margin-top: 2.4rem !important;
   width: 100%;
+}
+
+.forgotPassword {
+  &:hover {
+    color: #0000ff !important;
+  }
+}
+
+.socialMediaContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  padding-top: 2rem;
+
+  svg {
+    font-size: 6rem;
+  }
 }
 
 .footer {
@@ -61,7 +78,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 1.3rem;
+  margin-top: 2.3rem;
   height: 8.5rem;
   width: 100%;
   text-align: center;
@@ -79,53 +96,10 @@
 
 .heading {
   text-align: center;
+  padding-bottom: 2.4rem;
   h1 {
     font-weight: 700;
   }
   p {
   }
-}
-.passTip {
-  font: 0.9rem/1rem $font-segoe;
-  margin-top: 0.3rem;
-  text-align: right;
-  display: block;
-  float: right;
-  letter-spacing: 0.424063px;
-  text-transform: uppercase;
-  color: $primary-color;
-}
-
-.formWrapper {
-  max-width: 50rem;
-  margin: 4.5rem auto 0;
-}
-.agreementCheck {
-  margin-bottom: 0;
-}
-:global .ant-input {
-  color: #000 !important;
-  border-radius: 0.4rem;
-  &::selection {
-    background: rgb(185, 199, 212);
-    color: #000;
-  }
-}
-:global .ant-input-password {
-  border-radius: 0.4rem;
-}
-:global .ant-form-item {
-  margin-bottom: 1rem;
-}
-
-.link {
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-  /*optional*/
-  font-family: arial, sans-serif;
-  /*input has OS specific font-family*/
-  color: #069;
-  text-decoration: underline;
-  cursor: pointer;
 }

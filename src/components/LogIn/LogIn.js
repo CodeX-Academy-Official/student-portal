@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
-import Styles from './SignUp.module.scss';
-import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Row, Col, Button, Form, Input } from 'antd';
+import Styles from './LogIn.module.scss';
+import { Link, useHistory } from 'react-router-dom';
 import logo from '../../img/logo.png';
+export default function LogIn() {
+  const onSubmit = async (values) => {
+    const { email, password } = values;
 
-export default function SignUp({ formRef }) {
+    try {
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div className={Styles.SignUp}>
+    <div className={Styles.LogIn}>
       <div className={Styles.whiteBox}>
         <div className={Styles.withPadding}>
           <div className={Styles.heading}>
             <img src={logo} alt="Linkerease Logo" className={Styles.logo} />
             <h1>Student Portal</h1>
-            <h2>Sign Up</h2>
-            {/*<p>let’s set up your student portal account</p>*/}
+            <h2>Log In</h2>
+            {/*<p>Sign in with your account to see your information.</p>*/}
           </div>
-
           <Form
-            name="setupAccount"
-            ref={formRef}
+            name="LogIn"
             className={Styles.formWrapper}
             initialValues={{
               email: '',
@@ -46,57 +52,25 @@ export default function SignUp({ formRef }) {
             >
               <Input />
             </Form.Item>
+            <label
+              className={`${Styles.passLabel} formLabel`}
+              htmlFor="password"
+            >
+              Password
+            </label>
 
-            <div>
-              <span className={Styles.passTip}>8 or more characters</span>
-              <label
-                className={`${Styles.passLabel} formLabel`}
-                htmlFor="password"
-              >
-                Password
-              </label>
-            </div>
             <Form.Item
               validateTrigger="onBlur"
               name="password"
               rules={[
                 { required: true, message: 'Please input your password!' },
-                {
-                  min: 8,
-                  message: 'Cannot be less than 8 characters',
-                },
               ]}
             >
               <Input.Password allowClear />
             </Form.Item>
 
-            <label htmlFor="confirmPassword" className="formLabel">
-              Confirm Password
-            </label>
-            <Form.Item
-              validateTrigger="onBlur"
-              name="confirmPassword"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      'The two passwords that you entered do not match!'
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password allowClear />
-            </Form.Item>
             <Button
-              className={`${Styles.signupBtn} Btn`}
+              className={`${Styles.loginBtn} Btn`}
               htmlType="submit"
               type="primary"
               shape="round"
@@ -106,10 +80,16 @@ export default function SignUp({ formRef }) {
               Sign Up
             </Button>
           </Form>
+          {/* <div className={Styles.socialMediaContainer}>
+            {socialIcons.map((icon, index) => (
+              <Icon key={`social-icon-${index}`} component={icon} />
+            ))}
+          </div> */}
         </div>
+
         <div className={Styles.footer}>
           <p>
-            Already have an account? <Link to="/log-in">Log In</Link>
+            Don't have an account yet? <Link to="/sign-up">Join now</Link>
           </p>
         </div>
       </div>

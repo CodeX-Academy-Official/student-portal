@@ -1,0 +1,491 @@
+body {
+  margin: 0;
+  padding: 0;
+  margin: 0 auto;
+  font-family: Segoe UI;
+}
+
+a {
+  color: #4472c4;
+  text-decoration: none;
+}
+
+option {
+  width: 100%;
+}
+
+select {
+  border: 1px solid #3e629f;
+  clear: both;
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url(../img/drop.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  cursor: pointer;
+  font-family: 'FontAwesome', 'Segoe UI';
+}
+
+input {
+  background-color: #273c7b;
+  color: white;
+  font-size: 9px;
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid white;
+}
+
+/*header*/
+
+.fa-select {
+  font-family: 'Segoe UI', 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.header {
+  margin: 0 auto;
+  height: 100px;
+  background-color: #1b235e;
+}
+
+.left {
+  padding: 20px;
+  width: 30%;
+  float: left;
+}
+
+.middle {
+  padding: 20px 0px 0px 0px;
+  width: 30%;
+  float: left;
+  text-align: center;
+  position: relative;
+  top: 15px;
+}
+
+.middle a {
+  color: #919191;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
+
+.tagline {
+  color: #ffc000;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.right {
+  padding: 20px 0px 0px 0px;
+  width: 30%;
+  float: left;
+  text-align: right;
+  position: relative;
+  top: 15px;
+}
+
+.right a {
+  color: #919191;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
+
+.logo {
+  background-image: url(../img/LRLogoLight.png);
+  background-repeat: no-repeat;
+  width: 26rem;
+  height: 11.8rem;
+}
+
+h1 {
+  font-size: 32px;
+  text-align: center;
+  font-weight: normal;
+  padding: 10px 0px;
+}
+
+h3 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: normal;
+  padding: 10px 0px;
+}
+
+/*content*/
+
+#progressouter {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}
+
+#progress {
+  background-color: #f9f9fb;
+  width: 100%;
+  height: 20px;
+  text-align: left;
+  line-height: 30px;
+  color: white;
+  position: relative;
+  margin: 20px 0px;
+  float: left;
+  clear: both;
+}
+
+#bar {
+  width: 7%;
+  height: 20px;
+  background-color: #0074e4;
+  text-align: left;
+  line-height: 30px;
+  color: white;
+  position: relative;
+  border-right: 1px solid white;
+  float: left;
+}
+
+.line {
+  border-bottom: 1px solid grey;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0px;
+  position: relative;
+  bottom: 20px;
+}
+
+.inputgeneral {
+  background-color: #ffffff;
+  color: black;
+  font-size: 20px;
+  width: 20%;
+  text-align: center;
+  padding: 20px 150px;
+  border-radius: 5px;
+  border: 1px solid #4366a1;
+  text-align: center;
+}
+
+.inputgeneral2 {
+  background-color: #ffffff;
+  color: black;
+  font-size: 13px;
+  width: 20%;
+  text-align: center;
+  padding: 20px 150px;
+  border-radius: 5px;
+  border: 1px solid #4366a1;
+  /* text-align: center; */
+}
+
+.inputcode {
+  background-color: #ffffff;
+  color: black;
+  font-size: 20px;
+  width: 2%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #4366a1;
+  text-align: center;
+  margin: 0px 5px;
+}
+
+.content {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contentmiddle {
+  width: 60%;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}
+
+.contentleft {
+  width: 30%;
+  margin: 0 auto;
+  display: block;
+  float: left;
+  position: relative;
+  left: 100px;
+}
+
+.contentright {
+  width: 60%;
+  margin: 0 auto;
+  display: block;
+  float: left;
+}
+
+.contentright img {
+  margin: 0 auto;
+  float: right;
+}
+
+.reg {
+  background-color: white;
+  padding: 10px 10px 10px 0px;
+  border-radius: 5px;
+  float: left;
+  position: relative;
+  clear: both;
+}
+
+.buttoncontinue {
+  background-color: #1010ff;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonagree {
+  background-color: #006aff;
+  color: white;
+  width: 170px;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  float: right;
+}
+
+.buttoncont {
+  background-color: #f2f2f2;
+  color: #bfbfbf;
+  width: 170px;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  float: right;
+}
+
+.buttoncont2 {
+  background-color: #006aff;
+  color: #ffffff;
+  width: 170px;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  float: right;
+}
+
+.buttonsign {
+  color: white;
+  padding: 10px 20px;
+  margin: 10px 0px;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #4472c4;
+  border: none;
+}
+
+.buttonjoin {
+  color: white;
+  padding: 10px 20px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.login {
+  float: left;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.texts {
+  font-size: 13px;
+  float: left;
+  position: relative;
+  clear: both;
+}
+
+.ind {
+  text-align: center;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 12px;
+  width: 125px;
+  clear: both;
+  background-color: white;
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
+
+.textfields {
+  text-align: center;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 14px;
+  width: 120px;
+  clear: both;
+  background-color: white;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  margin: 0 auto;
+}
+
+.textfields2 {
+  text-align: center;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 14px;
+  width: 270px;
+  clear: both;
+  background-color: white;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  margin: 0 auto;
+}
+
+.textfields3 {
+  text-align: center;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 14px;
+  width: 200px;
+  clear: both;
+  background-color: white;
+  position: relative;
+  left: 10px;
+  top: 10px;
+  margin: 0 auto;
+}
+
+.disclaimer {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.disclaimer2 {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  padding: 20px 0;
+  color: #bfbfbf;
+  font-size: 12px;
+}
+
+.join {
+  text-align: center;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 12px;
+  width: 83px;
+  clear: both;
+  background-color: white;
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
+
+.joinimg {
+  text-align: right;
+  padding: 2px 2px 0px 2px;
+  color: #112845;
+  letter-spacing: 1px;
+  font-size: 12px;
+  width: 236px;
+  border: 1px solid #3e629f;
+  clear: both;
+  border-radius: 3px;
+  background-color: white;
+}
+
+.tellus {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.selected {
+  background-image: url(../img/selected.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  height: 32px;
+  width: 32px;
+}
+
+.unselected {
+  background-image: url(../img/unselected.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  height: 32px;
+  width: 32px;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  background-image: url(../img/tooltip.png);
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 20px;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*end*/

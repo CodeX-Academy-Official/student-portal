@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'mixins';
+@import 'common';
+@import 'utils';
+@import 'inputs';
+@import 'buttons';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+html {
+  font-size: 10px;
+}
+
+#root,
+.App {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Open Sans', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+ul {
+  padding: 0;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
