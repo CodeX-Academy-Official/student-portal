@@ -11,6 +11,17 @@
   background-color: #fff;
   color: #000;
 }
+.spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    color: #fff;
+    margin-top: 1rem;
+  }
+}
 
 .whiteBox {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
@@ -128,4 +139,8 @@
   color: #069;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.Alert {
+  margin-bottom: 20px !important;
 }

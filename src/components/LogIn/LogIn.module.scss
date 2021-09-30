@@ -103,3 +103,19 @@
   p {
   }
 }
+
+.Alert {
+  margin-bottom: 20px !important;
+}
+
+.spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    color: #fff;
+    margin-top: 1rem;
+  }
+}

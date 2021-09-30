@@ -1,17 +1,40 @@
-import React, { useState } from 'react';
-import { Row, Col, Button, Form, Input } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Row, Col, Button, Form, Input, Alert } from 'antd';
 import Styles from './LogIn.module.scss';
 import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import logo from '../../img/logo.png';
+import CircularSpinner from '../CircularSpinner/CircularSpinner';
 export default function LogIn() {
-  const onSubmit = async (values) => {
-    const { email, password } = values;
-
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+  const [signInError, setSignUpError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  async function handleSubmit() {
     try {
+      setIsLoading(true);
+      console.log(
+        emailRef.current.state.value,
+        passwordRef.current.state.value
+      );
+      await login(
+        emailRef.current.state.value,
+        passwordRef.current.state.value
+      );
     } catch (error) {
-      console.log(error.message);
+      setSignUpError('Username and/or password are incorrect.');
     }
-  };
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    }
+  }, [isLoading]);
 
   return (
     <div className={Styles.LogIn}>
@@ -23,6 +46,14 @@ export default function LogIn() {
             <h2>Log In</h2>
             {/*<p>Sign in with your account to see your information.</p>*/}
           </div>
+          {signInError && (
+            <Alert
+              message={signInError}
+              type="error"
+              showIcon
+              className={Styles.Alert}
+            />
+          )}
           <Form
             name="LogIn"
             className={Styles.formWrapper}
@@ -32,6 +63,7 @@ export default function LogIn() {
               confirmPassword: '',
               remember: false,
             }}
+            onFinish={handleSubmit}
           >
             <label htmlFor="email" className="formLabel">
               Email
@@ -50,7 +82,7 @@ export default function LogIn() {
                 }),
               ]}
             >
-              <Input />
+              <Input ref={emailRef} />
             </Form.Item>
             <label
               className={`${Styles.passLabel} formLabel`}
@@ -66,7 +98,7 @@ export default function LogIn() {
                 { required: true, message: 'Please input your password!' },
               ]}
             >
-              <Input.Password allowClear />
+              <Input.Password allowClear ref={passwordRef} />
             </Form.Item>
 
             <Button
@@ -77,7 +109,7 @@ export default function LogIn() {
               data-testid="submit"
               // disabled={!isValid || !values.email || !values.password}
             >
-              Sign Up
+              Log In
             </Button>
           </Form>
           {/* <div className={Styles.socialMediaContainer}>
@@ -93,6 +125,9 @@ export default function LogIn() {
           </p>
         </div>
       </div>
+      <span className={Styles.spinnerContainer}>
+        <CircularSpinner isShowing={isLoading} />
+      </span>
     </div>
   );
 }

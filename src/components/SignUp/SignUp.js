@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Styles from './SignUp.module.scss';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
+import { useAuth } from '../../contexts/AuthContext';
+import CircularSpinner from '../CircularSpinner/CircularSpinner';
+export default function SignUp() {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { signup, currentUser } = useAuth();
+  const [signUpError, setSignUpError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-export default function SignUp({ formRef }) {
+  async function handleSubmit() {
+    try {
+      setIsLoading(true);
+      await signup(
+        emailRef.current.state.value,
+        passwordRef.current.state.value
+      );
+    } catch (error) {
+      setSignUpError('Email is already used');
+      console.log(error.message);
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 5000);
+    }
+  }, [isLoading]);
   return (
     <div className={Styles.SignUp}>
       <div className={Styles.whiteBox}>
@@ -14,11 +42,18 @@ export default function SignUp({ formRef }) {
             <h1>Student Portal</h1>
             <h2>Sign Up</h2>
             {/*<p>let’s set up your student portal account</p>*/}
+            {currentUser.email}
           </div>
-
+          {signUpError && (
+            <Alert
+              message={signUpError}
+              type="error"
+              showIcon
+              className={Styles.Alert}
+            />
+          )}
           <Form
             name="setupAccount"
-            ref={formRef}
             className={Styles.formWrapper}
             initialValues={{
               email: '',
@@ -26,6 +61,7 @@ export default function SignUp({ formRef }) {
               confirmPassword: '',
               remember: false,
             }}
+            onFinish={handleSubmit}
           >
             <label htmlFor="email" className="formLabel">
               Email
@@ -44,7 +80,7 @@ export default function SignUp({ formRef }) {
                 }),
               ]}
             >
-              <Input />
+              <Input ref={emailRef} />
             </Form.Item>
 
             <div>
@@ -61,13 +97,15 @@ export default function SignUp({ formRef }) {
               name="password"
               rules={[
                 { required: true, message: 'Please input your password!' },
+
                 {
-                  min: 8,
-                  message: 'Cannot be less than 8 characters',
+                  message:
+                    'Your password must contain lower and uppercase letters, digits, and special characters and cannot be less than 8 characters.',
+                  pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
                 },
               ]}
             >
-              <Input.Password allowClear />
+              <Input.Password allowClear ref={passwordRef} />
             </Form.Item>
 
             <label htmlFor="confirmPassword" className="formLabel">
@@ -101,6 +139,7 @@ export default function SignUp({ formRef }) {
               type="primary"
               shape="round"
               data-testid="submit"
+              disabled={isLoading}
               // disabled={!isValid || !values.email || !values.password}
             >
               Sign Up
@@ -113,6 +152,9 @@ export default function SignUp({ formRef }) {
           </p>
         </div>
       </div>
+      <span className={Styles.spinnerContainer}>
+        <CircularSpinner isShowing={isLoading} />
+      </span>
     </div>
   );
 }
