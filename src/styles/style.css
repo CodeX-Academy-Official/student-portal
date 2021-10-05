@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   margin: 0 auto;
-  font-family: Segoe UI;
+  font-family: 'Mulish', sans-serif;
 }
 
 a {
@@ -27,7 +27,7 @@ select {
   background-repeat: no-repeat;
   background-position: right;
   cursor: pointer;
-  font-family: 'FontAwesome', 'Segoe UI';
+  font-family: 'Mulish', sans-serif;
 }
 
 input {
@@ -44,7 +44,7 @@ input {
 /*header*/
 
 .fa-select {
-  font-family: 'Segoe UI', 'Font Awesome 5 Free';
+  font-family: 'Mulish', sans-serif;
   font-weight: 900;
 }
 

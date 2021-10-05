@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Styles from './SignUp.module.scss';
 import { Form, Input, Button, Alert } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logo from '../../img/logo.png';
 import { useAuth } from '../../contexts/AuthContext';
 import CircularSpinner from '../CircularSpinner/CircularSpinner';
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
   const { signup, currentUser } = useAuth();
   const [signUpError, setSignUpError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,7 @@ export default function SignUp() {
         emailRef.current.state.value,
         passwordRef.current.state.value
       );
+      history.push('/');
     } catch (error) {
       setSignUpError('Email is already used');
       console.log(error.message);
@@ -42,7 +44,6 @@ export default function SignUp() {
             <h1>Student Portal</h1>
             <h2>Sign Up</h2>
             {/*<p>let’s set up your student portal account</p>*/}
-            {currentUser.email}
           </div>
           {signUpError && (
             <Alert

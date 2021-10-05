@@ -8,6 +8,7 @@ import CircularSpinner from '../CircularSpinner/CircularSpinner';
 export default function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
   const { login } = useAuth();
   const [signInError, setSignUpError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,7 @@ export default function LogIn() {
         emailRef.current.state.value,
         passwordRef.current.state.value
       );
+      history.push('/');
     } catch (error) {
       setSignUpError('Username and/or password are incorrect.');
     }
@@ -42,8 +44,10 @@ export default function LogIn() {
         <div className={Styles.withPadding}>
           <div className={Styles.heading}>
             <img src={logo} alt="Linkerease Logo" className={Styles.logo} />
-            <h1>Student Portal</h1>
-            <h2>Log In</h2>
+            <h1>Log In to Student Portal</h1>
+            <h4 className={Styles.textGrey}>
+              Enter your email and password below
+            </h4>
             {/*<p>Sign in with your account to see your information.</p>*/}
           </div>
           {signInError && (
@@ -65,7 +69,10 @@ export default function LogIn() {
             }}
             onFinish={handleSubmit}
           >
-            <label htmlFor="email" className="formLabel">
+            <label
+              htmlFor="email"
+              className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
+            >
               Email
             </label>
             <Form.Item
@@ -82,10 +89,10 @@ export default function LogIn() {
                 }),
               ]}
             >
-              <Input ref={emailRef} />
+              <Input allowClear ref={emailRef} placeholder="Email address" />
             </Form.Item>
             <label
-              className={`${Styles.passLabel} formLabel`}
+              className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
               htmlFor="password"
             >
               Password
@@ -98,7 +105,11 @@ export default function LogIn() {
                 { required: true, message: 'Please input your password!' },
               ]}
             >
-              <Input.Password allowClear ref={passwordRef} />
+              <Input.Password
+                allowClear
+                ref={passwordRef}
+                placeholder="Password"
+              />
             </Form.Item>
 
             <Button
@@ -121,7 +132,7 @@ export default function LogIn() {
 
         <div className={Styles.footer}>
           <p>
-            Don't have an account yet? <Link to="/sign-up">Join now</Link>
+            Don't have an account? <Link to="/sign-up">Sign up</Link>
           </p>
         </div>
       </div>

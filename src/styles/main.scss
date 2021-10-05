@@ -4,7 +4,7 @@
 @import 'utils';
 @import 'inputs';
 @import 'buttons';
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
 
 html {
   font-size: 10px;
@@ -16,14 +16,13 @@ html {
 }
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Open Sans', sans-serif !important;
+  font-family: 'Mulish', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Mulish', sans-serif;
 }
 ul {
   padding: 0;
