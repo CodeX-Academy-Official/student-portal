@@ -1,0 +1,34 @@
+@import 'variables';
+@import 'mixins';
+@import 'common';
+@import 'utils';
+@import 'inputs';
+@import 'buttons';
+@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+
+html {
+  font-size: 10px;
+}
+
+#root,
+.App {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Mulish', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Mulish', sans-serif;
+}
+ul {
+  padding: 0;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}

@@ -1,0 +1,96 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.logo {
+  height: 27.8px;
+  margin: 16px;
+  img {
+    width: 5rem;
+  }
+}
+
+.logoText {
+  position: absolute;
+  width: 120px;
+  left: 76px;
+  top: 20px;
+  font-style: normal;
+  font-weight: bold;
+  color: #fff;
+}
+
+.content {
+  background-color: #f7f8fc;
+}
+
+.loggedInContainer {
+  color: white;
+  text-transform: capitalize;
+  text-align: center;
+  height: 6.8rem;
+  z-index: 1;
+  background-color: #f7f8fc;
+
+  .mainMenuWrapper {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 192rem;
+  }
+  h1 {
+    font-family: Mulish;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.3px;
+    color: #252733;
+    text-align: start;
+    margin-bottom: -3.5rem;
+  }
+  h4 {
+    margin-bottom: -3.5rem;
+  }
+}
+
+.hamburgerIcon {
+  display: none;
+  @include respond-to-max(medium) {
+    display: block;
+    cursor: pointer;
+    margin-top: -5rem;
+    margin-left: 80%;
+  }
+}
+
+.sider {
+  @include respond-to-max(medium) {
+    display: none;
+  }
+}
+
+.imgContainer {
+  margin: 0 auto;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background-color: #f3f6f8;
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-border-radius: 99em;
+    border: 2px solid rgb(255, 255, 255);
+  }
+}

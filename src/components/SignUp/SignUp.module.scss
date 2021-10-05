@@ -1,0 +1,146 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.SignUp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: #363740;
+  color: #000;
+}
+.spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    color: #fff;
+    margin-top: 1rem;
+  }
+}
+
+.whiteBox {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+  background-color: #fff;
+  padding: 3.6rem 0 0;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+
+  @include respond-to(medium) {
+    width: 41.4rem;
+  }
+  @include respond-to(large) {
+    width: 51.8rem;
+  }
+}
+.withPadding {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  @include respond-to(large) {
+    padding-left: 6.2rem;
+    padding-right: 5rem;
+  }
+  input {
+    height: 5rem;
+    border: 1px solid black;
+  }
+  label {
+    vertical-align: middle;
+  }
+}
+
+.logo {
+  margin: 0 auto;
+  display: flex;
+  width: 20rem;
+  margin-bottom: 2rem;
+}
+
+.signupBtn {
+  margin: unset !important;
+  margin-top: 2.4rem !important;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.3rem;
+  height: 8.5rem;
+  width: 100%;
+  text-align: center;
+  // background-color: #f2f2f2;
+
+  p {
+    font: 1.5rem/2rem $font-segoe;
+    color: #333333;
+  }
+  a {
+    color: #37b5ff;
+    font-weight: 500;
+  }
+}
+
+.heading {
+  text-align: center;
+  h1 {
+    font-weight: 700;
+  }
+  p {
+  }
+}
+.passTip {
+  font: 0.9rem/1rem $font-segoe;
+  margin-top: 0.3rem;
+  text-align: right;
+  display: block;
+  float: right;
+  letter-spacing: 0.424063px;
+  text-transform: uppercase;
+  color: $primary-color;
+}
+
+.formWrapper {
+  max-width: 50rem;
+  margin: 4.5rem auto 0;
+}
+.agreementCheck {
+  margin-bottom: 0;
+}
+:global .ant-input {
+  color: #000 !important;
+  border-radius: 0.4rem;
+  &::selection {
+    background: rgb(185, 199, 212);
+    color: #000;
+  }
+}
+:global .ant-input-password {
+  border-radius: 0.4rem;
+}
+:global .ant-form-item {
+  margin-bottom: 1rem;
+}
+
+.link {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  /*optional*/
+  font-family: 'Mulish', sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.Alert {
+  margin-bottom: 20px !important;
+}

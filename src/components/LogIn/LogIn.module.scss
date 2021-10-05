@@ -1,0 +1,133 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.LogIn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: #363740;
+  color: #000;
+  h4 {
+    text-align: center;
+  }
+}
+
+.textGrey {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: #9fa2b4;
+}
+
+.whiteBox {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+  background-color: #fff;
+  padding: 3.6rem 0 0;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+
+  @include respond-to(medium) {
+    width: 41.4rem;
+  }
+  @include respond-to(large) {
+    width: 51.8rem;
+  }
+}
+.withPadding {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  @include respond-to(large) {
+    padding-left: 6.2rem;
+    padding-right: 5rem;
+  }
+  input {
+    height: 5rem;
+    border: 1px solid black;
+  }
+  label {
+    vertical-align: middle;
+  }
+}
+
+.logo {
+  margin: 0 auto;
+  display: flex;
+  width: 20rem;
+  margin-bottom: 2rem;
+}
+
+.loginBtn {
+  margin: unset !important;
+  margin-top: 2.4rem !important;
+  width: 100%;
+}
+
+.forgotPassword {
+  &:hover {
+    color: #0000ff !important;
+  }
+}
+
+.socialMediaContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  padding-top: 2rem;
+
+  svg {
+    font-size: 6rem;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.3rem;
+  height: 8.5rem;
+  width: 100%;
+  text-align: center;
+  // background-color: #f2f2f2;
+
+  p {
+    font: 1.5rem/2rem $font-segoe;
+    color: #333333;
+  }
+  a {
+    color: #37b5ff;
+    font-weight: 500;
+  }
+}
+
+.heading {
+  text-align: center;
+  padding-bottom: 2.4rem;
+  h1 {
+    font-weight: 700;
+  }
+  p {
+  }
+}
+
+.Alert {
+  margin-bottom: 20px !important;
+}
+
+.spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    color: #fff;
+    margin-top: 1rem;
+  }
+}

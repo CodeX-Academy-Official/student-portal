@@ -1,0 +1,53 @@
+/*
+// Mixins
+// ------------------------------------------------ */
+
+// Media Query helper, uses the $breakpoints map
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+@mixin respond-to-max($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+    + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+@mixin respond-within($breakpoint1, $breakpoint2) {
+  @if map-has-key($breakpoints, $breakpoint1) and
+    map-has-key($breakpoints, $breakpoint2)
+  {
+    @media (min-width: #{map-get($breakpoints, $breakpoint1)}) and (max-width: #{map-get($breakpoints, $breakpoint2)}) {
+      @content;
+    }
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint1}`/`#{$breakpoint2}`. "
+    + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+//==== Responsive Utils ====//
+@each $bp in map-keys($breakpoints) {
+  .hidden-#{$bp}-up {
+    @media (min-width: map-get($breakpoints, $bp)) {
+      display: none !important;
+    }
+  }
+  .hidden-#{$bp}-down {
+    @media (max-width: map-get($breakpoints, $bp) - 1) {
+      display: none !important;
+    }
+  }
+}

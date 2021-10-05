@@ -1,0 +1,64 @@
+/*
+// Variables
+// ------------------------------------------------ */
+
+$primary-color: #37b5ff;
+$secondary-color: #1a1423;
+$third-color: #3d314a;
+$fourth-color: #c5d1eb;
+$fifth-color: #42002a;
+
+$status-color: #aacc03;
+$main-theme-bg: #fbf7f7;
+$secondary-theme-bg: #fff;
+$main-text-color: #000;
+
+$default-color: #272727;
+$default_hover-color: #1f1e1e;
+
+$primary-btn-color: #ff9b36;
+$primary-btn-color_hover: #f5902a;
+
+$font-openSans: 'Open Sans', sans-serif;
+$font-segoe: 'Segoe UI', 'Open Sans', sans-serif;
+
+$z-layers: (
+  bottomless-pit: -9999,
+  before: 0,
+  default: 1,
+  after: 2,
+  header: 10,
+  dropdown: 3000,
+  overlay: 4000,
+  modal: 4001,
+  drama: 9999,
+);
+
+/*==== Breakpoints ====*/
+$breakpoints: (
+  xsmall: 320px,
+  small: 375px,
+  medium: 426px,
+  large: 768px,
+  // tablet
+  xlarge: 1024px,
+  // desktop
+  xxl: 1400px,
+  xxl-min: 1540px,
+  xxxl: 1700px,
+  2k: 2048px,
+  2kplus: 2400px,
+  xs-max: 767px,
+  sm-min: 768px,
+  // tablet-min
+  sm-md-min: 992px,
+  // tablet-min
+  sm-max: 1023px,
+  // tablet-max
+  md-min: 1024px,
+  // desktop-min
+  md-max: 1199px,
+  lg-min: 1200px,
+  mobile-map-max: 730px,
+  image-max: 1920px,
+);
