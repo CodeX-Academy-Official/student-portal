@@ -1,28 +1,6 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.logo {
-  height: 27.8px;
-  margin: 16px;
-  img {
-    width: 5rem;
-  }
-}
-
-.logoText {
-  position: absolute;
-  width: 120px;
-  left: 76px;
-  top: 20px;
-  font-style: normal;
-  font-weight: bold;
-  color: #fff;
-}
-
-.content {
-  background-color: #f7f8fc;
-}
-
 .loggedInContainer {
   color: white;
   text-transform: capitalize;
@@ -49,22 +27,6 @@
   }
   h4 {
     margin-bottom: -3.5rem;
-  }
-}
-
-.hamburgerIcon {
-  display: none;
-  @include respond-to-max(medium) {
-    display: block;
-    cursor: pointer;
-    margin-top: -5rem;
-    margin-left: 80%;
-  }
-}
-
-.sider {
-  @include respond-to-max(medium) {
-    display: none;
   }
 }
 

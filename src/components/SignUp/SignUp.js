@@ -9,7 +9,7 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
-  const { signup, currentUser } = useAuth();
+  const { signup } = useAuth();
   const [signUpError, setSignUpError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
