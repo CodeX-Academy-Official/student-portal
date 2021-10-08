@@ -8,7 +8,7 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: #363740;
+  background-color: #001529;
   color: #000;
 }
 .spinnerContainer {
@@ -143,4 +143,13 @@
 
 .Alert {
   margin-bottom: 20px !important;
+}
+
+.textGrey {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  color: #9fa2b4;
 }

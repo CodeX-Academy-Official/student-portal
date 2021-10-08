@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Styles from './Home.module.scss';
-import { Layout, Menu, Row, Col } from 'antd';
+import Styles from './Dashboard.module.scss';
+import { Layout, Menu } from 'antd';
 import logo from '../../img/logoIcon.png';
-import hamburger from '../../img/menu-mobile.png';
-import smallImage from '../../img/no-img.png';
+import LoggedInHeader from '../LoggedInHeader/LoggedInHeader';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -11,8 +10,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-const { Header, Footer, Sider, Content } = Layout;
-const { SubMenu } = Menu;
+const { Footer, Sider, Content } = Layout;
 export default function Home() {
   const [collapsed, setcollapsed] = useState(false);
   const onCollapse = (collapsed) => {
@@ -53,25 +51,7 @@ export default function Home() {
           </Menu>
         </Sider>
         <Layout>
-          <Header className={Styles.loggedInContainer}>
-            <div className={Styles.mainMenuWrapper}>
-              <Row align="middle">
-                <img className={Styles.hamburgerIcon} src={hamburger} alt="" />
-
-                <Col xs={15} sm={16} lg={19} xl={21}>
-                  <h1>Overview</h1>
-                </Col>
-                <Col xs={8} sm={6} lg={4} xl={2}>
-                  <h4>Phil Moris</h4>
-                </Col>
-                <Col xs={1} sm={1} lg={1} xl={1}>
-                  <div className={Styles.imgContainer}>
-                    <img src={smallImage} alt="Linkerease Logo" />
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Header>
+          <LoggedInHeader />
           <Content className={Styles.content}></Content>
           <Footer></Footer>
         </Layout>

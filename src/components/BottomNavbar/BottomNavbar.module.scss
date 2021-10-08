@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.bottomNav {
+  display: none;
+  @include respond-to-max(medium) {
+    display: inline-block;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid rgb(230, 230, 230);
+  }
+}
+.bnTab {
+  width: 19.9%;
+  height: 100%;
+  display: flex;
+  text-align: center;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Row, Col, Button, Form, Input, Alert } from 'antd';
+import { Button, Form, Input, Alert } from 'antd';
 import Styles from './LogIn.module.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';

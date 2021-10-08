@@ -1,28 +1,6 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.logo {
-  height: 27.8px;
-  margin: 16px;
-  img {
-    width: 5rem;
-  }
-}
-
-.logoText {
-  position: absolute;
-  width: 120px;
-  left: 76px;
-  top: 20px;
-  font-style: normal;
-  font-weight: bold;
-  color: #fff;
-}
-
-.content {
-  background-color: #f7f8fc;
-}
-
 .loggedInContainer {
   color: white;
   text-transform: capitalize;
@@ -34,13 +12,12 @@
   .mainMenuWrapper {
     margin-right: auto;
     margin-left: auto;
-    max-width: 192rem;
   }
   h1 {
     font-family: Mulish;
     font-style: normal;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 3vh;
     line-height: 30px;
     letter-spacing: 0.3px;
     color: #252733;
@@ -52,22 +29,6 @@
   }
 }
 
-.hamburgerIcon {
-  display: none;
-  @include respond-to-max(medium) {
-    display: block;
-    cursor: pointer;
-    margin-top: -5rem;
-    margin-left: 80%;
-  }
-}
-
-.sider {
-  @include respond-to-max(medium) {
-    display: none;
-  }
-}
-
 .imgContainer {
   margin: 0 auto;
   width: 5.5rem;
@@ -75,10 +36,11 @@
   border-radius: 50%;
   background-color: #f3f6f8;
   position: relative;
+  cursor: pointer;
+  top: 1.5rem;
 
   img {
     position: absolute;
-    top: 1.5rem;
     right: 0;
     bottom: 0;
     left: 0;
@@ -93,4 +55,8 @@
     -webkit-border-radius: 99em;
     border: 2px solid rgb(255, 255, 255);
   }
+}
+
+.arrowDown {
+  filter: invert(100);
 }

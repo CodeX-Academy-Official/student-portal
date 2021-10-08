@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.logo {
+  height: 27.8px;
+  margin: 16px;
+  img {
+    width: 5rem;
+  }
+}
+
+.logoText {
+  position: absolute;
+  width: 120px;
+  left: 76px;
+  top: 20px;
+  font-style: normal;
+  font-weight: bold;
+  color: #fff;
+}
+
+.content {
+  background-color: #f7f8fc;
+}
+
+.sider {
+  @include respond-to-max(medium) {
+    display: none;
+  }
+}

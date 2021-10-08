@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import { AuthProvider } from './contexts/AuthContext';
-import Home from './components/Home/Home';
+import Home from './components/Dashboard/Dashboard';
 function App() {
   const app = (
     <Router>
