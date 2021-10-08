@@ -41,8 +41,10 @@ export default function SignUp() {
         <div className={Styles.withPadding}>
           <div className={Styles.heading}>
             <img src={logo} alt="Linkerease Logo" className={Styles.logo} />
-            <h1>Student Portal</h1>
-            <h2>Sign Up</h2>
+            <h1>Sign Up to Student Portal</h1>
+            <h4 className={Styles.textGrey}>
+              Enter your email used for entering Codex
+            </h4>
             {/*<p>let’s set up your student portal account</p>*/}
           </div>
           {signUpError && (
@@ -60,11 +62,13 @@ export default function SignUp() {
               email: '',
               password: '',
               confirmPassword: '',
-              remember: false,
             }}
             onFinish={handleSubmit}
           >
-            <label htmlFor="email" className="formLabel">
+            <label
+              htmlFor="email"
+              className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
+            >
               Email
             </label>
             <Form.Item
@@ -81,13 +85,13 @@ export default function SignUp() {
                 }),
               ]}
             >
-              <Input ref={emailRef} />
+              <Input allowClear ref={emailRef} placeholder="Email" />
             </Form.Item>
 
             <div>
               <span className={Styles.passTip}>8 or more characters</span>
               <label
-                className={`${Styles.passLabel} formLabel`}
+                className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
                 htmlFor="password"
               >
                 Password
@@ -106,10 +110,17 @@ export default function SignUp() {
                 },
               ]}
             >
-              <Input.Password allowClear ref={passwordRef} />
+              <Input.Password
+                allowClear
+                ref={passwordRef}
+                placeholder="Password"
+              />
             </Form.Item>
 
-            <label htmlFor="confirmPassword" className="formLabel">
+            <label
+              htmlFor="confirmPassword"
+              className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
+            >
               Confirm Password
             </label>
             <Form.Item
@@ -132,7 +143,7 @@ export default function SignUp() {
                 }),
               ]}
             >
-              <Input.Password allowClear />
+              <Input.Password allowClear placeholder="Confirm Password" />
             </Form.Item>
             <Button
               className={`${Styles.signupBtn} Btn`}

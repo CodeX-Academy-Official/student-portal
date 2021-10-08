@@ -2,18 +2,13 @@
 @import '../../styles/mixins';
 
 .bottomNav {
-  width: 100%;
-  //height: 50px;
-  //display: flex;
-  //justify-content: center;
-  justify-content: center;
-  align-content: center;
-  position: fixed;
-  bottom: 0;
-  border-top: 1px solid rgb(230, 230, 230);
   display: none;
   @include respond-to-max(medium) {
     display: inline-block;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid rgb(230, 230, 230);
   }
 }
 .bnTab {
