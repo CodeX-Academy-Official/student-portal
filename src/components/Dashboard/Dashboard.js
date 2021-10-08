@@ -10,9 +10,11 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { useAuth } from '../../contexts/AuthContext';
 const { Footer, Sider, Content } = Layout;
 export default function Home() {
   const [collapsed, setcollapsed] = useState(false);
+  const { currentUser, logout } = useAuth();
   const onCollapse = (collapsed) => {
     console.log(collapsed);
     setcollapsed(collapsed);
@@ -51,8 +53,11 @@ export default function Home() {
           </Menu>
         </Sider>
         <Layout>
-          <LoggedInHeader />
-          <Content className={Styles.content}></Content>
+          <LoggedInHeader logout={logout} />
+          <Content className={Styles.content}>
+            <strong>Email:</strong>
+            {currentUser.email}
+          </Content>
           <Footer></Footer>
         </Layout>
       </Layout>

@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import { AuthProvider } from './contexts/AuthContext';
 import Home from './components/Dashboard/Dashboard';
+import PrivateRoute from './PrivateRoute';
 function App() {
   const app = (
     <Router>
       <ScrollToTop />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/log-in" component={LogIn} />
       </Switch>
