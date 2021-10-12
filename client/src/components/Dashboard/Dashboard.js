@@ -74,7 +74,7 @@ export default function Home() {
         </Sider>
         {student && student.map
           ? student.map((student) => (
-              <Layout>
+              <Layout key={student.id}>
                 <LoggedInHeader logout={logout} student={student} />
                 <Content className={Styles.content}></Content>
                 <Footer></Footer>
