@@ -16,13 +16,29 @@ export default function SignUp() {
   async function handleSubmit() {
     try {
       setIsLoading(true);
-      await signup(
-        emailRef.current.state.value,
-        passwordRef.current.state.value
-      );
-      history.push('/');
+      await fetch(
+        `http://localhost:3001/student/${emailRef.current.state.value}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length === 1) {
+            signup(
+              emailRef.current.state.value,
+              passwordRef.current.state.value
+            )
+              .then(() => {
+                history.push('/');
+              })
+              .catch(() => {
+                setSignUpError('Email is already used');
+              });
+          } else {
+            setSignUpError('Email is not in the database');
+          }
+        });
     } catch (error) {
-      setSignUpError('Email is already used');
       console.log(error.message);
     }
     setIsLoading(false);
@@ -63,7 +79,7 @@ export default function SignUp() {
               password: '',
               confirmPassword: '',
             }}
-            onFinish={handleSubmit}
+            onFinish={(e) => handleSubmit(e)}
           >
             <label
               htmlFor="email"

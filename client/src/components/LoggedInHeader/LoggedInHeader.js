@@ -6,7 +6,7 @@ import BottomNavBar from '../BottomNavbar/BottomNavbar';
 import { LogoutOutlined, CaretDownOutlined } from '@ant-design/icons';
 import { link, useHistory } from 'react-router-dom';
 const { Header } = Layout;
-function LoggedInHeader({ logout }) {
+function LoggedInHeader({ logout, student }) {
   const [error, seterror] = useState('');
   const [show, setshow] = useState(false);
   const history = useHistory();
@@ -41,7 +41,7 @@ function LoggedInHeader({ logout }) {
                     <LogoutOutlined /> Sign out
                   </Button>
                 }
-                title="Phil Morris"
+                title={student.firstName + ' ' + student.lastName}
                 trigger="click"
                 visible={show}
                 onVisibleChange={handleVisible}

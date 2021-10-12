@@ -15,16 +15,17 @@ const { Footer, Sider, Content } = Layout;
 export default function Home() {
   const [collapsed, setcollapsed] = useState(false);
   const { currentUser, logout } = useAuth();
-  const [student, setStudent] = useState(false);
+  const [student, setStudent] = useState(null);
   useEffect(() => {
     getStudent();
   }, []);
-  function getStudent() {
+
+  async function getStudent() {
     console.log(currentUser.email);
     try {
-      fetch(`http://localhost:3001/${currentUser.email}`)
+      await fetch(`http://localhost:3001/student/${currentUser.email}`)
         .then((response) => {
-          return response.text();
+          return response.json();
         })
         .then((data) => {
           setStudent(data);
@@ -33,6 +34,7 @@ export default function Home() {
       console.log(error);
     }
   }
+
   const onCollapse = (collapsed) => {
     console.log(collapsed);
     setcollapsed(collapsed);
@@ -70,16 +72,15 @@ export default function Home() {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
-          <LoggedInHeader logout={logout} />
-          <Content className={Styles.content}>
-            <strong>Email:</strong>
-            {student
-              ? student
-              : 'There is no student data available for this email'}
-          </Content>
-          <Footer></Footer>
-        </Layout>
+        {student && student.map
+          ? student.map((student) => (
+              <Layout>
+                <LoggedInHeader logout={logout} student={student} />
+                <Content className={Styles.content}></Content>
+                <Footer></Footer>
+              </Layout>
+            ))
+          : 'There is no student data available for this email'}
       </Layout>
     </>
   );
