@@ -4,9 +4,9 @@ import Styles from './LoggedInHeader.module.scss';
 import { Layout, Row, Col, Popover, Button, Alert } from 'antd';
 import BottomNavBar from '../BottomNavbar/BottomNavbar';
 import { LogoutOutlined, CaretDownOutlined } from '@ant-design/icons';
-import { link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 const { Header } = Layout;
-function LoggedInHeader({ logout, student }) {
+function LoggedInHeader({ logout, student, title }) {
   const [error, seterror] = useState('');
   const [show, setshow] = useState(false);
   const history = useHistory();
@@ -28,7 +28,7 @@ function LoggedInHeader({ logout, student }) {
         <div className={Styles.mainMenuWrapper}>
           <Row align="middle">
             <Col xs={18} sm={20} lg={21} xl={22}>
-              <h1>Overview</h1>
+              <h1>{title}</h1>
             </Col>
             <Col xs={6} sm={4} lg={3} xl={2}>
               <Popover

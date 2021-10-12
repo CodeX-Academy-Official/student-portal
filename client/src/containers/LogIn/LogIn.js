@@ -4,7 +4,7 @@ import Styles from './LogIn.module.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import logo from '../../img/logo.png';
-import CircularSpinner from '../CircularSpinner/CircularSpinner';
+import CircularSpinner from '../../components/CircularSpinner/CircularSpinner';
 export default function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -23,7 +23,7 @@ export default function LogIn() {
         emailRef.current.state.value,
         passwordRef.current.state.value
       );
-      history.push('/');
+      history.push('/overview');
     } catch (error) {
       setSignUpError('Username and/or password are incorrect.');
     }
