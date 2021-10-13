@@ -34,7 +34,7 @@ function SideBar({ selected }) {
       <Menu theme="dark" defaultSelectedKeys={[selected]} mode="inline">
         <Menu.Item key="1" icon={<PieChartOutlined />}>
           <span>Overview</span>
-          <Link to="/overview" />
+          <Link to="/" />
         </Menu.Item>
         <Menu.Item key="2" icon={<UserOutlined />}>
           About

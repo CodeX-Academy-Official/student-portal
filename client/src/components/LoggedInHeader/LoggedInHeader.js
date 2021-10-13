@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import smallImage from '../../img/no-img.png';
 import Styles from './LoggedInHeader.module.scss';
 import { Layout, Row, Col, Popover, Button, Alert } from 'antd';
@@ -6,9 +6,12 @@ import BottomNavBar from '../BottomNavbar/BottomNavbar';
 import { LogoutOutlined, CaretDownOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 const { Header } = Layout;
-function LoggedInHeader({ logout, student, title }) {
+
+function LoggedInHeader(props) {
   const [error, seterror] = useState('');
   const [show, setshow] = useState(false);
+  const [title, setTitle] = useState('');
+  const isMounted = useRef(null);
   const history = useHistory();
   const handleVisible = (visible) => {
     visible ? setshow(true) : setshow(false);
@@ -16,12 +19,39 @@ function LoggedInHeader({ logout, student, title }) {
   const handleLougout = async () => {
     seterror('');
     try {
-      await logout();
+      await props.logout();
       history.push('/log-in');
     } catch (error) {
       seterror('failed to logout');
     }
   };
+  useEffect(() => {
+    isMounted.current = true;
+    switch (props.location.pathname) {
+      case '/':
+        setTitle('Overview');
+        break;
+      case '/about':
+        setTitle('About');
+        break;
+      case '/mentor':
+        setTitle('Mentor');
+        break;
+      case '/dynamite-sessions':
+        setTitle('Dynamite Sessions');
+        break;
+      case '/requests':
+        setTitle('Requests');
+        break;
+      default:
+        setTitle('');
+        break;
+    }
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, [props.location.pathname]);
   return (
     <>
       <Header className={Styles.loggedInContainer}>
@@ -41,7 +71,7 @@ function LoggedInHeader({ logout, student, title }) {
                     <LogoutOutlined /> Sign out
                   </Button>
                 }
-                title={student.firstName + ' ' + student.lastName}
+                title={props.student.firstName + ' ' + props.student.lastName}
                 trigger="click"
                 visible={show}
                 onVisibleChange={handleVisible}

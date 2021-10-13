@@ -29,7 +29,7 @@ export default function SignUp() {
               passwordRef.current.state.value
             )
               .then(() => {
-                history.push('/overview');
+                history.push('/');
               })
               .catch(() => {
                 setSignUpError('Email is already used');

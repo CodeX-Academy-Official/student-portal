@@ -23,7 +23,7 @@ export default function LogIn() {
         emailRef.current.state.value,
         passwordRef.current.state.value
       );
-      history.push('/overview');
+      history.push('/');
     } catch (error) {
       setSignUpError('Username and/or password are incorrect.');
     }

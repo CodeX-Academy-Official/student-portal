@@ -1,51 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styles from './Overview.module.scss';
-import { Layout } from 'antd';
-import LoggedInHeader from '../../components/LoggedInHeader/LoggedInHeader';
-import { useAuth } from '../../contexts/AuthContext';
-import SideBar from '../../components/SideBar/SideBar';
-const { Footer, Content } = Layout;
-export default function Overview() {
-  const { currentUser, logout } = useAuth();
-  const [student, setStudent] = useState(null);
-  useEffect(() => {
-    getStudent();
-  });
 
-  async function getStudent() {
-    console.log(currentUser.email);
-    try {
-      await fetch(`http://localhost:3001/student/${currentUser.email}`)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setStudent(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+export default function Overview() {
   return (
     <>
-      <Layout style={{ minHeight: '100vh' }} hasSider={true}>
-        <SideBar selected={'1'} />
-        {student && student.map ? (
-          student.map((student) => (
-            <Layout key={student.id}>
-              <LoggedInHeader
-                logout={logout}
-                student={student}
-                title={'Overview'}
-              />
-              <Content className={Styles.content}></Content>
-              <Footer></Footer>
-            </Layout>
-          ))
-        ) : (
-          <></>
-        )}
-      </Layout>
+      <h1>Hello guys</h1>
     </>
   );
 }
