@@ -19,10 +19,6 @@
   color: #fff;
 }
 
-.content {
-  background-color: #f7f8fc;
-}
-
 .sider {
   @include respond-to-max(medium) {
     display: none;

@@ -1,20 +1,20 @@
 import React from 'react';
-import SignUp from './components/SignUp/SignUp';
-import LogIn from './components/LogIn/LogIn';
+import SignUp from './containers/SignUp/SignUp';
+import LogIn from './containers/LogIn/LogIn';
 import 'antd/dist/antd.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import { AuthProvider } from './contexts/AuthContext';
-import Home from './components/Dashboard/Dashboard';
 import PrivateRoute from './PrivateRoute';
+import Layouts from './components/Layout/Layouts';
 function App() {
   const app = (
     <Router>
       <ScrollToTop />
       <Switch>
-        <PrivateRoute exact path="/" component={Home} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/log-in" component={LogIn} />
+        <PrivateRoute exact path="/" component={Layouts} />
+        <Route path="/sign-up" component={SignUp} />
+        <Route path="/log-in" component={LogIn} />
       </Switch>
     </Router>
   );

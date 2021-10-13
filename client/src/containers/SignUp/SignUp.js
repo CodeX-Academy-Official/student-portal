@@ -4,7 +4,7 @@ import { Form, Input, Button, Alert } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import logo from '../../img/logo.png';
 import { useAuth } from '../../contexts/AuthContext';
-import CircularSpinner from '../CircularSpinner/CircularSpinner';
+import CircularSpinner from '../../components/CircularSpinner/CircularSpinner';
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
