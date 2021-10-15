@@ -1,0 +1,55 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.Overview {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.LeftOverview {
+  display: flex;
+  width: 50%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.RightOverview {
+  display: flex;
+  width: 50%;
+}
+.BottomOverview {
+  display: flex;
+  width: 100%;
+}
+
+.whiteBox {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+  background-color: #fff;
+  padding: 3.6rem 0 3.6rem;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  text-align: center;
+
+  @include respond-to(medium) {
+    width: 41.4rem;
+  }
+  @include respond-to(large) {
+    width: 41.8rem;
+  }
+}
+.withPadding {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  @include respond-to(large) {
+    padding-left: 6.2rem;
+    padding-right: 5rem;
+  }
+  input {
+    height: 5rem;
+    border: 1px solid black;
+  }
+  label {
+    vertical-align: middle;
+  }
+}

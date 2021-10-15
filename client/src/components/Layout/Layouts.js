@@ -50,7 +50,7 @@ function Layouts() {
                   <Content className={Styles.content}>
                     <Routes />
                   </Content>
-                  <Footer></Footer>
+                  <Footer> </Footer>
                 </Layout>
               ))
             ) : (
