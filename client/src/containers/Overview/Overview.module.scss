@@ -9,16 +9,22 @@
 .LeftOverview {
   display: flex;
   width: 50%;
+  justify-content: space-evenly;
+  /* align-items: center; */
+  flex-direction: column;
+  align-content: center;
   flex-wrap: wrap;
-  justify-content: center;
 }
 .RightOverview {
   display: flex;
   width: 50%;
+  justify-content: center;
 }
 .BottomOverview {
   display: flex;
   width: 100%;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .whiteBox {
@@ -30,17 +36,22 @@
   border-radius: 0.5rem;
   margin-top: 2rem;
   text-align: center;
+  width: 90%;
+}
 
-  @include respond-to(medium) {
-    width: 41.4rem;
-  }
-  @include respond-to(large) {
-    width: 41.8rem;
+.bottomWhiteBox {
+  width: 95% !important;
+  min-height: 19rem;
+  h1 {
+    text-align: left;
   }
 }
 .withPadding {
   padding-left: 2rem;
   padding-right: 2rem;
+  h3 {
+    text-align: left;
+  }
   @include respond-to(large) {
     padding-left: 6.2rem;
     padding-right: 5rem;

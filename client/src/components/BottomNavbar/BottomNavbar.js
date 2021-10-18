@@ -7,36 +7,27 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const BottomNavBar = (props) => {
   return (
     <div className={Styles.bottomNav}>
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="horizontal">
-        <Menu.Item
-          key="Overview"
-          className={Styles.bnTab}
-          icon={<PieChartOutlined />}
-        ></Menu.Item>
-        <Menu.Item
-          key="About"
-          className={Styles.bnTab}
-          icon={<UserOutlined />}
-        ></Menu.Item>
-        <Menu.Item
-          key="Mentor"
-          className={Styles.bnTab}
-          icon={<TeamOutlined />}
-        ></Menu.Item>
-        <Menu.Item
-          key="Dynamite Sessions"
-          className={Styles.bnTab}
-          icon={<DesktopOutlined />}
-        ></Menu.Item>
-        <Menu.Item
-          key="Requests"
-          className={Styles.bnTab}
-          icon={<FileOutlined />}
-        ></Menu.Item>
+        <Menu.Item key="1" className={Styles.bnTab} icon={<PieChartOutlined />}>
+          <Link to="/" />
+        </Menu.Item>
+        <Menu.Item key="2" className={Styles.bnTab} icon={<UserOutlined />}>
+          <Link to="/about" />
+        </Menu.Item>
+        <Menu.Item key="3" className={Styles.bnTab} icon={<TeamOutlined />}>
+          <Link to="/mentor" />
+        </Menu.Item>
+        <Menu.Item key="4" className={Styles.bnTab} icon={<DesktopOutlined />}>
+          <Link to="/dynamite-sessions" />
+        </Menu.Item>
+        <Menu.Item key="5" className={Styles.bnTab} icon={<FileOutlined />}>
+          <Link to="/requests" />
+        </Menu.Item>
       </Menu>
     </div>
   );

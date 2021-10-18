@@ -48,9 +48,8 @@ function Layouts() {
                     {...props}
                   />
                   <Content className={Styles.content}>
-                    <Routes />
+                    <Routes student={student} />
                   </Content>
-                  <Footer> </Footer>
                 </Layout>
               ))
             ) : (
