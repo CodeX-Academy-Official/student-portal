@@ -1,14 +1,16 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-function PrivateRoute({ component: Component, ...rest }) {
+function PrivateRoute({ component: Component, exact, strict, path, ...rest }) {
   const { currentUser } = useAuth();
   return (
     <Route
-      {...rest}
+      exact={exact}
+      strict={strict}
+      path={path}
       render={(props) => {
         return currentUser ? (
-          <Component {...props} />
+          <Component {...props} {...rest} />
         ) : (
           <Redirect to="/log-in" />
         );

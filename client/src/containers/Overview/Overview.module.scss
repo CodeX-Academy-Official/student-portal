@@ -1,0 +1,66 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.Overview {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.LeftOverview {
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+  /* align-items: center; */
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+}
+.RightOverview {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+}
+.BottomOverview {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.whiteBox {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+  background-color: #fff;
+  padding: 3.6rem 0 3.6rem;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  text-align: center;
+  width: 90%;
+}
+
+.bottomWhiteBox {
+  width: 95% !important;
+  min-height: 19rem;
+  h1 {
+    text-align: left;
+  }
+}
+.withPadding {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  h3 {
+    text-align: left;
+  }
+  @include respond-to(large) {
+    padding-left: 6.2rem;
+    padding-right: 5rem;
+  }
+  input {
+    height: 5rem;
+    border: 1px solid black;
+  }
+  label {
+    vertical-align: middle;
+  }
+}
