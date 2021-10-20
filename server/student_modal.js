@@ -8,23 +8,71 @@ const pool = new Pool({
   port: 5432,
 });
 
-const getStudents = () => {
-  return new Promise(function (resolve, reject) {
-    pool.query('SELECT * FROM PEOPLE ORDER BY id ASC', (error, results) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(results.rows);
-    });
-  });
-};
-
 const getStudentInfo = (request) => {
   const email = request.params.email;
   return new Promise(function (resolve, reject) {
     pool.query(
-      'SELECT * FROM PEOPLE WHERE email = $1',
-      [email],
+      `SELECT
+      FirstSet.id,
+      FirstSet."firstName",
+      FirstSet."secondName",
+      FirstSet."lastName",
+      FirstSet."secondLastName",
+      FirstSet.email,
+      FirstSet."expectedStartDate",
+      FirstSet."expectedEndDate",
+      FirstSet.months,
+      FirstSet."meetingTimePreference",
+      FirstSet."birthDate",
+      FirstSet.zone,
+      FirstSet."weeklyHours",
+      FirstSet."coachingIntensity",
+      FirstSet."coachingHumor",
+      FirstSet."studyDays",
+      FirstSet."targetCertification",
+      FirstSet."status",
+      FirstSet.attributes,
+      FirstSet.level,
+      FirstSet."isActive",
+      SecondSet."Last Activity"
+    FROM(
+    SELECT   
+      u.id,
+      u."firstName",
+      u."secondName",
+      u."lastName",
+      u."secondLastName",
+      u.email,
+      u."expectedStartDate",
+      u."expectedEndDate",
+      u.months,
+      u."meetingTimePreference",
+      u."birthDate",
+      u.zone,
+      u."weeklyHours",
+      u."coachingIntensity",
+      u."coachingHumor",
+      u."studyDays",
+      u."targetCertification",
+      u.attributes,
+      p1.level,
+      p1."isActive",
+      u."isMentor",
+      u.status
+    FROM people u
+    LEFT JOIN enrollments p1 ON (u.id = p1."studentId")
+    LEFT OUTER JOIN enrollments p2 ON (u.id = p2."studentId" AND 
+        (p1.level < p2.level OR (p1.level = p2.level AND p1.id < p2.id)))
+    WHERE  p2.id ISNULL AND u."isMentor"=false and u.email = '${email}'
+    ORDER BY p1."isActive" ASC
+    ) AS FirstSet
+    LEFT JOIN(
+    SELECT
+        M.owner, DATE_PART('day', NOW() - MAX(M.time)) as "Last Activity" 
+    FROM activity M GROUP by M.owner
+    ) as SecondSet
+    on FirstSet.email = SecondSet.owner
+    ORDER by FirstSet.id `,
       (error, results) => {
         if (error) {
           reject(error);
