@@ -34,7 +34,7 @@ const getStudentInfo = (request) => {
       FirstSet.attributes,
       FirstSet.level,
       FirstSet."isActive",
-      SecondSet."Last Activity"
+      SecondSet."LastActivity"
     FROM(
     SELECT   
       u.id,
@@ -68,7 +68,7 @@ const getStudentInfo = (request) => {
     ) AS FirstSet
     LEFT JOIN(
     SELECT
-        M.owner, DATE_PART('day', NOW() - MAX(M.time)) as "Last Activity" 
+        M.owner, DATE_PART('day', NOW() - MAX(M.time)) as "LastActivity" where M.type='badge award'
     FROM activity M GROUP by M.owner
     ) as SecondSet
     on FirstSet.email = SecondSet.owner
@@ -83,7 +83,25 @@ const getStudentInfo = (request) => {
   });
 };
 
+const getStudentActivity = (request) => {
+  const email = request.params.email;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select 
+      *
+      from activity u 
+      where u."owner" = '${email}' 
+      ORDER BY u.time DESC `,
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results.rows);
+      }
+    );
+  });
+};
+
 module.exports = {
   getStudentInfo,
-  getStudents,
 };

@@ -11,6 +11,7 @@ const { Footer, Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
   const [student, setStudent] = useState(null);
+  const [meetingPreference, setmeetingPreference] = useState([]);
   const isMounted = useRef(null);
   useEffect(() => {
     isMounted.current = true;
@@ -20,6 +21,35 @@ function Layouts() {
     };
   });
 
+  function getMeetingTimeP(text, text2) {
+    let str = text?.replace(/"/g, '').replace('[', '').replace(']', '');
+    let str2 = text2?.studyTimes
+      ?.replace(/"/g, '')
+      .replace('[', '')
+      .replace(']', '');
+    let result;
+    if (str !== undefined && str !== 'no info') {
+      result = [str];
+      if (str.indexOf(';') != -1) {
+        result = str.split(';');
+      }
+      if (str.indexOf(',') != -1) {
+        result = str.split(',');
+      }
+      return result.map((s) => s.trim());
+    } else if (str2 !== undefined) {
+      result = [str2];
+      if (str2.indexOf(';') != -1) {
+        result = str2.split(';');
+      }
+      if (str2.indexOf(',') != -1) {
+        result = str2.split(',');
+      }
+      return result.map((s) => s.trim());
+    }
+    return str2;
+  }
+
   async function getStudent() {
     try {
       await fetch(`http://localhost:3001/student/${currentUser.email}`)
@@ -27,12 +57,16 @@ function Layouts() {
           return response.json();
         })
         .then((data) => {
+          setmeetingPreference(
+            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+          );
           setStudent(data);
         });
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
     <BrowserRouter>
       <Route
@@ -48,7 +82,10 @@ function Layouts() {
                     {...props}
                   />
                   <Content className={Styles.content}>
-                    <Routes student={student} />
+                    <Routes
+                      student={student}
+                      meetingPreference={meetingPreference}
+                    />
                   </Content>
                 </Layout>
               ))
