@@ -11,28 +11,98 @@ const { Footer, Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
   const [student, setStudent] = useState(null);
-  const isMounted = useRef(null);
+  const [studentActivity, setStudentActivity] = useState(null);
+  const [studentLastActivity, setStudentLastActivity] = useState(null);
+  const [meetingPreference, setmeetingPreference] = useState([]);
+
+  console.log('Layouts - Render lifecycle');
   useEffect(() => {
-    isMounted.current = true;
+    console.log('mounted');
     getStudent();
-    return () => {
-      isMounted.current = false;
-    };
-  });
+    getStudentActivity();
+    getStudentLastActivity();
+    return () => console.log('unmounting...');
+  }, []);
+
+  function getMeetingTimeP(text, text2) {
+    let str = text?.replace(/"/g, '').replace('[', '').replace(']', '');
+    let str2 = text2?.studyTimes
+      ?.replace(/"/g, '')
+      .replace('[', '')
+      .replace(']', '');
+    let result;
+    if (str !== undefined && str !== 'no info') {
+      result = [str];
+      if (str.indexOf(';') != -1) {
+        result = str.split(';');
+      }
+      if (str.indexOf(',') != -1) {
+        result = str.split(',');
+      }
+      return result.map((s) => s.trim());
+    } else if (str2 !== undefined) {
+      result = [str2];
+      if (str2.indexOf(';') != -1) {
+        result = str2.split(';');
+      }
+      if (str2.indexOf(',') != -1) {
+        result = str2.split(',');
+      }
+      return result.map((s) => s.trim());
+    }
+    return str2;
+  }
 
   async function getStudent() {
     try {
-      await fetch(`http://localhost:3001/student/${currentUser.email}`)
+      await fetch(`http://localhost:3001/student/info/${currentUser.email}`)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
+          setmeetingPreference(
+            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+          );
           setStudent(data);
         });
     } catch (error) {
       console.log(error);
     }
+    return;
   }
+
+  async function getStudentActivity() {
+    try {
+      await fetch(`http://localhost:3001/student/activity/${currentUser.email}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentActivity(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    return;
+  }
+
+  async function getStudentLastActivity() {
+    try {
+      await fetch(
+        `http://localhost:3001/student/lastactivity/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentLastActivity(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    return;
+  }
+
   return (
     <BrowserRouter>
       <Route
@@ -48,12 +118,17 @@ function Layouts() {
                     {...props}
                   />
                   <Content className={Styles.content}>
-                    <Routes student={student} />
+                    <Routes
+                      student={student}
+                      meetingPreference={meetingPreference}
+                      studentActivity={studentActivity}
+                      studentLastActivity={studentLastActivity}
+                    />
                   </Content>
                 </Layout>
               ))
             ) : (
-              <></>
+              <h1>No Information found for this user</h1>
             )}
           </Layout>
         )}
