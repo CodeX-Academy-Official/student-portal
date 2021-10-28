@@ -68,16 +68,17 @@ const getStudentInfo = (request) => {
     ) AS FirstSet
     LEFT JOIN(
     SELECT
-        M.owner, DATE_PART('day', NOW() - MAX(M.time)) as "LastActivity" where M.type='badge award'
-    FROM activity M GROUP by M.owner
+         M.owner, DATE_PART('day', NOW() - MAX(M.time)) as "LastActivity" 
+    FROM activity M  where M.type='badge award' GROUP by M.owner
     ) as SecondSet
     on FirstSet.email = SecondSet.owner
-    ORDER by FirstSet.id `,
+    ORDER by FirstSet.id`,
       (error, results) => {
-        if (error) {
+        if (error || results.rows === undefined) {
           reject(error);
+        } else {
+          resolve(results.rows);
         }
-        resolve(results.rows);
       }
     );
   });
@@ -93,10 +94,34 @@ const getStudentActivity = (request) => {
       where u."owner" = '${email}' 
       ORDER BY u.time DESC `,
       (error, results) => {
-        if (error) {
+        if (error || results.rows === undefined) {
           reject(error);
+        } else {
+          resolve(results.rows);
         }
-        resolve(results.rows);
+      }
+    );
+  });
+};
+
+const getStudentLastActivity = (request) => {
+  const email = request.params.email;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select 
+      u.type,
+      u.info,
+      u.time
+      from activity u 
+      where u."owner" = '${email}' 
+      ORDER BY u.time DESC    
+      limit 1`,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
       }
     );
   });
@@ -104,4 +129,6 @@ const getStudentActivity = (request) => {
 
 module.exports = {
   getStudentInfo,
+  getStudentActivity,
+  getStudentLastActivity,
 };

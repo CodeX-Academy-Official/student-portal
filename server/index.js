@@ -15,9 +15,31 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/student/:email', (req, res) => {
+app.get('/student/info/:email', (req, res) => {
   student_model
     .getStudentInfo(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get('/student/activity/:email', (req, res) => {
+  student_model
+    .getStudentActivity(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get('/student/lastactivity/:email', (req, res) => {
+  student_model
+    .getStudentLastActivity(req)
     .then((response) => {
       res.status(200).send(response);
     })

@@ -11,15 +11,18 @@ const { Footer, Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
   const [student, setStudent] = useState(null);
+  const [studentActivity, setStudentActivity] = useState(null);
+  const [studentLastActivity, setStudentLastActivity] = useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
-  const isMounted = useRef(null);
+
+  console.log('Layouts - Render lifecycle');
   useEffect(() => {
-    isMounted.current = true;
+    console.log('mounted');
     getStudent();
-    return () => {
-      isMounted.current = false;
-    };
-  });
+    getStudentActivity();
+    getStudentLastActivity();
+    return () => console.log('unmounting...');
+  }, []);
 
   function getMeetingTimeP(text, text2) {
     let str = text?.replace(/"/g, '').replace('[', '').replace(']', '');
@@ -52,7 +55,7 @@ function Layouts() {
 
   async function getStudent() {
     try {
-      await fetch(`http://localhost:3001/student/${currentUser.email}`)
+      await fetch(`http://localhost:3001/student/info/${currentUser.email}`)
         .then((response) => {
           return response.json();
         })
@@ -65,6 +68,39 @@ function Layouts() {
     } catch (error) {
       console.log(error);
     }
+    return;
+  }
+
+  async function getStudentActivity() {
+    try {
+      await fetch(`http://localhost:3001/student/activity/${currentUser.email}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentActivity(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    return;
+  }
+
+  async function getStudentLastActivity() {
+    try {
+      await fetch(
+        `http://localhost:3001/student/lastactivity/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentLastActivity(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    return;
   }
 
   return (
@@ -85,12 +121,14 @@ function Layouts() {
                     <Routes
                       student={student}
                       meetingPreference={meetingPreference}
+                      studentActivity={studentActivity}
+                      studentLastActivity={studentLastActivity}
                     />
                   </Content>
                 </Layout>
               ))
             ) : (
-              <></>
+              <h1>No Information found for this user</h1>
             )}
           </Layout>
         )}

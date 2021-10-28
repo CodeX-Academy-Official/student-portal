@@ -14,7 +14,9 @@ function Routes(props) {
           exact
           path="/"
           student={props.student}
+          studentActivity={props.studentActivity}
           meetingPreference={props.meetingPreference}
+          studentLastActivity={props.studentLastActivity}
           component={Overview}
         />
         <PrivateRoute path="/about" component={About} />
