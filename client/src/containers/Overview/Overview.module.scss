@@ -1,25 +1,50 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
 .Overview {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
+  @include respond-to-max(xs-max) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .LeftOverview {
+  float: left;
   display: flex;
   width: 50%;
-  justify-content: space-evenly;
+  justify-content: space-between;
   /* align-items: center; */
   flex-direction: column;
   align-content: center;
   flex-wrap: wrap;
+  @include respond-to-max(xs-max) {
+    width: 100%;
+  }
 }
 .RightOverview {
+  float: left;
   display: flex;
   width: 50%;
   justify-content: center;
+  /* align-items: center; */
+  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  @include respond-to-max(xs-max) {
+    width: 100%;
+    align-content: center;
+  }
 }
+
+.RightRightOverview {
+  display: flex;
+  width: 95%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .BottomOverview {
   display: flex;
   width: 100%;
@@ -31,17 +56,34 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
   background-color: #fff;
   padding: 3.6rem 0 3.6rem;
-  width: 100%;
   height: auto;
   border-radius: 0.5rem;
   margin-top: 2rem;
   text-align: center;
+  min-height: 13.5rem;
+}
+
+.whiteBoxLeft {
   width: 90%;
+}
+
+.whiteBoxLeftButtom {
+  @include respond-to(large) {
+    min-height: 32rem;
+  }
+  min-height: 20rem;
+}
+.whiteBoxRight {
+  width: 95%;
+}
+
+.whiteBoxRightRight {
+  width: 49%;
 }
 
 .bottomWhiteBox {
   width: 95% !important;
-  min-height: 19rem;
+
   h1 {
     text-align: left;
   }
@@ -53,8 +95,8 @@
     text-align: left;
   }
   @include respond-to(large) {
-    padding-left: 6.2rem;
-    padding-right: 5rem;
+    padding-left: 2vw;
+    padding-right: 2vw;
   }
   input {
     height: 5rem;
@@ -81,8 +123,12 @@
   height: auto;
 }
 
-.progressCircle .ant-progress .ant-progress-text {
-  color: red !important;
+.progressDiv {
+  display: flex;
+  align-items: center; /*for vertically center*/
+  justify-content: center; /*for horizontally center*/
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .meetingPreferenceTitle {
@@ -92,4 +138,8 @@
 
 .meetingPreferenceList {
   float: left;
+}
+
+.progressCircle {
+  color: white;
 }
