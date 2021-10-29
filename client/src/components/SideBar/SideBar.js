@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
-import { Layout, Menu } from 'antd';
-import logo from '../../img/logoIcon.png';
-import Styles from './SideBar.module.scss';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Layout, Menu } from "antd";
+import logo from "../../img/logoIcon.png";
+import Styles from "./SideBar.module.scss";
+import { Link } from "react-router-dom";
 import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 const { Sider } = Layout;
-function SideBar({ selected }) {
+function SideBar(props) {
   const [collapsed, setcollapsed] = useState(false);
-
+  const [key, setkey] = useState("");
   const onCollapse = (collapsed) => {
     console.log(collapsed);
     setcollapsed(collapsed);
   };
+
+  useEffect(() => {
+    console.log("mounted sidebar:", props.location.pathname);
+    switch (props.location.pathname) {
+      case "/":
+        setkey("1");
+        break;
+      case "/about":
+        setkey("2");
+        break;
+      case "/mentor":
+        setkey("3");
+        break;
+      case "/dynamite-sessions":
+        setkey("4");
+        break;
+      case "/requests":
+        setkey("5");
+        break;
+      default:
+        setkey("1");
+        break;
+    }
+
+    return () => console.log("unmounting...");
+  }, [props.location.pathname]);
   return (
     <Sider
       collapsible
@@ -31,7 +57,7 @@ function SideBar({ selected }) {
           Student Portal
         </h3>
       </div>
-      <Menu theme="dark" defaultSelectedKeys={[selected]} mode="inline">
+      <Menu theme="dark" selectedKeys={[key]} mode="inline">
         <Menu.Item key="1" icon={<PieChartOutlined />}>
           <span>Overview</span>
           <Link to="/" />

@@ -1,13 +1,14 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
 .bottomNav {
   display: none;
   @include respond-to-max(medium) {
-    display: inline-block;
+    display: inline;
     width: 100%;
     position: fixed;
     bottom: 0;
+    z-index: 1;
     border-top: 1px solid rgb(230, 230, 230);
   }
 }

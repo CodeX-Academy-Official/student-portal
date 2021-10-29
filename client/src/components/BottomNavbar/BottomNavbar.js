@@ -1,18 +1,18 @@
-import { Menu } from 'antd';
-import Styles from './BottomNavbar.module.scss';
+import { Menu } from "antd";
+import Styles from "./BottomNavbar.module.scss";
 import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const BottomNavBar = (props) => {
   return (
     <div className={Styles.bottomNav}>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="horizontal">
+      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="horizontal">
         <Menu.Item key="1" className={Styles.bnTab} icon={<PieChartOutlined />}>
           <Link to="/" />
         </Menu.Item>

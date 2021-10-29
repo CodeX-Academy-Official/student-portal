@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Styles from './Layouts.module.scss';
-import { Layout } from 'antd';
-import LoggedInHeader from '../LoggedInHeader/LoggedInHeader';
-import { useAuth } from '../../contexts/AuthContext';
-import SideBar from '../SideBar/SideBar';
-import Routes from '../Routes';
+import React, { useState, useEffect, useRef } from "react";
+import Styles from "./Layouts.module.scss";
+import { Layout } from "antd";
+import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
+import { useAuth } from "../../contexts/AuthContext";
+import SideBar from "../SideBar/SideBar";
+import Routes from "../Routes";
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from "react-router-dom";
 const { Footer, Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
@@ -15,38 +15,38 @@ function Layouts() {
   const [studentLastActivity, setStudentLastActivity] = useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
 
-  console.log('Layouts - Render lifecycle');
+  console.log("Layouts - Render lifecycle");
   useEffect(() => {
-    console.log('mounted');
+    console.log("mounted");
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
-    return () => console.log('unmounting...');
+    return () => console.log("unmounting...");
   }, []);
 
   function getMeetingTimeP(text, text2) {
-    let str = text?.replace(/"/g, '').replace('[', '').replace(']', '');
+    let str = text?.replace(/"/g, "").replace("[", "").replace("]", "");
     let str2 = text2?.studyTimes
-      ?.replace(/"/g, '')
-      .replace('[', '')
-      .replace(']', '');
+      ?.replace(/"/g, "")
+      .replace("[", "")
+      .replace("]", "");
     let result;
-    if (str !== undefined && str !== 'no info') {
+    if (str !== undefined && str !== "no info") {
       result = [str];
-      if (str.indexOf(';') != -1) {
-        result = str.split(';');
+      if (str.indexOf(";") != -1) {
+        result = str.split(";");
       }
-      if (str.indexOf(',') != -1) {
-        result = str.split(',');
+      if (str.indexOf(",") != -1) {
+        result = str.split(",");
       }
       return result.map((s) => s.trim());
     } else if (str2 !== undefined) {
       result = [str2];
-      if (str2.indexOf(';') != -1) {
-        result = str2.split(';');
+      if (str2.indexOf(";") != -1) {
+        result = str2.split(";");
       }
-      if (str2.indexOf(',') != -1) {
-        result = str2.split(',');
+      if (str2.indexOf(",") != -1) {
+        result = str2.split(",");
       }
       return result.map((s) => s.trim());
     }
@@ -107,11 +107,11 @@ function Layouts() {
     <BrowserRouter>
       <Route
         render={(props) => (
-          <Layout style={{ minHeight: '100vh' }} hasSider={true}>
-            <SideBar selected={'1'} />
+          <Layout style={{ minHeight: "100vh" }} hasSider={true}>
+            <SideBar {...props} />
             {student && student.map ? (
               student.map((student) => (
-                <Layout key={student.id}>
+                <Layout key={student.id} className={Styles.layout}>
                   <LoggedInHeader
                     logout={logout}
                     student={student}

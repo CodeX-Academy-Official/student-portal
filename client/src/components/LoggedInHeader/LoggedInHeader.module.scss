@@ -1,12 +1,12 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
 .loggedInContainer {
   color: white;
   text-transform: capitalize;
   text-align: center;
   height: 8.8rem;
-  background-color: #f7f8fc;
+  background-color: #f4faff;
 
   .mainMenuWrapper {
     margin-right: auto;
@@ -15,7 +15,7 @@
   h1 {
     font-family: Mulish;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 3vh;
     line-height: 30px;
     letter-spacing: 0.3px;
