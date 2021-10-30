@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import Styles from "./BottomNavbar.module.scss";
 import {
@@ -10,9 +11,35 @@ import {
 import { Link } from "react-router-dom";
 
 const BottomNavBar = (props) => {
+  const [key, setkey] = useState("");
+  useEffect(() => {
+    console.log("mounted sidebar:", props.location.pathname);
+    switch (props.location.pathname) {
+      case "/":
+        setkey("1");
+        break;
+      case "/about":
+        setkey("2");
+        break;
+      case "/mentor":
+        setkey("3");
+        break;
+      case "/dynamite-sessions":
+        setkey("4");
+        break;
+      case "/requests":
+        setkey("5");
+        break;
+      default:
+        setkey("1");
+        break;
+    }
+
+    return () => console.log("unmounting...");
+  }, [props.location.pathname]);
   return (
     <div className={Styles.bottomNav}>
-      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="horizontal">
+      <Menu theme="dark" selectedKeys={[key]} mode="horizontal">
         <Menu.Item key="1" className={Styles.bnTab} icon={<PieChartOutlined />}>
           <Link to="/" />
         </Menu.Item>

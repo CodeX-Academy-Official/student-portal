@@ -74,7 +74,7 @@ function Layouts() {
     getStudentActivity();
     getStudentLastActivity();
     return () => console.log("unmounting...");
-  }, []);
+  }, [currentUser.email]);
 
   function getMeetingTimeP(text, text2) {
     let str = text?.replace(/"/g, "").replace("[", "").replace("]", "");
