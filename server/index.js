@@ -1,21 +1,26 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-const student_model = require('./student_modal');
+const student_model = require("./student_modal");
 
 app.use(express.json());
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Access-Control-Allow-Headers'
+    "Access-Control-Allow-Headers",
+    "Content-Type, Access-Control-Allow-Headers"
   );
   next();
 });
 
-app.get('/student/info/:email', (req, res) => {
+app.get("/", function (req, res) {
+  //when we get an http get request to the root/homepage
+  res.send("Hello World");
+});
+
+app.get("/student/info/:email", (req, res) => {
   student_model
     .getStudentInfo(req)
     .then((response) => {
@@ -26,7 +31,7 @@ app.get('/student/info/:email', (req, res) => {
     });
 });
 
-app.get('/student/activity/:email', (req, res) => {
+app.get("/student/activity/:email", (req, res) => {
   student_model
     .getStudentActivity(req)
     .then((response) => {
@@ -37,7 +42,7 @@ app.get('/student/activity/:email', (req, res) => {
     });
 });
 
-app.get('/student/lastactivity/:email', (req, res) => {
+app.get("/student/lastactivity/:email", (req, res) => {
   student_model
     .getStudentLastActivity(req)
     .then((response) => {

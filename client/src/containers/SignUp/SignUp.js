@@ -1,23 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Styles from './SignUp.module.scss';
-import { Form, Input, Button, Alert } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
-import logo from '../../img/logo.png';
-import { useAuth } from '../../contexts/AuthContext';
-import CircularSpinner from '../../components/CircularSpinner/CircularSpinner';
+import React, { useState, useRef, useEffect } from "react";
+import Styles from "./SignUp.module.scss";
+import { Form, Input, Button, Alert } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import logo from "../../img/logo.png";
+import { useAuth } from "../../contexts/AuthContext";
+import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
   const { signup } = useAuth();
-  const [signUpError, setSignUpError] = useState('');
+  const [signUpError, setSignUpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit() {
     try {
       setIsLoading(true);
       await fetch(
-        `http://localhost:3001/student/info/${emailRef.current.state.value}`
+        `https://codex-student-portal-server.herokuapp.com/student/info/${emailRef.current.state.value}`
       )
         .then((response) => {
           return response.json();
@@ -29,13 +29,13 @@ export default function SignUp() {
               passwordRef.current.state.value
             )
               .then(() => {
-                history.push('/');
+                history.push("/");
               })
               .catch(() => {
-                setSignUpError('Email is already used');
+                setSignUpError("Email is already used");
               });
           } else {
-            setSignUpError('Email is not in the database');
+            setSignUpError("Email is not in the database");
           }
         });
     } catch (error) {
@@ -75,9 +75,9 @@ export default function SignUp() {
             name="setupAccount"
             className={Styles.formWrapper}
             initialValues={{
-              email: '',
-              password: '',
-              confirmPassword: '',
+              email: "",
+              password: "",
+              confirmPassword: "",
             }}
             onFinish={(e) => handleSubmit(e)}
           >
@@ -91,10 +91,10 @@ export default function SignUp() {
               validateTrigger="onBlur"
               name="email"
               rules={[
-                { required: true, message: 'Please input your email!' },
+                { required: true, message: "Please input your email!" },
                 {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
+                  type: "email",
+                  message: "The input is not valid E-mail!",
                 },
                 ({ getFieldValue }) => ({
                   async validator(rule, value) {},
@@ -117,11 +117,11 @@ export default function SignUp() {
               validateTrigger="onBlur"
               name="password"
               rules={[
-                { required: true, message: 'Please input your password!' },
+                { required: true, message: "Please input your password!" },
 
                 {
                   message:
-                    'Your password must contain lower and uppercase letters, digits, and special characters and cannot be less than 8 characters.',
+                    "Your password must contain lower and uppercase letters, digits, and special characters and cannot be less than 8 characters.",
                   pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
                 },
               ]}
@@ -145,15 +145,15 @@ export default function SignUp() {
               rules={[
                 {
                   required: true,
-                  message: 'Please confirm your password!',
+                  message: "Please confirm your password!",
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      'The two passwords that you entered do not match!'
+                      "The two passwords that you entered do not match!"
                     );
                   },
                 }),
