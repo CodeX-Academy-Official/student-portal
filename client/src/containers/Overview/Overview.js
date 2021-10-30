@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { Progress, Tag, Table } from "antd";
 import Styles from "./Overview.module.scss";
-import { useAuth } from "../../contexts/AuthContext";
 import moment from "moment";
-import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 export default function Overview({
   student,
   studentActivity,
