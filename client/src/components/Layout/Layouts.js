@@ -55,7 +55,9 @@ function Layouts() {
 
   async function getStudent() {
     try {
-      await fetch(`http://localhost:3001/student/info/${currentUser.email}`)
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+      )
         .then((response) => {
           return response.json();
         })
@@ -73,7 +75,9 @@ function Layouts() {
 
   async function getStudentActivity() {
     try {
-      await fetch(`http://localhost:3001/student/activity/${currentUser.email}`)
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/activity/${currentUser.email}`
+      )
         .then((response) => {
           return response.json();
         })
@@ -89,7 +93,7 @@ function Layouts() {
   async function getStudentLastActivity() {
     try {
       await fetch(
-        `http://localhost:3001/student/lastactivity/${currentUser.email}`
+        `https://codex-student-portal-server.herokuapp.com/student/lastactivity/${currentUser.email}`
       )
         .then((response) => {
           return response.json();
