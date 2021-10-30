@@ -6,12 +6,21 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - develop
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client
+    env:
+      REACT_APP_API_KEY: ${{secrets.REACT_APP_API_KEY}}
+      REACT_APP_FIREBASE_API_KEY: ${{secrets.REACT_APP_FIREBASE_API_KEY}}
+      REACT_APP_FIREBASE_AUTH_DOMAIN: ${{secrets.REACT_APP_FIREBASE_AUTH_DOMAIN}}
+      REACT_APP_FIREBASE_PROJECT_ID: ${{secrets.REACT_APP_FIREBASE_PROJECT_ID}}
+      REACT_APP_FIREBASE_STORAGE_BUCKET: ${{secrets.REACT_APP_FIREBASE_STORAGE_BUCKET}}
+      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID}}
+      REACT_APP_FIREBASE_APP_ID: ${{secrets.REACT_APP_FIREBASE_APP_ID}}
     steps:
       - uses: actions/checkout@v2
       - run:  npm ci && npm run build
