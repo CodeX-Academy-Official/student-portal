@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import moment from "moment";
 import { Tag } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "./Layouts.module.scss";
 import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
@@ -7,7 +7,7 @@ import SideBar from "../SideBar/SideBar";
 import Routes from "../Routes";
 
 import { BrowserRouter, Route } from "react-router-dom";
-const { Footer, Content } = Layout;
+const { Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
   const [student, setStudent] = useState(null);
@@ -18,6 +18,58 @@ function Layouts() {
   console.log("Layouts - Render lifecycle");
   useEffect(() => {
     console.log("mounted");
+    async function getStudent() {
+      try {
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setmeetingPreference(
+              getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+            );
+            setStudent(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
+    async function getStudentActivity() {
+      try {
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/activity/${currentUser.email}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentActivity(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
+
+    async function getStudentLastActivity() {
+      try {
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/lastactivity/${currentUser.email}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentLastActivity(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      return;
+    }
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
@@ -33,78 +85,24 @@ function Layouts() {
     let result;
     if (str !== undefined && str !== "no info") {
       result = [str];
-      if (str.indexOf(";") != -1) {
+      if (str.indexOf(";") !== -1) {
         result = str.split(";");
       }
-      if (str.indexOf(",") != -1) {
+      if (str.indexOf(",") !== -1) {
         result = str.split(",");
       }
       return result.map((s) => s.trim());
     } else if (str2 !== undefined) {
       result = [str2];
-      if (str2.indexOf(";") != -1) {
+      if (str2.indexOf(";") !== -1) {
         result = str2.split(";");
       }
-      if (str2.indexOf(",") != -1) {
+      if (str2.indexOf(",") !== -1) {
         result = str2.split(",");
       }
       return result.map((s) => s.trim());
     }
     return str2;
-  }
-
-  async function getStudent() {
-    try {
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setmeetingPreference(
-            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
-          );
-          setStudent(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    return;
-  }
-
-  async function getStudentActivity() {
-    try {
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/activity/${currentUser.email}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setStudentActivity(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    return;
-  }
-
-  async function getStudentLastActivity() {
-    try {
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/lastactivity/${currentUser.email}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setStudentLastActivity(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    return;
   }
 
   return (
