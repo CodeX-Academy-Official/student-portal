@@ -1,6 +1,6 @@
 # Student Portal using React, NodeJS, Express, PostgreSQL and Antd
 
-Website (https://studentpanel-development.web.app/).
+This Website is deployed on firebase hosting (https://studentpanel-development.web.app/).
 
 ## Running Locally
 
