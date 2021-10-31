@@ -10,11 +10,11 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
-const BottomNavBar = (props) => {
+const BottomNavBar = ({ pathname }) => {
   const [key, setkey] = useState("");
   useEffect(() => {
-    console.log("mounted sidebar:", props.location.pathname);
-    switch (props.location.pathname) {
+    console.log("mounted sidebar:", pathname);
+    switch (pathname) {
       case "/":
         setkey("1");
         break;
@@ -36,7 +36,7 @@ const BottomNavBar = (props) => {
     }
 
     return () => console.log("unmounting...");
-  }, [props.location.pathname]);
+  }, [pathname]);
   return (
     <div className={Styles.bottomNav}>
       <Menu theme="dark" selectedKeys={[key]} mode="horizontal">
