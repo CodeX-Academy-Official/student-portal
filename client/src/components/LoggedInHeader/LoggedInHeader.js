@@ -1,51 +1,51 @@
-import React, { useState, useEffect, useRef } from 'react';
-import smallImage from '../../img/no-img.png';
-import Styles from './LoggedInHeader.module.scss';
-import { Layout, Row, Col, Popover, Button, Alert } from 'antd';
-import BottomNavBar from '../BottomNavbar/BottomNavbar';
-import { LogoutOutlined, CaretDownOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import smallImage from "../../img/no-img.png";
+import Styles from "./LoggedInHeader.module.scss";
+import { Layout, Row, Col, Popover, Button, Alert } from "antd";
+import BottomNavBar from "../BottomNavbar/BottomNavbar";
+import { LogoutOutlined, CaretDownOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 const { Header } = Layout;
 
 function LoggedInHeader(props) {
-  const [error, seterror] = useState('');
+  const [error, seterror] = useState("");
   const [show, setshow] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const isMounted = useRef(null);
   const history = useHistory();
   const handleVisible = (visible) => {
     visible ? setshow(true) : setshow(false);
   };
-  console.log('LoggedInHeader - Render lifecycle');
+  console.log("LoggedInHeader - Render lifecycle");
   const handleLougout = async () => {
-    seterror('');
+    seterror("");
     try {
       await props.logout();
-      history.push('/log-in');
+      history.push("/log-in");
     } catch (error) {
-      seterror('failed to logout');
+      seterror("failed to logout");
     }
   };
   useEffect(() => {
     isMounted.current = true;
     switch (props.location.pathname) {
-      case '/':
-        setTitle('Overview');
+      case "/":
+        setTitle("Overview");
         break;
-      case '/about':
-        setTitle('About');
+      case "/about":
+        setTitle("About");
         break;
-      case '/mentor':
-        setTitle('Mentor');
+      case "/mentor":
+        setTitle("Mentor");
         break;
-      case '/dynamite-sessions':
-        setTitle('Dynamite Sessions');
+      case "/dynamite-sessions":
+        setTitle("Dynamite Sessions");
         break;
-      case '/requests':
-        setTitle('Requests');
+      case "/requests":
+        setTitle("Requests");
         break;
       default:
-        setTitle('');
+        setTitle("");
         break;
     }
 
@@ -72,7 +72,7 @@ function LoggedInHeader(props) {
                     <LogoutOutlined /> Sign out
                   </Button>
                 }
-                title={props.student.firstName + ' ' + props.student.lastName}
+                title={props.student.firstName + " " + props.student.lastName}
                 trigger="click"
                 visible={show}
                 onVisibleChange={handleVisible}
@@ -92,7 +92,7 @@ function LoggedInHeader(props) {
           </Row>
         </div>
       </Header>
-      <BottomNavBar />
+      <BottomNavBar pathname={props.location.pathname} />
       {error && <Alert message="Error" type="error" showIcon />}
     </>
   );
