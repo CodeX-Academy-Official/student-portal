@@ -55,7 +55,7 @@
 .whiteBox {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
   background-color: #fff;
-  padding: 3.6rem 0 3.6rem;
+  padding: 1.6rem 0 1.6rem;
   height: auto;
   border-radius: 0.5rem;
   margin-top: 2rem;
@@ -68,9 +68,6 @@
 }
 
 .whiteBoxLeftButtom {
-  @include respond-to(large) {
-    min-height: 32rem;
-  }
   min-height: 20rem;
 }
 .whiteBoxRight {
@@ -142,4 +139,26 @@
 
 .progressCircle {
   color: white;
+}
+
+.badgesSubTitles {
+  float: left;
+  display: flex;
+  @include respond-to-max(xs-max) {
+    float: none;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.badges {
+  margin-bottom: 1rem;
+}
+
+.timeLine {
+  margin-bottom: 1rem;
 }

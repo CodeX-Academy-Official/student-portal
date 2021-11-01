@@ -12,6 +12,67 @@ export default function Overview({
   console.log(studentActivity);
   console.log(studentLastActivity);
 
+  const targetCertificationName = student?.targetCertification;
+
+  const getAttributes = () => {
+    const attributes = student?.attributes;
+    try {
+      return JSON.parse(attributes);
+    } catch (e) {
+      return attributes;
+    }
+  };
+
+  const progressBarCertificationPercentage = () => {
+    let targetCertification = 0;
+    const currentBadges =
+      getAttributes()?.badges === null ? 0 : Number(getAttributes()?.badges);
+    if (targetCertificationName === "Full-Stack Developer") {
+      targetCertification = 80;
+    } else if (targetCertificationName === "Front-End Developer") {
+      targetCertification = 35;
+    } else if (targetCertificationName === "Full-Stack Engineer") {
+      targetCertification = 125;
+    } else {
+      targetCertification = 0;
+    }
+    return Math.round((currentBadges / targetCertification) * 100);
+  };
+
+  const getTargetCertifications = () => {
+    switch (targetCertificationName) {
+      case "Full-Stack Developer":
+        return targetCertificationName + " (80)";
+      case "Front-End Developer":
+        return targetCertificationName + " (35)";
+      case "Full-Stack Engineer":
+        return targetCertificationName + " (125)";
+      default:
+        return "none(0)";
+    }
+  };
+
+  const getStartDate = () => {
+    const startDate =
+      student?.expectedStartDate === undefined
+        ? ""
+        : student?.expectedStartDate;
+    return moment(startDate).format("MMMM Do YYYY");
+  };
+
+  const getEndDate = () => {
+    const endDate =
+      student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
+    return moment(endDate).format("MMMM Do YYYY");
+  };
+
+  const getTimeLinePercentage = () => {
+    const start = new Date(student?.expectedStartDate);
+    const end = new Date(student?.expectedEndDate);
+    const today = new Date();
+    return Math.round(((today - start) / (end - start)) * 100);
+  };
+
   const columns = [
     {
       title: "Type",
@@ -38,13 +99,35 @@ export default function Overview({
           <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
             <div className={Styles.withPadding}>
               <h2>Timeline:</h2>
-              <Progress percent={100} />
+              <p>
+                <strong>Start Date ({getStartDate()})</strong>
+              </p>
+              <Progress
+                percent={getTimeLinePercentage()}
+                className={Styles.timeLine}
+                strokeColor={
+                  getTimeLinePercentage() <= 100 ? "limegreen" : "tomato"
+                }
+                status={getTimeLinePercentage() <= 100 ? "" : "exception"}
+              />
+              <p>
+                <strong>End Date ({getEndDate()})</strong>
+              </p>
             </div>
           </div>
           <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
             <div className={Styles.withPadding}>
               <h2>Badge Progress:</h2>
-              <Progress percent={0} />
+              <p>
+                <strong>Current ({getAttributes().badges})</strong>
+              </p>
+              <Progress
+                percent={progressBarCertificationPercentage()}
+                className={Styles.badges}
+              />
+              <p>
+                <strong>{getTargetCertifications()}</strong>
+              </p>
             </div>
           </div>
           <div

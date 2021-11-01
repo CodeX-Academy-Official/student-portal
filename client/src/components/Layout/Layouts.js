@@ -5,6 +5,7 @@ import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
 import Routes from "../Routes";
+import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 
 import { BrowserRouter, Route } from "react-router-dom";
 const { Content } = Layout;
@@ -14,12 +15,14 @@ function Layouts() {
   const [studentActivity, setStudentActivity] = useState(null);
   const [studentLastActivity, setStudentLastActivity] = useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   console.log("Layouts - Render lifecycle");
   useEffect(() => {
     console.log("mounted");
     async function getStudent() {
       try {
+        setIsLoading(true);
         await fetch(
           `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
         )
@@ -35,10 +38,12 @@ function Layouts() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
       return;
     }
     async function getStudentActivity() {
       try {
+        setIsLoading(true);
         await fetch(
           `https://codex-student-portal-server.herokuapp.com/student/activity/${currentUser.email}`
         )
@@ -51,11 +56,13 @@ function Layouts() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
       return;
     }
 
     async function getStudentLastActivity() {
       try {
+        setIsLoading(true);
         await fetch(
           `https://codex-student-portal-server.herokuapp.com/student/lastactivity/${currentUser.email}`
         )
@@ -68,6 +75,7 @@ function Layouts() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
       return;
     }
     getStudent();
@@ -130,7 +138,9 @@ function Layouts() {
                 </Layout>
               ))
             ) : (
-              <h1>No Information found for this user</h1>
+              <span className={Styles.spinnerContainer}>
+                <CircularSpinner isShowing={isLoading} />
+              </span>
             )}
           </Layout>
         )}
