@@ -1,12 +1,12 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
 .LogIn {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-color: #001529;
   color: #000;
@@ -37,6 +37,10 @@
   }
   @include respond-to(large) {
     width: 51.8rem;
+  }
+  @include respond-to-max(xs-max) {
+    width: 100%;
+    height: 100vh;
   }
 }
 .withPadding {

@@ -1,12 +1,12 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
 .SignUp {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-color: #001529;
   color: #000;
@@ -37,6 +37,9 @@
   @include respond-to(large) {
     width: 51.8rem;
   }
+  @include respond-to-max(xs-max) {
+    width: 100%;
+  }
 }
 .withPadding {
   padding-left: 2rem;
@@ -59,6 +62,9 @@
   display: flex;
   width: 20rem;
   margin-bottom: 2rem;
+  @include respond-to-max(xs-max) {
+    margin-top: 6rem;
+  }
 }
 
 .signupBtn {
@@ -134,7 +140,7 @@
   border: none !important;
   padding: 0 !important;
   /*optional*/
-  font-family: 'Mulish', sans-serif;
+  font-family: "Mulish", sans-serif;
   /*input has OS specific font-family*/
   color: #069;
   text-decoration: underline;
