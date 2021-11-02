@@ -12,6 +12,9 @@
   overflow: auto;
   background-color: #001529;
   color: #000;
+  h4 {
+    text-align: center;
+  }
 }
 .spinnerContainer {
   position: absolute;
@@ -109,10 +112,6 @@
   color: $primary-color;
 }
 
-.formWrapper {
-  max-width: 50rem;
-  margin: 4.5rem auto 0;
-}
 .agreementCheck {
   margin-bottom: 0;
 }
