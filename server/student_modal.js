@@ -127,8 +127,33 @@ const getStudentLastActivity = (request) => {
   });
 };
 
+const getStudentLastThreeWeekActivity = (request) => {
+  const email = request.params.email;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select 
+      u.data,
+      u.type,
+      u.owner,
+      u.info,
+      u.time
+      from activity u 
+      where u."owner" = '${email}' AND u.time > now() - interval '3 week' AND u.type = 'badge award'
+      ORDER BY u.time DESC  `,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
   getStudentInfo,
   getStudentActivity,
   getStudentLastActivity,
+  getStudentLastThreeWeekActivity,
 };
