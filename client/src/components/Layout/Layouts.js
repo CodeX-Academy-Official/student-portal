@@ -14,6 +14,8 @@ function Layouts() {
   const [student, setStudent] = useState(null);
   const [studentActivity, setStudentActivity] = useState(null);
   const [studentLastActivity, setStudentLastActivity] = useState(null);
+  const [studentLastThreeWeekActivity, setStudentLastThreeWeekActivity] =
+    useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,9 +80,29 @@ function Layouts() {
       setIsLoading(false);
       return;
     }
+
+    async function getStudentLast3weekActivity() {
+      try {
+        setIsLoading(true);
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/lastactivities/3weeks/${currentUser.email}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentLastThreeWeekActivity(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    }
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
+    getStudentLast3weekActivity();
     return () => console.log("unmounting...");
   }, [currentUser.email]);
 
@@ -133,6 +155,9 @@ function Layouts() {
                       meetingPreference={meetingPreference}
                       studentActivity={studentActivity}
                       studentLastActivity={studentLastActivity}
+                      studentLastThreeWeekActivity={
+                        studentLastThreeWeekActivity
+                      }
                     />
                   </Content>
                 </Layout>
