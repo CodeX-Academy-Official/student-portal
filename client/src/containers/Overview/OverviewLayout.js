@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-lone-blocks */
-/* eslint-disable no-unreachable */
 import React, { useState } from "react";
 import {
   Progress,
@@ -66,9 +63,7 @@ export default function Overview({
     }
   };
   const currentBadges =
-    getAttributes()?.badges === undefined
-      ? ""
-      : Number(getAttributes()?.badges);
+    getAttributes()?.badges === undefined ? 0 : Number(getAttributes()?.badges);
   const progressBarCertificationPercentage = () => {
     let targetCertification = 0;
     if (targetCertificationName === "Full-Stack Developer") {
@@ -212,17 +207,18 @@ export default function Overview({
           </div>
         </div>
         <div className={Styles.RightOverview}>
-          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
-            <div className={Styles.withPadding}>
-              <h2>Pace</h2>
-              <Statistic
-                valueStyle={{ lineHeight: 2.2 }}
-                title="Badges Awarded per week"
-                value={getPace()}
-              />
+          <div className={Styles.RightRightOverview}>
+            <div className={`${Styles.whiteBox} ${Styles.whiteBoxRightRight}`}>
+              <div className={Styles.withPadding}>
+                <h2>Pace</h2>
+                <Statistic
+                  valueStyle={{ lineHeight: 2.2 }}
+                  title="Badges Awarded per week"
+                  value={getPace()}
+                />
+              </div>
             </div>
-          </div>
-          {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRightRight}`}>
+            <div className={`${Styles.whiteBox} ${Styles.whiteBoxRightRight}`}>
               <div className={Styles.withPadding}>
                 <h2>Request Pause</h2>
                 <div className={Styles.centerContent}>
@@ -274,8 +270,8 @@ export default function Overview({
                   </div>
                 </Modal>
               </div>
-            </div>*/}
-
+            </div>
+          </div>
           <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
             <div className={Styles.withPadding}>
               <h2>Pause Progress:</h2>
@@ -288,19 +284,7 @@ export default function Overview({
               </p>
             </div>
           </div>
-
-          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
-            <div className={Styles.withPaddingBottom}>
-              <h2>Latest Activity</h2>
-              <Table
-                columns={columns}
-                dataSource={studentLastActivity}
-                className={Styles.table}
-                pagination={false}
-              />
-            </div>
-          </div>
-          {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRight}`}>
+          <div className={`${Styles.whiteBox} ${Styles.whiteBoxRight}`}>
             <div className={Styles.withPadding}>
               <h2>Today's Dynamite Session</h2>
 
@@ -323,9 +307,21 @@ export default function Overview({
                 <p className={Styles.sessionTime}>09:00 - 10:00 AM</p>
               </div>
             </div>
-          </div>*/}
+          </div>
         </div>
-        <div className={Styles.BottomOverview}></div>
+        <div className={Styles.BottomOverview}>
+          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+            <div className={Styles.withPaddingBottom}>
+              <h2>Latest Activity</h2>
+              <Table
+                columns={columns}
+                dataSource={studentLastActivity}
+                className={Styles.table}
+                pagination={false}
+              />
+            </div>
+          </div>
+        </div>
         <Context.Provider
           value={{ name: student.firstName + " " + student.lastName }}
         >

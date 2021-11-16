@@ -5,12 +5,28 @@
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  @include respond-to-max(xs-max) {
+  align-items: stretch;
+  @include respond-to-max(large) {
     flex-direction: column;
     align-items: center;
+    margin-bottom: 5rem;
   }
 }
 .LeftOverview {
+  float: left;
+  display: flex;
+  width: 50%;
+  align-items: stretch;
+  justify-content: flex-start;
+  /* align-items: center; */
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  @include respond-to-max(large) {
+    width: 100%;
+  }
+}
+.RightOverview {
   float: left;
   display: flex;
   width: 50%;
@@ -19,22 +35,8 @@
   flex-direction: column;
   align-content: center;
   flex-wrap: wrap;
-  @include respond-to-max(xs-max) {
-    width: 100%;
-  }
-}
-.RightOverview {
-  float: left;
-  display: flex;
-  width: 50%;
-  justify-content: center;
-  /* align-items: center; */
-  flex-direction: column;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  @include respond-to-max(xs-max) {
-    width: 100%;
-    align-content: center;
+  @include respond-to-max(large) {
+    width: 95%;
   }
 }
 
@@ -80,8 +82,7 @@
 }
 
 .bottomWhiteBox {
-  width: 95% !important;
-
+  min-width: 95%;
   h1 {
     text-align: left;
   }
@@ -89,7 +90,7 @@
 .withPadding {
   padding-left: 2rem;
   padding-right: 2rem;
-  height: 200px;
+  min-height: 20rem;
   display: flex;
   flex-direction: column;
   h3 {
@@ -151,7 +152,7 @@
 .badgesSubTitles {
   float: left;
   display: flex;
-  @include respond-to-max(xs-max) {
+  @include respond-to-max(large) {
     float: none;
     display: flex;
     width: 100%;
@@ -172,7 +173,7 @@
 
 .greyBox {
   margin-top: 1rem;
-  @include respond-to-max(xs-max) {
+  @include respond-to-max(large) {
     margin-top: 1.5rem;
   }
   background: #aaa;
@@ -203,7 +204,7 @@
   display: inline-block;
   height: 4.4em;
   margin-right: 2rem;
-  @include respond-to-max(xs-max) {
+  @include respond-to-max(large) {
     margin-right: 1rem;
   }
 }
@@ -217,7 +218,7 @@
 }
 
 .withPaddingBottom {
-  height: 250px;
+  min-height: 20rem;
   display: flex;
   flex-direction: column;
   h3 {
