@@ -21,7 +21,7 @@ export default function About({ student, meetingPreference }) {
             </h3>
             <h3>
               <strong>Current Level: </strong>
-              {student.attributes.level}
+              {student?.level}
             </h3>
 
             {student?.expectedStartDate ? (

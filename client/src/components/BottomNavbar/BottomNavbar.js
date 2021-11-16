@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable no-unreachable */
 import React, { useState, useEffect } from "react";
 import { Menu } from "antd";
 import Styles from "./BottomNavbar.module.scss";
@@ -21,7 +24,8 @@ const BottomNavBar = ({ pathname }) => {
       case "/about":
         setkey("2");
         break;
-      case "/mentor":
+        {
+          /*case "/mentor":
         setkey("3");
         break;
       case "/dynamite-sessions":
@@ -29,7 +33,8 @@ const BottomNavBar = ({ pathname }) => {
         break;
       case "/requests":
         setkey("5");
-        break;
+          break;*/
+        }
       default:
         setkey("1");
         break;
@@ -41,12 +46,12 @@ const BottomNavBar = ({ pathname }) => {
     <div className={Styles.bottomNav}>
       <Menu theme="dark" selectedKeys={[key]} mode="horizontal">
         <Menu.Item key="1" className={Styles.bnTab} icon={<PieChartOutlined />}>
-          <Link to="/" />
+          <Link to="/">Overview</Link>
         </Menu.Item>
         <Menu.Item key="2" className={Styles.bnTab} icon={<UserOutlined />}>
-          <Link to="/about" />
+          <Link to="/about">About</Link>
         </Menu.Item>
-        <Menu.Item key="3" className={Styles.bnTab} icon={<TeamOutlined />}>
+        {/*<Menu.Item key="3" className={Styles.bnTab} icon={<TeamOutlined />}>
           <Link to="/mentor" />
         </Menu.Item>
         <Menu.Item key="4" className={Styles.bnTab} icon={<DesktopOutlined />}>
@@ -54,7 +59,7 @@ const BottomNavBar = ({ pathname }) => {
         </Menu.Item>
         <Menu.Item key="5" className={Styles.bnTab} icon={<FileOutlined />}>
           <Link to="/requests" />
-        </Menu.Item>
+        </Menu.Item>*/}
       </Menu>
     </div>
   );

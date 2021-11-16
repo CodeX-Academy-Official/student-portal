@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import logo from "../../img/logoIcon.png";
@@ -28,7 +29,7 @@ function SideBar(props) {
       case "/about":
         setkey("2");
         break;
-      case "/mentor":
+      /*case "/mentor":
         setkey("3");
         break;
       case "/dynamite-sessions":
@@ -36,7 +37,7 @@ function SideBar(props) {
         break;
       case "/requests":
         setkey("5");
-        break;
+        break;*/
       default:
         setkey("1");
         break;
@@ -66,7 +67,7 @@ function SideBar(props) {
           About
           <Link to="/about" />
         </Menu.Item>
-        <Menu.Item key="3" icon={<TeamOutlined />}>
+        {/*<Menu.Item key="3" icon={<TeamOutlined />}>
           Mentor
           <Link to="/mentor" />
         </Menu.Item>
@@ -77,7 +78,7 @@ function SideBar(props) {
         <Menu.Item key="5" icon={<FileOutlined />}>
           Requests
           <Link to="/requests" />
-        </Menu.Item>
+        </Menu.Item>*/}
       </Menu>
     </Sider>
   );
