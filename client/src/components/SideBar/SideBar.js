@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import logo from "../../img/logoIcon.png";
