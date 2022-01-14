@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import React, { useContext, useState, useEffect } from "react";
+import { auth } from "../firebase";
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -22,6 +22,15 @@ export function AuthProvider({ children }) {
     return auth.signOut();
   }
 
+  function forgotPassword(email) {
+    return auth.sendPasswordResetEmail(email, {
+      url: `https://portal.codex.academy/log-in`,
+    });
+  }
+  function resetPassword(oobCode, newPassword) {
+    return auth.confirmPasswordReset(oobCode, newPassword);
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -36,6 +45,8 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
+    forgotPassword,
+    resetPassword,
   };
 
   return (

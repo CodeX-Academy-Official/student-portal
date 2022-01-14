@@ -151,9 +151,30 @@ const getStudentLastThreeWeekActivity = (request) => {
   });
 };
 
+const getStudentLeaveOfAbscences = (request) => {
+  const id = request.params.id;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select *
+      FROM absence as e
+      WHERE e."studentId"='${id}'
+      ORDER BY e.id DESC
+      LIMIT 1`,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
   getStudentInfo,
   getStudentActivity,
   getStudentLastActivity,
   getStudentLastThreeWeekActivity,
+  getStudentLeaveOfAbscences,
 };

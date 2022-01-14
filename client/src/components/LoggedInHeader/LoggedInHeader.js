@@ -16,7 +16,6 @@ function LoggedInHeader(props) {
   const handleVisible = (visible) => {
     visible ? setshow(true) : setshow(false);
   };
-  console.log("LoggedInHeader - Render lifecycle");
   const handleLougout = async () => {
     seterror("");
     try {

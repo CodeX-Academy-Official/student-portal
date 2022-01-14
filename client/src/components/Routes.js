@@ -17,6 +17,7 @@ function Routes(props) {
           studentActivity={props.studentActivity}
           studentLastActivity={props.studentLastActivity}
           studentLastThreeWeekActivity={props.studentLastThreeWeekActivity}
+          studentLastLeaveOfAbscence={props.studentLastLeaveOfAbscence}
           component={Overview}
         />
         <PrivateRoute
