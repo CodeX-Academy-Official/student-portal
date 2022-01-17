@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
-import Routes from "../Routes";
+import Routes from "../Routes_Navigation";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 
 import { BrowserRouter, Route } from "react-router-dom";
@@ -16,12 +16,12 @@ function Layouts() {
   const [studentLastActivity, setStudentLastActivity] = useState(null);
   const [studentLastThreeWeekActivity, setStudentLastThreeWeekActivity] =
     useState(null);
+  const [studentLastLeaveOfAbscence, setStudentLastLeaveOfAbscence] =
+    useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("Layouts - Render lifecycle");
   useEffect(() => {
-    console.log("mounted");
     async function getStudent() {
       try {
         setIsLoading(true);
@@ -36,6 +36,7 @@ function Layouts() {
               getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
             );
             setStudent(data);
+            getStudentLastLeaveofAbscence(data[0].id);
           });
       } catch (error) {
         console.log(error);
@@ -99,11 +100,29 @@ function Layouts() {
       setIsLoading(false);
       return;
     }
+
+    async function getStudentLastLeaveofAbscence(id) {
+      try {
+        setIsLoading(true);
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentLastLeaveOfAbscence(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    }
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
     getStudentLast3weekActivity();
-    return () => console.log("unmounting...");
   }, [currentUser.email]);
 
   function getMeetingTimeP(text, text2) {
@@ -158,6 +177,7 @@ function Layouts() {
                       studentLastThreeWeekActivity={
                         studentLastThreeWeekActivity
                       }
+                      studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
                     />
                   </Content>
                 </Layout>

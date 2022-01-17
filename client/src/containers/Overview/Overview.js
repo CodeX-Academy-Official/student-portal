@@ -29,6 +29,7 @@ export default function Overview({
   meetingPreference,
   studentLastActivity,
   studentLastThreeWeekActivity,
+  studentLastLeaveOfAbscence,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setisLoading] = useState(false);
@@ -48,18 +49,11 @@ export default function Overview({
     });
   };
 
-  console.log("Overview - Render lifecycle");
-  console.log(studentActivity);
-  console.log(studentLastActivity);
-  console.log(studentLastThreeWeekActivity);
-  console.log("student", student);
-
   const targetCertificationName = student?.targetCertification;
 
   const getAttributes = () => {
     const attributes = student?.attributes;
     try {
-      console.log(attributes);
       return JSON.parse(attributes);
     } catch (e) {
       return attributes;

@@ -1,31 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Input, Alert } from "antd";
-import Styles from "./LogIn.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Form, Input, Alert, Divider } from "antd";
+import { useNavigate } from "react-router-dom";
+import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
-import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
-export default function LogIn() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+import Styles from "./ForgotPassword.module.scss";
+function ForgotPassword() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [signInError, setSignUpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { forgotPassword } = useAuth();
+  const [forgetPasswordError, setforgetPasswordError] = useState("");
+  const emailRef = useRef();
   async function handleSubmit() {
     try {
       setIsLoading(true);
-      await login(
-        emailRef.current.state.value,
-        passwordRef.current.state.value
-      );
-      navigate("/", { replace: true });
+      await forgotPassword(emailRef.current.state.value);
     } catch (error) {
-      setSignUpError("Username and/or password are incorrect.");
+      setforgetPasswordError("Email is not being used by the application");
+      console.log(error);
     }
     setIsLoading(false);
   }
-
   useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
@@ -34,22 +29,17 @@ export default function LogIn() {
     }
     return () => console.log("unmounting...");
   }, [isLoading]);
-
   return (
     <div className={Styles.LogIn}>
       <div className={Styles.whiteBox}>
         <div className={Styles.withPadding}>
           <div className={Styles.heading}>
             <img src={logo} alt="Linkerease Logo" className={Styles.logo} />
-            <h1>Log In to Student Portal</h1>
-            <h4 className={Styles.textGrey}>
-              Enter your email and password below
-            </h4>
-            {/*<p>Sign in with your account to see your information.</p>*/}
+            <h1>Forgot password</h1>
           </div>
-          {signInError && (
+          {forgetPasswordError && (
             <Alert
-              message={signInError}
+              message={forgetPasswordError}
               type="error"
               showIcon
               className={Styles.Alert}
@@ -60,8 +50,6 @@ export default function LogIn() {
             className={Styles.formWrapper}
             initialValues={{
               email: "",
-              password: "",
-              confirmPassword: "",
               remember: false,
             }}
             onFinish={handleSubmit}
@@ -88,52 +76,26 @@ export default function LogIn() {
             >
               <Input allowClear ref={emailRef} placeholder="Email address" />
             </Form.Item>
-            <label
-              className={`${Styles.passLabel} ${Styles.textGrey} formLabel`}
-              htmlFor="password"
-            >
-              Password
-            </label>
-
-            <Form.Item
-              validateTrigger="onBlur"
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input.Password
-                allowClear
-                ref={passwordRef}
-                placeholder="Password"
-              />
-            </Form.Item>
 
             <Button
-              className={`${Styles.loginBtn} Btn`}
+              className={`${Styles.forgotPassBtn}`}
               htmlType="submit"
               type="primary"
               shape="round"
               data-testid="submit"
-              // disabled={!isValid || !values.email || !values.password}
             >
-              Log In
+              Submit
             </Button>
           </Form>
-          {/* <div className={Styles.socialMediaContainer}>
-            {socialIcons.map((icon, index) => (
-              <Icon key={`social-icon-${index}`} component={icon} />
-            ))}
-          </div> */}
-        </div>
-
-        <div className={Styles.footer}>
-          <Link className={Styles.forgotPassword} to="/forgot-password">
-            Forgot Password?
-          </Link>
-          <p>
-            Don't have an account? <Link to="/sign-up">Sign up</Link>
-          </p>
+          <Divider>OR</Divider>
+          <Button
+            className={`${Styles.loginBtn}`}
+            type="primary"
+            shape="round"
+            onClick={() => navigate("/log-in", { replace: true })}
+          >
+            Login
+          </Button>
         </div>
       </div>
       <span className={Styles.spinnerContainer}>
@@ -142,3 +104,5 @@ export default function LogIn() {
     </div>
   );
 }
+
+export default ForgotPassword;

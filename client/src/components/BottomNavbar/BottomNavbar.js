@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 const BottomNavBar = ({ pathname }) => {
   const [key, setkey] = useState("");
   useEffect(() => {
-    console.log("mounted sidebar:", pathname);
     switch (pathname) {
       case "/":
         setkey("1");
@@ -39,8 +38,6 @@ const BottomNavBar = ({ pathname }) => {
         setkey("1");
         break;
     }
-
-    return () => console.log("unmounting...");
   }, [pathname]);
   return (
     <div className={Styles.bottomNav}>

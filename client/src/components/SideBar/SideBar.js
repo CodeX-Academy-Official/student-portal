@@ -16,12 +16,10 @@ function SideBar(props) {
   const [collapsed, setcollapsed] = useState(false);
   const [key, setkey] = useState("");
   const onCollapse = (collapsed) => {
-    console.log(collapsed);
     setcollapsed(collapsed);
   };
 
   useEffect(() => {
-    console.log("mounted sidebar:", props.location.pathname);
     switch (props.location.pathname) {
       case "/":
         setkey("1");
@@ -42,8 +40,6 @@ function SideBar(props) {
         setkey("1");
         break;
     }
-
-    return () => console.log("unmounting...");
   }, [props.location.pathname]);
   return (
     <Sider
