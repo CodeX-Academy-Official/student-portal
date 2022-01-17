@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Input, Alert } from "antd";
 import Styles from "./LogIn.module.scss";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 export default function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [signInError, setSignUpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,7 @@ export default function LogIn() {
         emailRef.current.state.value,
         passwordRef.current.state.value
       );
-      history.push("/");
+      navigate("/", { replace: true });
     } catch (error) {
       setSignUpError("Username and/or password are incorrect.");
     }

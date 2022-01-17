@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Input, Alert, Divider } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
 import Styles from "./ForgotPassword.module.scss";
 function ForgotPassword() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { forgotPassword } = useAuth();
   const [forgetPasswordError, setforgetPasswordError] = useState("");
@@ -92,7 +92,7 @@ function ForgotPassword() {
             className={`${Styles.loginBtn}`}
             type="primary"
             shape="round"
-            onClick={() => history.push("/log-in")}
+            onClick={() => navigate("/log-in", { replace: true })}
           >
             Login
           </Button>

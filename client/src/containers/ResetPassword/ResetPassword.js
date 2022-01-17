@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Input, Alert, Divider } from "antd";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
@@ -11,7 +11,7 @@ function useQuery() {
 }
 
 function ResetPassword() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const query = useQuery();
   const { resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ function ResetPassword() {
         query.get("oobCode"),
         passwordRef.current.state.value
       );
-      history.push("/log-in");
+      navigate("/log-in", { replace: true });
     } catch (error) {
       setResetPasswordError("Email is not being used by the application");
     }
@@ -102,7 +102,7 @@ function ResetPassword() {
             className={`${Styles.loginBtn}`}
             type="primary"
             shape="round"
-            onClick={() => history.push("/log-in")}
+            onClick={() => navigate("/log-in", { replace: true })}
           >
             Login
           </Button>

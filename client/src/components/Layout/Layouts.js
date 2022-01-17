@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
-import Routes from "../Routes";
+import Routes from "../Routes_Navigation";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 
 import { BrowserRouter, Route } from "react-router-dom";

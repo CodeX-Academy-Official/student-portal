@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import Styles from "./SignUp.module.scss";
 import { Form, Input, Button, Alert } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../img/logo.png";
 import { useAuth } from "../../contexts/AuthContext";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { signup } = useAuth();
   const [signUpError, setSignUpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ export default function SignUp() {
               passwordRef.current.state.value
             )
               .then(() => {
-                history.push("/");
+                navigate("/", { replace: true });
               })
               .catch(() => {
                 setSignUpError("Email is already used");

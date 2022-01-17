@@ -4,7 +4,7 @@ import Styles from "./LoggedInHeader.module.scss";
 import { Layout, Row, Col, Popover, Button, Alert } from "antd";
 import BottomNavBar from "../BottomNavbar/BottomNavbar";
 import { LogoutOutlined, CaretDownOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const { Header } = Layout;
 
 function LoggedInHeader(props) {
@@ -12,7 +12,7 @@ function LoggedInHeader(props) {
   const [show, setshow] = useState(false);
   const [title, setTitle] = useState("");
   const isMounted = useRef(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleVisible = (visible) => {
     visible ? setshow(true) : setshow(false);
   };
@@ -20,7 +20,7 @@ function LoggedInHeader(props) {
     seterror("");
     try {
       await props.logout();
-      history.push("/log-in");
+      navigate("/log-in", { replace: true });
     } catch (error) {
       seterror("failed to logout");
     }
