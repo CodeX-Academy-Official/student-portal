@@ -4,19 +4,20 @@ import LogIn from "./containers/LogIn/LogIn";
 import ResetPassword from "./containers/ResetPassword/ResetPassword";
 import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import "antd/dist/antd.min.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./PrivateRoute";
 import Layouts from "./components/Layout/Layouts";
+import NoMatch from "./containers/NoMatch/NoMatch";
 function App() {
   const app = (
-    <Router>
+    <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route
           exact
-          path="/"
+          path="*"
           element={
             <PrivateRoute>
               <Layouts />
@@ -24,7 +25,7 @@ function App() {
           }
         />
         <Route
-          path="/about"
+          path="/about/*"
           element={
             <PrivateRoute>
               <Layouts />
@@ -59,8 +60,17 @@ function App() {
         <Route path="/log-in" element={<LogIn />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
+        <Route
+          exact
+          path="*"
+          element={
+            <PrivateRoute>
+              <NoMatch />
+            </PrivateRoute>
+          }
+        />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
   return (
     <AuthProvider>

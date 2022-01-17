@@ -4,10 +4,10 @@ import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
-import Routes from "../Routes_Navigation";
+import Routes_Navigation from "../Routes_Navigation";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 
-import { BrowserRouter, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 const { Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
@@ -20,6 +20,7 @@ function Layouts() {
     useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     async function getStudent() {
@@ -155,42 +156,35 @@ function Layouts() {
   }
 
   return (
-    <BrowserRouter>
-      <Route
-        render={(props) => (
-          <Layout style={{ minHeight: "100vh" }} hasSider={true}>
-            <SideBar {...props} />
-            {student && student.map ? (
-              student.map((student) => (
-                <Layout key={student.id} className={Styles.layout}>
-                  <LoggedInHeader
-                    logout={logout}
-                    student={student}
-                    {...props}
-                  />
-                  <Content className={Styles.content}>
-                    <Routes
-                      student={student}
-                      meetingPreference={meetingPreference}
-                      studentActivity={studentActivity}
-                      studentLastActivity={studentLastActivity}
-                      studentLastThreeWeekActivity={
-                        studentLastThreeWeekActivity
-                      }
-                      studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
-                    />
-                  </Content>
-                </Layout>
-              ))
-            ) : (
-              <span className={Styles.spinnerContainer}>
-                <CircularSpinner isShowing={isLoading} />
-              </span>
-            )}
+    <Layout style={{ minHeight: "100vh" }} hasSider={true}>
+      <SideBar location={location} />
+      {student && student.map ? (
+        student.map((student) => (
+          <Layout key={student.id} className={Styles.layout}>
+            <LoggedInHeader
+              logout={logout}
+              student={student}
+              location={location}
+            />
+            <Content className={Styles.content}>
+              <Routes_Navigation
+                student={student}
+                meetingPreference={meetingPreference}
+                studentActivity={studentActivity}
+                studentLastActivity={studentLastActivity}
+                studentLastThreeWeekActivity={studentLastThreeWeekActivity}
+                studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
+                location={location}
+              />
+            </Content>
           </Layout>
-        )}
-      ></Route>
-    </BrowserRouter>
+        ))
+      ) : (
+        <span className={Styles.spinnerContainer}>
+          <CircularSpinner isShowing={isLoading} />
+        </span>
+      )}
+    </Layout>
   );
 }
 
