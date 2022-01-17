@@ -23,9 +23,7 @@ export function AuthProvider({ children }) {
   }
 
   function forgotPassword(email) {
-    return auth.sendPasswordResetEmail(email, {
-      url: `https://portal.codex.academy/log-in`,
-    });
+    return auth.sendPasswordResetEmail(email);
   }
   function resetPassword(oobCode, newPassword) {
     return auth.confirmPasswordReset(oobCode, newPassword);
