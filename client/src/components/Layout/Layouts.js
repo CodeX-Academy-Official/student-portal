@@ -4,10 +4,10 @@ import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
-import Routes_Navigation from "../Routes_Navigation";
+import RoutesNavigation from "../RoutesNavigation";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const { Content } = Layout;
 function Layouts() {
   const { currentUser, logout } = useAuth();
@@ -167,7 +167,7 @@ function Layouts() {
               location={location}
             />
             <Content className={Styles.content}>
-              <Routes_Navigation
+              <RoutesNavigation
                 student={student}
                 meetingPreference={meetingPreference}
                 studentActivity={studentActivity}

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import About from "../containers/About/About";
 import Overview from "../containers/Overview/Overview";
 import Mentor from "../containers/Mentor/Mentor";
 import DynamiteSessions from "../containers/DynamiteSessions/DynamiteSessions";
 import Requests from "../containers/Requests/Requests";
 import NoMatch from "../containers/NoMatch/NoMatch";
-function Routes_Navigation(props) {
+function RoutesNavigation(props) {
   switch (props.location.pathname) {
     case "/":
       return (
@@ -35,4 +35,4 @@ function Routes_Navigation(props) {
   }
 }
 
-export default Routes_Navigation;
+export default RoutesNavigation;
