@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Input, Alert, Divider } from "antd";
+import { Button, Form, Input, Alert, Divider, notification } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
 import Styles from "./ResetPassword.module.scss";
+import { SmileOutlined } from "@ant-design/icons";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -17,7 +18,13 @@ function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordError, setResetPasswordError] = useState("");
   const passwordRef = useRef();
-  console.log(query.get("mode"), query.get("oobCode"));
+  const openNotification = () => {
+    notification.open({
+      message: "Password Changed",
+      description: "Password has been changed, you can login now.",
+      icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+    });
+  };
   async function handleSubmit() {
     try {
       setIsLoading(true);
@@ -26,6 +33,7 @@ function ResetPassword() {
         passwordRef.current.state.value
       );
       navigate("/log-in", { replace: true });
+      openNotification();
     } catch (error) {
       setResetPasswordError("Email is not being used by the application");
     }
