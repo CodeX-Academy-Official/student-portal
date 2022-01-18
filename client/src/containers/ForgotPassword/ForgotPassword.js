@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Input, Alert, Divider } from "antd";
+import { Button, Form, Input, Alert, Divider, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
+import { SmileOutlined } from "@ant-design/icons";
 import Styles from "./ForgotPassword.module.scss";
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -11,10 +12,18 @@ function ForgotPassword() {
   const { forgotPassword } = useAuth();
   const [forgetPasswordError, setforgetPasswordError] = useState("");
   const emailRef = useRef();
+  const openNotification = (email) => {
+    notification.open({
+      message: "Email Sent",
+      description: `An email is sent to ${email} for password reset instructions.`,
+      icon: <SmileOutlined style={{ color: "#108ee9" }} />,
+    });
+  };
   async function handleSubmit() {
     try {
       setIsLoading(true);
       await forgotPassword(emailRef.current.state.value);
+      openNotification(emailRef.current.state.value);
     } catch (error) {
       setforgetPasswordError("Email is not being used by the application");
       console.log(error);
