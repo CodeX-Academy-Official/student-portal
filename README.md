@@ -1,6 +1,6 @@
 # Student Portal using React, NodeJS, Express, PostgreSQL, Sass and Antd
 
-This Website is deployed on firebase hosting (https://studentpanel-development.web.app/).
+This Website is deployed on firebase hosting (https://portal.codex.academy/).
 
 # Client FrontEnd deployed in Firebase Hosting
 
@@ -15,4 +15,4 @@ NodeJS
 Express
 Postgresql
 
-to get the data from the api (https://codex-student-portal-server.herokuapp.com).
+to get the data from the database (https://codex-student-portal-server.herokuapp.com).
