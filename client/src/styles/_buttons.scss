@@ -18,9 +18,9 @@
   padding: 0.4rem 1.5rem;
   font-size: 1.4rem;
   border-radius: 2px;
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-  border-color: #d9d9d9;
+  color: $white-color;
+  background: $secondary-color;
+  border-color: $secondary-color;
   border-radius: 32px;
   &:active {
     outline: none;

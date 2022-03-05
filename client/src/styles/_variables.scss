@@ -11,12 +11,21 @@ $status-color: #aacc03;
 $main-theme-bg: #fbf7f7;
 $secondary-theme-bg: #fff;
 $main-text-color: #000;
-
 $default-color: #272727;
 $default_hover-color: #1f1e1e;
-
 $primary-btn-color: #ff9b36;
 $primary-btn-color_hover: #f5902a;
+
+$Gold: #fdbf00;
+$Lime_Green: #46e96d;
+$Azure_Radiance: #00adff;
+$Purple_Black: #424242;
+$Purple_Gray: #686573;
+$Rust: #e2804b;
+$Purple: #8277e3;
+$Light_Gray: #d9d9d9;
+$Paper: #f3f3f3;
+$white-color: #fff;
 
 $font-openSans: "Open Sans", sans-serif;
 $font-segoe: "Segoe UI", "Open Sans", sans-serif;
@@ -60,4 +69,8 @@ $breakpoints: (
   lg-min: 1200px,
   mobile-map-max: 730px,
   image-max: 1920px,
+  custom-mentor: 875px,
 );
+
+//font size
+$default-font-size: 1.6rem;

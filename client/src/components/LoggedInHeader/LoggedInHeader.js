@@ -79,7 +79,7 @@ function LoggedInHeader(props) {
                 <Row>
                   <Col xs={23} sm={18} lg={16} xl={14}>
                     <div className={Styles.imgContainer}>
-                      <img src={smallImage} alt="Linkerease Logo" />
+                      <img src={smallImage} alt="CodeXAcademy Logo" />
                     </div>
                   </Col>
                   <Col xs={1} sm={1} lg={1} xl={1}>

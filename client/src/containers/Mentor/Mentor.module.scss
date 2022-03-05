@@ -1,0 +1,104 @@
+@import "../../styles/variables";
+@import "../../styles/typography";
+@import "../../styles/mixins";
+@import "../../styles/buttons";
+
+.section_Mentor {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.current_mentor {
+  display: flex;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  flex-direction: column;
+  align-items: center;
+  @include respond-to-max(sm-md-min) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+.heading_secundary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+}
+
+.heading_tertiary {
+  font-size: $default-font-size;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mentor_box {
+  background-color: $white-color;
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 5px;
+  height: 350px;
+  box-shadow: 0 1.5rem 4rem rgba($main-text-color, 0.15);
+  transition: transform 0.3s;
+  &:not(:last-child) {
+    margin-bottom: 8rem;
+  }
+
+  &:hover {
+    transform: translateY(-1.5rem) scale(1.03);
+  }
+}
+
+.previous_mentors {
+  display: flex;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  margin-bottom: 5.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
+  @include respond-to-max(sm-md-min) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+.imgContainer {
+  margin: 0 auto;
+  width: 10.5rem;
+  height: 10.5rem;
+  border-radius: 50%;
+  background-color: #f3f6f8;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 2rem;
+
+  img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-border-radius: 99em;
+    border: 2px solid rgb(255, 255, 255);
+  }
+}
+
+.loginBtn {
+  margin: unset !important;
+  margin-top: 2.4rem !important;
+  width: 100%;
+}
