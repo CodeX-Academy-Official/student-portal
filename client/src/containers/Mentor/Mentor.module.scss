@@ -43,7 +43,7 @@
   text-align: center;
   border-radius: 5px;
   height: 350px;
-  box-shadow: 0 1.5rem 4rem rgba($main-text-color, 0.15);
+  box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.12);
   transition: transform 0.3s;
   &:not(:last-child) {
     margin-bottom: 8rem;
@@ -97,8 +97,14 @@
   }
 }
 
-.loginBtn {
-  margin: unset !important;
-  margin-top: 2.4rem !important;
+.mentorChangeBtn {
+  margin-top: 2.4rem;
   width: 100%;
+}
+
+.card_details {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
 }

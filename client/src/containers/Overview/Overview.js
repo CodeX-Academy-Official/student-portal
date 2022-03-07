@@ -152,8 +152,8 @@ export default function Overview({
       <div className={Styles.Overview}>
         <div className={Styles.LeftOverview}>
           <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
+            <h2>Timeline:</h2>
             <div className={Styles.withPadding}>
-              <h2>Timeline:</h2>
               <p>
                 <strong>Start Date ({getStartDate()})</strong>
               </p>
@@ -171,8 +171,8 @@ export default function Overview({
             </div>
           </div>
           <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
+            <h2>Badge Progress:</h2>
             <div className={Styles.withPadding}>
-              <h2>Badge Progress:</h2>
               <p>
                 <strong>Current ({currentBadges})</strong>
               </p>
@@ -188,9 +188,9 @@ export default function Overview({
           <div
             className={`${Styles.whiteBox} ${Styles.whiteBoxLeft} ${Styles.whiteBoxLeftButtom}`}
           >
+            <h2>Last Badge Awarded:</h2>
             <div className={Styles.withPadding}>
               <div className={Styles.progressDiv}>
-                <h2>Last Badge Awarded:</h2>
                 <Progress
                   strokeColor={{
                     "0%": "#52c41a",
@@ -207,8 +207,8 @@ export default function Overview({
         </div>
         <div className={Styles.RightOverview}>
           <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+            <h2>Pace</h2>
             <div className={Styles.withPadding}>
-              <h2>Pace</h2>
               <Statistic
                 valueStyle={{ lineHeight: 2.2 }}
                 title="Badges Awarded per week"
@@ -271,8 +271,8 @@ export default function Overview({
             </div>*/}
 
           <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+            <h2>Pause Progress:</h2>
             <div className={Styles.withPadding}>
-              <h2>Pause Progress:</h2>
               <p>
                 <strong>Start Date ()</strong>
               </p>
@@ -284,8 +284,8 @@ export default function Overview({
           </div>
 
           <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+            <h2>Latest Activity</h2>
             <div className={Styles.withPaddingBottom}>
-              <h2>Latest Activity</h2>
               <Table
                 columns={columns}
                 dataSource={studentLastActivity}
