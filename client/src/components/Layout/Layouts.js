@@ -18,6 +18,7 @@ function Layouts() {
     useState(null);
   const [studentLastLeaveOfAbscence, setStudentLastLeaveOfAbscence] =
     useState(null);
+  const [studentEnrollments, setStudentEnrollments] = useState(null);
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
@@ -26,9 +27,7 @@ function Layouts() {
     async function getStudent() {
       try {
         setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
-        )
+        await fetch(`http://localhost:3001/student/info/${currentUser.email}`)
           .then((response) => {
             return response.json();
           })
@@ -38,6 +37,7 @@ function Layouts() {
             );
             setStudent(data);
             getStudentLastLeaveofAbscence(data[0].id);
+            getStudentEnrollments(data[0].id);
           });
       } catch (error) {
         console.log(error);
@@ -49,7 +49,7 @@ function Layouts() {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/activity/${currentUser.email}`
+          `http://localhost:3001/student/activity/${currentUser.email}`
         )
           .then((response) => {
             return response.json();
@@ -68,7 +68,7 @@ function Layouts() {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/lastactivity/${currentUser.email}`
+          `http://localhost:3001/student/lastactivity/${currentUser.email}`
         )
           .then((response) => {
             return response.json();
@@ -87,7 +87,7 @@ function Layouts() {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/lastactivities/3weeks/${currentUser.email}`
+          `http://localhost:3001/student/lastactivities/3weeks/${currentUser.email}`
         )
           .then((response) => {
             return response.json();
@@ -105,9 +105,7 @@ function Layouts() {
     async function getStudentLastLeaveofAbscence(id) {
       try {
         setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
-        )
+        await fetch(`http://localhost:3001/student/leaveofabcenses/${id}`)
           .then((response) => {
             return response.json();
           })
@@ -120,6 +118,24 @@ function Layouts() {
       setIsLoading(false);
       return;
     }
+
+    async function getStudentEnrollments(id) {
+      try {
+        setIsLoading(true);
+        await fetch(`http://localhost:3001/student/enrollments/${id}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentEnrollments(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    }
+
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
@@ -174,6 +190,7 @@ function Layouts() {
                 studentLastActivity={studentLastActivity}
                 studentLastThreeWeekActivity={studentLastThreeWeekActivity}
                 studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
+                studentEnrollments={studentEnrollments}
                 location={location}
               />
             </Content>

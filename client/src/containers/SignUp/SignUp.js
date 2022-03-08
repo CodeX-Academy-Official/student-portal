@@ -17,7 +17,7 @@ export default function SignUp() {
     try {
       setIsLoading(true);
       await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/info/${emailRef.current.state.value}`
+        `http://localhost:3001/student/info/${emailRef.current.state.value}`
       )
         .then((response) => {
           return response.json();

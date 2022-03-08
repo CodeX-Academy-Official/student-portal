@@ -75,6 +75,28 @@ app.get("/student/leaveofabcenses/:id", (req, res) => {
     });
 });
 
+app.get("/student/enrollments/:id", (req, res) => {
+  student_model
+    .getStudentEnrollments(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/student/mentor/:id", (req, res) => {
+  student_model
+    .getMentorInformation(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
