@@ -18,10 +18,12 @@ function Layouts() {
     useState(null);
   const [studentLastLeaveOfAbscence, setStudentLastLeaveOfAbscence] =
     useState(null);
-  const [studentEnrollments, setStudentEnrollments] = useState([]);
+  // const [studentEnrollments, setStudentEnrollments] = useState([]);
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [currentMentor, setCurrentMentor] = useState({});
   const [mentorsInformation, setMentorsInformation] = useState([]);
+
+  const [mentorsProPic, setMentorsProPic] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
@@ -129,7 +131,11 @@ function Layouts() {
             return response.json();
           })
           .then((data) => {
-            setStudentEnrollments(data);
+            // setStudentEnrollments(data);
+            data = data.filter(
+              (value, index, self) =>
+                index === self.findIndex((t) => t.mentorId === value.mentorId)
+            );
             setCurrentMentor(data[0]);
             for (const enrollment of data) {
               getMentorInformation(enrollment.mentorId);
@@ -150,9 +156,32 @@ function Layouts() {
             return response.json();
           })
           .then((data) => {
-            setMentorsInformation((mentorsInformation) => [
-              ...mentorsInformation,
-              data[0],
+            if (data.length !== 0) {
+              getMentorProPic(data[0].email);
+              setMentorsInformation((mentorsInformation) => [
+                ...mentorsInformation,
+                data[0],
+              ]);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    }
+
+    async function getMentorProPic(email) {
+      try {
+        setIsLoading(true);
+        await fetch(`http://localhost:3001/student/mentor/propic/${email}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setMentorsProPic((mentorsProPic) => [
+              ...mentorsProPic,
+              data.user.profile.image_original,
             ]);
           });
       } catch (error) {
@@ -219,6 +248,7 @@ function Layouts() {
                 location={location}
                 currentMentor={currentMentor}
                 mentorsInformation={mentorsInformation}
+                mentorsProPic={mentorsProPic}
               />
             </Content>
           </Layout>

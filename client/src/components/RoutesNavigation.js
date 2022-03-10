@@ -30,6 +30,7 @@ function RoutesNavigation(props) {
           student={props.student}
           mentorsInformation={props.mentorsInformation}
           currentMentor={props.currentMentor}
+          mentorsProPic={props.mentorsProPic}
         />
       );
     case "/dynamite-sessions":

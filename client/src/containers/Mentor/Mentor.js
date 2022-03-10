@@ -6,7 +6,12 @@ import { Button, Modal, notification, Divider } from "antd";
 
 const Context = React.createContext({ name: "Default" });
 
-export default function Mentor({ student, currentMentor, mentorsInformation }) {
+export default function Mentor({
+  student,
+  currentMentor,
+  mentorsInformation,
+  mentorsProPic,
+}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setisLoading] = useState(false);
@@ -28,12 +33,16 @@ export default function Mentor({ student, currentMentor, mentorsInformation }) {
 
   const handleMentorChange = () => {
     setisLoading(true);
+    fetch(
+      `https://hooks.zapier.com/hooks/catch/6492165/bbl4f4q/?studentId=${student.id}`,
+      {
+        method: "POST",
+      }
+    );
     openNotification("Mentor Changed", "topRight");
     setDisable(true);
     setModalVisible(false);
   };
-
-  console.log(mentorsInformation);
   return (
     <section className={Styles.section_Mentor}>
       <Modal
@@ -71,7 +80,10 @@ export default function Mentor({ student, currentMentor, mentorsInformation }) {
           <div className={Styles.card_heading}>
             <div className={Styles.card_picture}>
               <div className={Styles.imgContainer}>
-                <img src={smallImage} alt="Mentor ProPic" />
+                <img
+                  src={mentorsProPic[0] === "" ? smallImage : mentorsProPic[0]}
+                  alt="Mentor ProPic"
+                />
               </div>
               <h3
                 className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
@@ -81,12 +93,39 @@ export default function Mentor({ student, currentMentor, mentorsInformation }) {
             </div>
           </div>
           <div className={Styles.card_details}>
-            <p className={Styles.mentor_box__text}>
-              Developer with{" "}
-              {mentorsInformation?.[0]?.attributes?.experienceYears} years of
-              experience based in {mentorsInformation?.[0]?.attributes?.country}
-              .
-            </p>
+            {mentorsInformation?.[0]?.attributes?.experienceYears !== null &&
+            mentorsInformation?.[0]?.attributes?.country !== "" ? (
+              <p className={Styles.mentor_box__text}>
+                Developer with{" "}
+                {mentorsInformation?.[0]?.attributes?.experienceYears === "1"
+                  ? mentorsInformation?.[0]?.attributes?.experienceYears +
+                    " " +
+                    "year "
+                  : mentorsInformation?.[0]?.attributes?.experienceYears +
+                    " " +
+                    "years "}
+                of experience based in{" "}
+                {mentorsInformation?.[0]?.attributes?.country}.
+              </p>
+            ) : (
+              <></>
+            )}
+            {mentorsInformation?.[0]?.attributes?.languages ? (
+              <p className={Styles.mentor_box__text}>
+                Fluent in: {mentorsInformation?.[0]?.attributes?.languages}.
+              </p>
+            ) : (
+              <></>
+            )}
+            {mentorsInformation?.[0]?.attributes?.level !== null ? (
+              <p className={Styles.mentor_box__text}>
+                I teach until level {mentorsInformation?.[0]?.attributes?.level}
+                .
+              </p>
+            ) : (
+              <></>
+            )}
+
             <Divider />
             <Button className={Styles.btn}>
               <a
@@ -114,69 +153,79 @@ export default function Mentor({ student, currentMentor, mentorsInformation }) {
         <h2 className={Styles.heading_secundary}>Previous Mentors</h2>
       </div>
       <section className={Styles.previous_mentors}>
-        <div className={Styles.mentor_box}>
-          <i className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}></i>
-          <div className={Styles.card_heading}>
-            <div className={Styles.card_picture}>
-              <div className={Styles.imgContainer}>
-                <img src={smallImage} alt="Mentor ProPic" />
+        {mentorsInformation.map((mentor, index) => {
+          if (index !== 0) {
+            return (
+              <div className={Styles.mentor_box} key={index}>
+                <i
+                  className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}
+                ></i>
+                <div className={Styles.card_heading}>
+                  <div className={Styles.card_picture}>
+                    <div className={Styles.imgContainer}>
+                      <img
+                        src={
+                          mentorsProPic[index] === ""
+                            ? smallImage
+                            : mentorsProPic[index]
+                        }
+                        alt="Mentor ProPic"
+                      />
+                    </div>
+                    <h3
+                      className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
+                    >
+                      {mentor?.firstName + " " + mentor?.lastName}
+                    </h3>
+                  </div>
+                </div>
+                <div className={Styles.card_details}>
+                  {mentor?.attributes?.experienceYears !== null &&
+                  mentor?.attributes?.country !== "" ? (
+                    <p className={Styles.mentor_box__text}>
+                      Developer with{" "}
+                      {mentor?.attributes?.experienceYears === "1"
+                        ? mentor?.attributes?.experienceYears + " year "
+                        : mentor?.attributes?.experienceYears + " years "}
+                      of experience based in {mentor?.attributes?.country}.
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+
+                  {mentor?.attributes?.languages !== "" ? (
+                    <p className={Styles.mentor_box__text}>
+                      Fluent in: {mentor?.attributes?.languages}.
+                    </p>
+                  ) : (
+                    <div></div>
+                  )}
+
+                  {mentor?.attributes?.level !== null ? (
+                    <p className={Styles.mentor_box__text}>
+                      I teach until level {mentor?.attributes?.level}.
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+
+                  <Divider />
+                  <Button className={Styles.btn}>
+                    <a
+                      href={`https://${mentor?.attributes?.resume}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      LinkedIn
+                    </a>
+                  </Button>
+                </div>
               </div>
-              <h3
-                className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
-              >
-                Jose Martinez
-              </h3>
-            </div>
-          </div>
-          <div className={Styles.card_details}>
-            <p className={Styles.mentor_box__text}>
-              Developer with 3 years of experience
-            </p>
-            <Button className={Styles.btn}>LinkedIn</Button>
-          </div>
-        </div>
-        <div className={Styles.mentor_box}>
-          <i className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}></i>
-          <div className={Styles.card_heading}>
-            <div className={Styles.card_picture}>
-              <div className={Styles.imgContainer}>
-                <img src={smallImage} alt="Mentor ProPic" />
-              </div>
-              <h3
-                className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
-              >
-                Jose Martinez
-              </h3>
-            </div>
-          </div>
-          <div className={Styles.card_details}>
-            <p className={Styles.mentor_box__text}>
-              Developer with 3 years of experience
-            </p>
-            <Button className={Styles.btn}>LinkedIn</Button>
-          </div>
-        </div>
-        <div className={Styles.mentor_box}>
-          <i className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}></i>
-          <div className={Styles.card_heading}>
-            <div className={Styles.card_picture}>
-              <div className={Styles.imgContainer}>
-                <img src={smallImage} alt="Mentor ProPic" />
-              </div>
-              <h3
-                className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
-              >
-                Jose Martinez
-              </h3>
-            </div>
-          </div>
-          <div className={Styles.card_details}>
-            <p className={Styles.mentor_box__text}>
-              Developer with 3 years of experience
-            </p>
-            <Button className={Styles.btn}>LinkedIn</Button>
-          </div>
-        </div>
+            );
+          } else {
+            return null;
+          }
+        })}
       </section>
       <Context.Provider
         value={{ name: student.firstName + " " + student.lastName }}

@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
-
+const { WebClient } = require("@slack/web-api");
 const student_model = require("./student_modal");
+
+// An access token (from your Slack app or custom integration - xoxp, xoxb)
+const token = "xoxb-876306248903-3246729607648-sLgIPEud9gUorUSEAXkoNvAQ";
+
+const web = new WebClient(token);
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -95,6 +100,19 @@ app.get("/student/mentor/:id", (req, res) => {
     .catch((error) => {
       res.status(500).send(error);
     });
+});
+
+app.get("/student/mentor/propic/:email", (req, res) => {
+  (async () => {
+    try {
+      const response = await web.users.lookupByEmail({
+        email: req.params.email,
+      });
+      res.status(200).send(response);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })();
 });
 
 app.listen(port, () => {
