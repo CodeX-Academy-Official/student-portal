@@ -5,7 +5,7 @@ const { WebClient } = require("@slack/web-api");
 const student_model = require("./student_modal");
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb)
-const token = "xoxb-876306248903-3246729607648-sLgIPEud9gUorUSEAXkoNvAQ";
+const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
