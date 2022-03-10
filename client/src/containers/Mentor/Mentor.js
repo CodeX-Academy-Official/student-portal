@@ -2,18 +2,15 @@ import React, { useState, useEffect } from "react";
 import Styles from "./Mentor.module.scss";
 import smallImage from "../../img/no-img.png";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { Button, Modal, notification } from "antd";
+import { Button, Modal, notification, Divider } from "antd";
 
 const Context = React.createContext({ name: "Default" });
 
-export default function Mentor({ student, studentEnrollments }) {
+export default function Mentor({ student, currentMentor, mentorsInformation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setisLoading] = useState(false);
   const [disable, setDisable] = React.useState(false);
-  const [currentMentor, setCurrentMentor] = useState({});
-
-  let mentorsInformation = [];
 
   const openNotification = (title, placement) => {
     api.info({
@@ -36,29 +33,7 @@ export default function Mentor({ student, studentEnrollments }) {
     setModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(studentEnrollments);
-    //setCurrentMentor(studentEnrollments !== null ? studentEnrollments[0] : "");
-    setCurrentMentor(studentEnrollments?.[0]);
-    async function getMentorInformation(id) {
-      try {
-        await fetch(`http://localhost:3001/student/mentor/${id}`)
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            mentorsInformation.push(data);
-            console.log(mentorsInformation);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      return;
-    }
-    studentEnrollments?.map((enrollment, index) =>
-      getMentorInformation(enrollment.mentorId)
-    );
-  }, [studentEnrollments]);
+  console.log(mentorsInformation);
   return (
     <section className={Styles.section_Mentor}>
       <Modal
@@ -107,11 +82,22 @@ export default function Mentor({ student, studentEnrollments }) {
           </div>
           <div className={Styles.card_details}>
             <p className={Styles.mentor_box__text}>
-              {/* {mentorsInformation?.[0][0]?.attributes?.country} Developer with */}
-              {mentorsInformation?.[0]?.attributes.experienceYears} years of
-              experience.
+              Developer with{" "}
+              {mentorsInformation?.[0]?.attributes?.experienceYears} years of
+              experience based in {mentorsInformation?.[0]?.attributes?.country}
+              .
             </p>
-            <Button className={Styles.btn}>LinkedIn</Button>
+            <Divider />
+            <Button className={Styles.btn}>
+              <a
+                href={`https://${mentorsInformation?.[0]?.attributes?.resume}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+            </Button>
+
             <Button
               className={`${Styles.btn} ${Styles.mentorChangeBtn} ${Styles.btn_primary}`}
               disabled={disable}

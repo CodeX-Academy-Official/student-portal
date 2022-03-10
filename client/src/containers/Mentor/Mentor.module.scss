@@ -42,12 +42,11 @@
   padding: 2.5rem;
   text-align: center;
   border-radius: 5px;
-  height: 350px;
+  min-height: 350px;
+  max-width: 30rem;
   box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.12);
   transition: transform 0.3s;
-  &:not(:last-child) {
-    margin-bottom: 8rem;
-  }
+  margin-bottom: 8rem;
 
   &:hover {
     transform: translateY(-1.5rem) scale(1.03);

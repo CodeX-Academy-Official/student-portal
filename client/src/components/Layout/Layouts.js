@@ -18,8 +18,10 @@ function Layouts() {
     useState(null);
   const [studentLastLeaveOfAbscence, setStudentLastLeaveOfAbscence] =
     useState(null);
-  const [studentEnrollments, setStudentEnrollments] = useState(null);
+  const [studentEnrollments, setStudentEnrollments] = useState([]);
   const [meetingPreference, setmeetingPreference] = useState([]);
+  const [currentMentor, setCurrentMentor] = useState({});
+  const [mentorsInformation, setMentorsInformation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
@@ -128,6 +130,30 @@ function Layouts() {
           })
           .then((data) => {
             setStudentEnrollments(data);
+            setCurrentMentor(data[0]);
+            for (const enrollment of data) {
+              getMentorInformation(enrollment.mentorId);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    }
+
+    async function getMentorInformation(id) {
+      try {
+        setIsLoading(true);
+        await fetch(`http://localhost:3001/student/mentor/${id}`)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setMentorsInformation((mentorsInformation) => [
+              ...mentorsInformation,
+              data[0],
+            ]);
           });
       } catch (error) {
         console.log(error);
@@ -190,8 +216,9 @@ function Layouts() {
                 studentLastActivity={studentLastActivity}
                 studentLastThreeWeekActivity={studentLastThreeWeekActivity}
                 studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
-                studentEnrollments={studentEnrollments}
                 location={location}
+                currentMentor={currentMentor}
+                mentorsInformation={mentorsInformation}
               />
             </Content>
           </Layout>
