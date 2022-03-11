@@ -27,10 +27,10 @@ function SideBar(props) {
       case "/about":
         setkey("2");
         break;
-      /*case "/mentor":
+      case "/mentor":
         setkey("3");
         break;
-      case "/dynamite-sessions":
+      /*case "/dynamite-sessions":
         setkey("4");
         break;
       case "/requests":
@@ -49,7 +49,7 @@ function SideBar(props) {
       className={Styles.sider}
     >
       <div className={Styles.logo}>
-        <img src={logo} alt="Linkerease Logo" />
+        <img src={logo} alt="CodeXAcademy Logo" />
         <h3 className={Styles.logoText} hidden={collapsed}>
           Student Portal
         </h3>
@@ -63,11 +63,11 @@ function SideBar(props) {
           About
           <Link to="/about" />
         </Menu.Item>
-        {/*<Menu.Item key="3" icon={<TeamOutlined />}>
+        <Menu.Item key="3" icon={<TeamOutlined />}>
           Mentor
           <Link to="/mentor" />
         </Menu.Item>
-        <Menu.Item key="4" icon={<DesktopOutlined />}>
+        {/*<Menu.Item key="4" icon={<DesktopOutlined />}>
           Dynamite Sessions
           <Link to="/dynamite-sessions" />
         </Menu.Item>

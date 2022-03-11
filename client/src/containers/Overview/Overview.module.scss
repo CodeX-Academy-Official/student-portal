@@ -90,9 +90,10 @@
 .withPadding {
   padding-left: 2rem;
   padding-right: 2rem;
-  min-height: 20rem;
+  min-height: 22.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   h3 {
     text-align: left;
   }

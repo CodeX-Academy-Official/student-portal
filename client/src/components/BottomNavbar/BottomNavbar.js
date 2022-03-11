@@ -23,11 +23,12 @@ const BottomNavBar = ({ pathname }) => {
       case "/about":
         setkey("2");
         break;
-        {
-          /*case "/mentor":
+
+      case "/mentor":
         setkey("3");
         break;
-      case "/dynamite-sessions":
+        {
+          /*case "/dynamite-sessions":
         setkey("4");
         break;
       case "/requests":
@@ -48,15 +49,15 @@ const BottomNavBar = ({ pathname }) => {
         <Menu.Item key="2" className={Styles.bnTab} icon={<UserOutlined />}>
           <Link to="/about">About</Link>
         </Menu.Item>
-        {/*<Menu.Item key="3" className={Styles.bnTab} icon={<TeamOutlined />}>
-          <Link to="/mentor" />
+        <Menu.Item key="3" className={Styles.bnTab} icon={<TeamOutlined />}>
+          <Link to="/mentor">Mentor</Link>
         </Menu.Item>
-        <Menu.Item key="4" className={Styles.bnTab} icon={<DesktopOutlined />}>
-          <Link to="/dynamite-sessions" />
+        {/* <Menu.Item key="4" className={Styles.bnTab} icon={<DesktopOutlined />}>
+          <Link to="/dynamite-sessions">dynamite-sessions</Link>
         </Menu.Item>
         <Menu.Item key="5" className={Styles.bnTab} icon={<FileOutlined />}>
-          <Link to="/requests" />
-        </Menu.Item>*/}
+          <Link to="/requests">requests</Link>
+        </Menu.Item> */}
       </Menu>
     </div>
   );

@@ -171,10 +171,143 @@ const getStudentLeaveOfAbscences = (request) => {
   });
 };
 
+const getStudentEnrollments = (request) => {
+  const id = request.params.id;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `SELECT 
+      FirstSet."StudentFirst",
+      FirstSet."StudentLast",
+      FirstSet."startDate",
+      FirstSet."mentorId",
+      SecondSet."MentorFirst",
+      SecondSet."MentorLast",
+      SecondSet."MentorEmail",
+      FirstSet."level",
+      FirstSet."weeklyHours",
+      FirstSet."isActive",
+      FirstSet."studentId"
+    FROM(
+      SELECT
+      u."firstName" as "StudentFirst", u."lastName"  as "StudentLast",   e."startDate",
+      e."mentorId",
+      e."level",
+      e."weeklyHours",
+      e."isActive",
+      e."studentId"
+    from people u
+    JOIN enrollments as e on e."studentId"=u.id
+    where u."isMentor"=false AND e."studentId" = '${id}'
+    order by e."isActive" DESC) as FirstSet
+
+    LEFT JOIN(
+      SELECT p."firstName" as "MentorFirst", p."lastName" as "MentorLast", e."mentorId", p.email as "MentorEmail"
+      FROM people AS p 
+      JOIN enrollments AS e ON e."mentorId"=p.id
+      
+      WHERE p."isMentor"=true
+      ORDER by e."studentId"
+    ) as SecondSet
+
+    on FirstSet."mentorId" = SecondSet."mentorId"
+    GROUP by     FirstSet."StudentFirst",
+      FirstSet."StudentLast",
+      FirstSet."startDate",
+      FirstSet."mentorId",
+      SecondSet."MentorFirst",
+      SecondSet."MentorLast",
+      SecondSet."MentorEmail",
+      FirstSet."level",
+      FirstSet."weeklyHours",
+      FirstSet."isActive",
+      FirstSet."studentId"
+      ORDER BY FirstSet."isActive" DESC`,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
+      }
+    );
+  });
+};
+
+const getMentorInformation = (request) => {
+  const id = request.params.id;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `SELECT 
+      FirstSet.id,
+      FirstSet."firstName",
+      FirstSet."secondName",
+      FirstSet."lastName",
+      FirstSet."secondLastName",
+      FirstSet.email,
+      FirstSet."expectedStartDate",
+      FirstSet."expectedEndDate",
+      FirstSet.months,
+      FirstSet."meetingTimePreference",
+      FirstSet."birthDate",
+      FirstSet.zone,
+      FirstSet."weeklyHours",
+      FirstSet."coachingIntensity",
+      FirstSet."coachingHumor",
+      FirstSet."studyDays",
+      FirstSet."targetCertification",
+      FirstSet.attributes,
+      SecondSet."number_of_rows" AS "Students"
+    FROM(
+      SELECT
+      u.id,
+      u."firstName",
+      u."secondName",
+      u."lastName",
+      u."secondLastName",
+      u.email,
+      u."expectedStartDate",
+      u."expectedEndDate",
+      u.months,
+      u."meetingTimePreference",
+      u."birthDate",
+      u.zone,
+      u."weeklyHours",
+      u."coachingIntensity",
+      u."coachingHumor",
+      u."studyDays",
+      u."targetCertification",
+      u.attributes
+    from people u
+    left JOIN enrollments as e on e."mentorId"=u.id
+    where u."isMentor"=true AND e."mentorId"=${id}
+    GROUP by u.id) as FirstSet
+    LEFT JOIN(
+      SELECT COUNT(*) AS number_of_rows, e."mentorId"
+      FROM people AS p 
+      JOIN enrollments AS e ON e."studentId"=p.id
+      WHERE p."isMentor"=false
+      and e."isActive"= TRUE
+      GROUP BY e."mentorId"
+    ) as SecondSet
+    on FirstSet.id = SecondSet."mentorId"
+    order by FirstSet.id`,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
   getStudentInfo,
   getStudentActivity,
   getStudentLastActivity,
   getStudentLastThreeWeekActivity,
   getStudentLeaveOfAbscences,
+  getStudentEnrollments,
+  getMentorInformation,
 };

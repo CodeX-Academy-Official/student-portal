@@ -18,9 +18,9 @@
   padding: 0.4rem 1.5rem;
   font-size: 1.4rem;
   border-radius: 2px;
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-  border-color: #d9d9d9;
+  color: $white-color;
+  background: $secondary-color;
+  border-color: $secondary-color;
   border-radius: 32px;
   &:active {
     outline: none;
@@ -82,16 +82,21 @@
   color: #fff;
 }
 
-.btn-primary {
+.btn_primary {
   background-color: $primary-btn-color;
   border-color: $primary-btn-color;
   color: #fff;
 }
 
-.btn-primary:hover {
+.btn_primary:hover {
   background-color: $primary-btn-color_hover;
   border-color: $primary-btn-color_hover;
   color: #fff;
+}
+.btn_primary:focus {
+  color: $primary-btn-color_hover;
+  background: $white-color;
+  border-color: $primary-btn-color_hover;
 }
 
 .btn-default {
@@ -121,8 +126,8 @@
 
 .btn[disabled] {
   color: #fff;
-  background: $third-color;
-  border-color: $third-color;
+  background: #bdbebe;
+  border-color: #bdbebe;
   text-shadow: none;
   box-shadow: none;
   cursor: not-allowed;

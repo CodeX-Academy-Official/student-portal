@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
-
+const { WebClient } = require("@slack/web-api");
 const student_model = require("./student_modal");
+
+// An access token (from your Slack app or custom integration - xoxp, xoxb)
+const token = process.env.SLACK_TOKEN;
+
+const web = new WebClient(token);
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -73,6 +78,41 @@ app.get("/student/leaveofabcenses/:id", (req, res) => {
     .catch((error) => {
       res.status(500).send(error);
     });
+});
+
+app.get("/student/enrollments/:id", (req, res) => {
+  student_model
+    .getStudentEnrollments(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/student/mentor/:id", (req, res) => {
+  student_model
+    .getMentorInformation(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/student/mentor/propic/:email", (req, res) => {
+  (async () => {
+    try {
+      const response = await web.users.lookupByEmail({
+        email: req.params.email,
+      });
+      res.status(200).send(response);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })();
 });
 
 app.listen(port, () => {
