@@ -29,7 +29,6 @@ function RoutesNavigation(props) {
         <Mentor
           student={props.student}
           mentorsInformation={props.mentorsInformation}
-          currentMentor={props.currentMentor}
           mentorsProPic={props.mentorsProPic}
         />
       );

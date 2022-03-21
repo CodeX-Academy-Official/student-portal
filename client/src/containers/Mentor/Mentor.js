@@ -6,12 +6,7 @@ import { Button, Modal, notification, Divider } from "antd";
 
 const Context = React.createContext({ name: "Default" });
 
-export default function Mentor({
-  student,
-  currentMentor,
-  mentorsInformation,
-  mentorsProPic,
-}) {
+export default function Mentor({ student, mentorsInformation, mentorsProPic }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setisLoading] = useState(false);
@@ -43,6 +38,7 @@ export default function Mentor({
     setDisable(true);
     setModalVisible(false);
   };
+
   return (
     <section className={Styles.section_Mentor}>
       <Modal
@@ -81,14 +77,20 @@ export default function Mentor({
             <div className={Styles.card_picture}>
               <div className={Styles.imgContainer}>
                 <img
-                  src={mentorsProPic[0] === "" ? smallImage : mentorsProPic[0]}
+                  src={
+                    mentorsProPic[0]?.image === ""
+                      ? smallImage
+                      : mentorsProPic[0]?.image
+                  }
                   alt="Mentor ProPic"
                 />
               </div>
               <h3
                 className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
               >
-                {currentMentor?.MentorFirst + " " + currentMentor?.MentorLast}
+                {mentorsInformation?.[0]?.firstName +
+                  " " +
+                  mentorsInformation?.[0]?.lastName}
               </h3>
             </div>
           </div>
@@ -154,7 +156,10 @@ export default function Mentor({
       </div>
       <section className={Styles.previous_mentors}>
         {mentorsInformation.map((mentor, index) => {
-          if (index !== 0) {
+          if (
+            index !== 0 &&
+            mentorsProPic[index]?.email === mentorsInformation[index]?.email
+          ) {
             return (
               <div className={Styles.mentor_box} key={index}>
                 <i
@@ -167,7 +172,7 @@ export default function Mentor({
                         src={
                           mentorsProPic[index] === ""
                             ? smallImage
-                            : mentorsProPic[index]
+                            : mentorsProPic[index].image
                         }
                         alt="Mentor ProPic"
                       />

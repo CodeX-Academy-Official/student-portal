@@ -20,7 +20,6 @@ function Layouts() {
     useState(null);
   // const [studentEnrollments, setStudentEnrollments] = useState([]);
   const [meetingPreference, setmeetingPreference] = useState([]);
-  const [currentMentor, setCurrentMentor] = useState({});
   const [mentorsInformation, setMentorsInformation] = useState([]);
 
   const [mentorsProPic, setMentorsProPic] = useState([]);
@@ -142,7 +141,6 @@ function Layouts() {
               (value, index, self) =>
                 index === self.findIndex((t) => t.mentorId === value.mentorId)
             );
-            setCurrentMentor(data[0]);
             for (const enrollment of data) {
               getMentorInformation(enrollment.mentorId);
             }
@@ -165,11 +163,11 @@ function Layouts() {
           })
           .then((data) => {
             if (data.length !== 0) {
-              getMentorProPic(data[0].email);
               setMentorsInformation((mentorsInformation) => [
                 ...mentorsInformation,
                 data[0],
               ]);
+              getMentorProPic(data[0].email);
             }
           });
       } catch (error) {
@@ -179,11 +177,11 @@ function Layouts() {
       return;
     }
 
-    async function getMentorProPic(email) {
+    async function getMentorProPic(mentorEmail) {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${email}`
+          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${mentorEmail}`
         )
           .then((response) => {
             return response.json();
@@ -191,7 +189,7 @@ function Layouts() {
           .then((data) => {
             setMentorsProPic((mentorsProPic) => [
               ...mentorsProPic,
-              data.user.profile.image_original,
+              { email: mentorEmail, image: data.user.profile.image_original },
             ]);
           });
       } catch (error) {
@@ -239,7 +237,7 @@ function Layouts() {
   return (
     <Layout style={{ minHeight: "100vh" }} hasSider={true}>
       <SideBar location={location} />
-      {student && student.map ? (
+      {student ? (
         student.map((student) => (
           <Layout key={student.id} className={Styles.layout}>
             <LoggedInHeader
@@ -256,7 +254,6 @@ function Layouts() {
                 studentLastThreeWeekActivity={studentLastThreeWeekActivity}
                 studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
                 location={location}
-                currentMentor={currentMentor}
                 mentorsInformation={mentorsInformation}
                 mentorsProPic={mentorsProPic}
               />
