@@ -28,8 +28,9 @@ function RoutesNavigation(props) {
       return (
         <Mentor
           student={props.student}
-          mentorsInformation={props.mentorsInformation}
-          mentorsProPic={props.mentorsProPic}
+          mentorsinformation={props.mentorsinformation}
+          studentEnrollments={props.studentEnrollments}
+          currentMentorInfo={props.currentMentorInfo}
         />
       );
     case "/dynamite-sessions":

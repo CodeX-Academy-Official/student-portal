@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Styles from "./Mentor.module.scss";
 import smallImage from "../../img/no-img.png";
 import { CheckCircleTwoTone } from "@ant-design/icons";
@@ -6,7 +6,11 @@ import { Button, Modal, notification, Divider } from "antd";
 
 const Context = React.createContext({ name: "Default" });
 
-export default function Mentor({ student, mentorsInformation, mentorsProPic }) {
+export default function Mentor({
+  student,
+  mentorsinformation,
+  currentMentorInfo,
+}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setisLoading] = useState(false);
@@ -65,159 +69,166 @@ export default function Mentor({ student, mentorsInformation, mentorsProPic }) {
           <h2>Are you sure you want to change mentor?</h2>
         </div>
       </Modal>
-      <div
-        className={`${Styles.u_center_text} ${Styles.u_margin_bottom_small}`}
-      >
-        <h2 className={Styles.heading_secundary}>Meet your Mentor</h2>
-      </div>
-      <section className={Styles.current_mentor}>
-        <div className={Styles.mentor_box}>
-          <i className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}></i>
-          <div className={Styles.card_heading}>
-            <div className={Styles.card_picture}>
-              <div className={Styles.imgContainer}>
-                <img
-                  src={
-                    mentorsProPic[0]?.image === ""
-                      ? smallImage
-                      : mentorsProPic[0]?.image
-                  }
-                  alt="Mentor ProPic"
-                />
-              </div>
-              <h3
-                className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
-              >
-                {mentorsInformation?.[0]?.firstName +
-                  " " +
-                  mentorsInformation?.[0]?.lastName}
-              </h3>
-            </div>
+      {currentMentorInfo ? (
+        <>
+          <div
+            className={`${Styles.u_center_text} ${Styles.u_margin_bottom_small}`}
+          >
+            <h2 className={Styles.heading_secundary}>Meet your Mentor</h2>
           </div>
-          <div className={Styles.card_details}>
-            {mentorsInformation?.[0]?.attributes?.experienceYears !== null &&
-            mentorsInformation?.[0]?.attributes?.country !== "" ? (
-              <p className={Styles.mentor_box__text}>
-                Developer with{" "}
-                {mentorsInformation?.[0]?.attributes?.experienceYears === "1"
-                  ? mentorsInformation?.[0]?.attributes?.experienceYears +
-                    " " +
-                    "year "
-                  : mentorsInformation?.[0]?.attributes?.experienceYears +
-                    " " +
-                    "years "}
-                of experience based in{" "}
-                {mentorsInformation?.[0]?.attributes?.country}.
-              </p>
-            ) : (
-              <></>
-            )}
-            {mentorsInformation?.[0]?.attributes?.languages ? (
-              <p className={Styles.mentor_box__text}>
-                Fluent in: {mentorsInformation?.[0]?.attributes?.languages}.
-              </p>
-            ) : (
-              <></>
-            )}
-            {mentorsInformation?.[0]?.attributes?.level !== null ? (
-              <p className={Styles.mentor_box__text}>
-                I teach until level {mentorsInformation?.[0]?.attributes?.level}
-                .
-              </p>
-            ) : (
-              <></>
-            )}
-
-            <Divider />
-            <Button className={Styles.btn}>
-              <a
-                href={`https://${mentorsInformation?.[0]?.attributes?.resume}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn
-              </a>
-            </Button>
-
-            <Button
-              className={`${Styles.btn} ${Styles.mentorChangeBtn} ${Styles.btn_primary}`}
-              disabled={disable}
-              onClick={() => setModalVisible(true)}
-            >
-              Request Mentor Change
-            </Button>
-          </div>
-        </div>
-      </section>
-      <div
-        className={`${Styles.u_center_text} ${Styles.u_margin_bottom_small} ${Styles.u_margin_top_medium}`}
-      >
-        <h2 className={Styles.heading_secundary}>Previous Mentors</h2>
-      </div>
-      <section className={Styles.previous_mentors}>
-        {mentorsInformation.map((mentor, index) => {
-          if (
-            index !== 0 &&
-            mentorsProPic[index]?.email === mentorsInformation[index]?.email
-          ) {
-            return (
-              <div className={Styles.mentor_box} key={index}>
-                <i
-                  className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}
-                ></i>
-                <div className={Styles.card_heading}>
-                  <div className={Styles.card_picture}>
-                    <div className={Styles.imgContainer}>
-                      <img
-                        src={
-                          mentorsProPic[index] === ""
-                            ? smallImage
-                            : mentorsProPic[index].image
-                        }
-                        alt="Mentor ProPic"
-                      />
-                    </div>
-                    <h3
-                      className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
-                    >
-                      {mentor?.firstName + " " + mentor?.lastName}
-                    </h3>
+          <section className={Styles.current_mentor}>
+            <div className={Styles.mentor_box}>
+              <i className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}></i>
+              <div className={Styles.card_heading}>
+                <div className={Styles.card_picture}>
+                  <div className={Styles.imgContainer}>
+                    <img
+                      src={
+                        currentMentorInfo?.image === ""
+                          ? smallImage
+                          : currentMentorInfo?.image
+                      }
+                      mentorsinformation
+                      alt="Mentor ProPic"
+                    />
                   </div>
+                  <h3
+                    className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
+                  >
+                    {currentMentorInfo?.info?.firstName +
+                      " " +
+                      currentMentorInfo?.info?.lastName}
+                  </h3>
                 </div>
-                <div className={Styles.card_details}>
-                  {mentor?.attributes?.experienceYears !== null &&
-                  mentor?.attributes?.country !== "" ? (
-                    <p className={Styles.mentor_box__text}>
-                      Developer with{" "}
-                      {mentor?.attributes?.experienceYears === "1"
-                        ? mentor?.attributes?.experienceYears + " year "
-                        : mentor?.attributes?.experienceYears + " years "}
-                      of experience based in {mentor?.attributes?.country}.
-                    </p>
-                  ) : (
-                    <></>
-                  )}
+              </div>
+              <div className={Styles.card_details}>
+                {currentMentorInfo?.info?.attributes?.experienceYears !==
+                  null &&
+                currentMentorInfo?.info?.attributes?.country !== "" ? (
+                  <p className={Styles.mentor_box__text}>
+                    Developer with{" "}
+                    {currentMentorInfo?.info?.attributes?.experienceYears ===
+                    "1"
+                      ? currentMentorInfo?.info?.attributes?.experienceYears +
+                        " " +
+                        "year "
+                      : currentMentorInfo?.info?.attributes?.experienceYears +
+                        " " +
+                        "years "}
+                    of experience based in{" "}
+                    {currentMentorInfo?.info?.attributes?.country}.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {currentMentorInfo?.info?.attributes?.languages ? (
+                  <p className={Styles.mentor_box__text}>
+                    Fluent in: {currentMentorInfo?.info?.attributes?.languages}.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {currentMentorInfo?.info?.attributes?.level !== null ? (
+                  <p className={Styles.mentor_box__text}>
+                    I teach until level{" "}
+                    {currentMentorInfo?.info?.attributes?.level}.
+                  </p>
+                ) : (
+                  <></>
+                )}
 
-                  {mentor?.attributes?.languages !== "" ? (
-                    <p className={Styles.mentor_box__text}>
-                      Fluent in: {mentor?.attributes?.languages}.
-                    </p>
-                  ) : (
-                    <div></div>
-                  )}
+                <Divider />
+                <Button className={Styles.btn}>
+                  <a
+                    href={`https://${currentMentorInfo?.info?.attributes?.resume}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                </Button>
 
-                  {mentor?.attributes?.level !== null ? (
-                    <p className={Styles.mentor_box__text}>
-                      I teach until level {mentor?.attributes?.level}.
-                    </p>
-                  ) : (
-                    <></>
-                  )}
+                <Button
+                  className={`${Styles.btn} ${Styles.mentorChangeBtn} ${Styles.btn_primary}`}
+                  disabled={disable}
+                  onClick={() => setModalVisible(true)}
+                >
+                  Request Mentor Change
+                </Button>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <></>
+      )}
+      {mentorsinformation.length !== 0 ? (
+        <>
+          <div
+            className={`${Styles.u_center_text} ${Styles.u_margin_bottom_small} ${Styles.u_margin_top_medium}`}
+          >
+            <h2 className={Styles.heading_secundary}>Previous Mentors</h2>
+          </div>
+          <section className={Styles.previous_mentors}>
+            {mentorsinformation.map((mentor, index) => {
+              return (
+                <div className={Styles.mentor_box} key={index}>
+                  <i
+                    className={`${Styles.mentor_box__icon} ${Styles.pro_pic}`}
+                  ></i>
+                  <div className={Styles.card_heading}>
+                    <div className={Styles.card_picture}>
+                      <div className={Styles.imgContainer}>
+                        <img
+                          src={
+                            mentor?.image === "" ? smallImage : mentor?.image
+                          }
+                          alt="Mentor ProPic"
+                        />
+                      </div>
+                      <h3
+                        className={`${Styles.heading_tertiary} ${Styles.u_margin_bottom_small}`}
+                      >
+                        {mentor?.info?.firstName + " " + mentor?.info?.lastName}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className={Styles.card_details}>
+                    {mentor?.info?.attributes?.experienceYears !== null &&
+                    mentor?.info?.attributes?.country !== "" ? (
+                      <p className={Styles.mentor_box__text}>
+                        Developer with{" "}
+                        {mentor?.info?.attributes?.experienceYears === "1"
+                          ? mentor?.info?.attributes?.experienceYears + " year "
+                          : mentor?.info?.attributes?.experienceYears +
+                            " years "}
+                        of experience based in{" "}
+                        {mentor?.info?.attributes?.country}.
+                      </p>
+                    ) : (
+                      <></>
+                    )}
 
+                    {mentor?.info?.attributes?.languages !== "" ? (
+                      <p className={Styles.mentor_box__text}>
+                        Fluent in: {mentor?.info?.attributes?.languages}.
+                      </p>
+                    ) : (
+                      <div></div>
+                    )}
+
+                    {mentor?.info?.attributes?.level !== null ? (
+                      <p className={Styles.mentor_box__text}>
+                        I teach until level {mentor?.info?.attributes?.level}.
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                   <Divider />
                   <Button className={Styles.btn}>
                     <a
-                      href={`https://${mentor?.attributes?.resume}`}
+                      href={`https://${mentor?.info?.attributes?.resume}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -225,15 +236,15 @@ export default function Mentor({ student, mentorsInformation, mentorsProPic }) {
                     </a>
                   </Button>
                 </div>
-              </div>
-            );
-          } else {
-            return null;
-          }
-        })}
-      </section>
+              );
+            })}
+          </section>
+        </>
+      ) : (
+        <></>
+      )}
       <Context.Provider
-        value={{ name: student.firstName + " " + student.lastName }}
+        value={{ name: student.info?.firstName + " " + student.info?.lastName }}
       >
         {contextHolder}
       </Context.Provider>
