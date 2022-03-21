@@ -244,7 +244,7 @@ function Layouts() {
   }
 
   return (
-    <Layout style={{ minHeight: "100vh" }} hasSider={true}>
+    <Layout style={{ minHeight: "100vh" }} hasSider>
       <SideBar location={location} />
       {student ? (
         student.map((student) => (

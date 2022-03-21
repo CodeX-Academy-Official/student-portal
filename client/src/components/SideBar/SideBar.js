@@ -13,11 +13,7 @@ import {
 } from "@ant-design/icons";
 const { Sider } = Layout;
 function SideBar(props) {
-  const [collapsed, setcollapsed] = useState(false);
   const [key, setkey] = useState("");
-  const onCollapse = (collapsed) => {
-    setcollapsed(collapsed);
-  };
 
   useEffect(() => {
     switch (props.location.pathname) {
@@ -42,17 +38,10 @@ function SideBar(props) {
     }
   }, [props.location.pathname]);
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={onCollapse}
-      className={Styles.sider}
-    >
+    <Sider className={Styles.sider}>
       <div className={Styles.logo}>
         <img src={logo} alt="CodeXAcademy Logo" />
-        <h3 className={Styles.logoText} hidden={collapsed}>
-          Student Portal
-        </h3>
+        <h3 className={Styles.logoText}>Student Portal</h3>
       </div>
       <Menu theme="dark" selectedKeys={[key]} mode="inline">
         <Menu.Item key="1" icon={<PieChartOutlined />}>

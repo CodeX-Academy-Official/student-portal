@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Styles from "./Mentor.module.scss";
 import smallImage from "../../img/no-img.png";
 import { CheckCircleTwoTone } from "@ant-design/icons";
