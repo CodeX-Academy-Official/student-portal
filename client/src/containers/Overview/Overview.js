@@ -148,75 +148,74 @@ export default function Overview({
     },
   ];
   return (
-    <>
-      <div className={Styles.Overview}>
-        <div className={Styles.LeftOverview}>
-          <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
-            <h2>Timeline:</h2>
-            <div className={Styles.withPadding}>
-              <p>
-                <strong>Start Date ({getStartDate()})</strong>
-              </p>
-              <Progress
-                percent={getTimeLinePercentage()}
-                className={Styles.timeLine}
-                strokeColor={
-                  getTimeLinePercentage() <= 100 ? "limegreen" : "tomato"
-                }
-                status={getTimeLinePercentage() <= 100 ? "" : "exception"}
-              />
-              <p>
-                <strong>End Date ({getEndDate()})</strong>
-              </p>
-            </div>
+    <div className={Styles.Overview}>
+      <div className={Styles.LeftOverview}>
+        <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
+          <h2>Timeline:</h2>
+          <div className={Styles.withPadding}>
+            <p>
+              <strong>Start Date ({getStartDate()})</strong>
+            </p>
+            <Progress
+              percent={getTimeLinePercentage()}
+              className={Styles.timeLine}
+              strokeColor={
+                getTimeLinePercentage() <= 100 ? "limegreen" : "tomato"
+              }
+              status={getTimeLinePercentage() <= 100 ? "" : "exception"}
+            />
+            <p>
+              <strong>End Date ({getEndDate()})</strong>
+            </p>
           </div>
-          <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
-            <h2>Badge Progress:</h2>
-            <div className={Styles.withPadding}>
-              <p>
-                <strong>Current ({currentBadges})</strong>
-              </p>
-              <Progress
-                percent={progressBarCertificationPercentage()}
-                className={Styles.badges}
-              />
-              <p>
-                <strong>{getTargetCertifications()}</strong>
-              </p>
-            </div>
+        </div>
+        <div className={`${Styles.whiteBox} ${Styles.whiteBoxLeft}`}>
+          <h2>Badge Progress:</h2>
+          <div className={Styles.withPadding}>
+            <p>
+              <strong>Current ({currentBadges})</strong>
+            </p>
+            <Progress
+              percent={progressBarCertificationPercentage()}
+              className={Styles.badges}
+            />
+            <p>
+              <strong>{getTargetCertifications()}</strong>
+            </p>
           </div>
-          <div
-            className={`${Styles.whiteBox} ${Styles.whiteBoxLeft} ${Styles.whiteBoxLeftButtom}`}
-          >
-            <h2>Last Badge Awarded:</h2>
-            <div className={Styles.withPadding}>
-              <div className={Styles.progressDiv}>
-                <Progress
-                  strokeColor={{
-                    "0%": "#52c41a",
-                    "100%": "#52c41a",
-                  }}
-                  type="circle"
-                  percent={99}
-                  format={() => `${student.LastActivity} Days Ago`}
-                  className={Styles.progressCircle}
-                />
-              </div>
+        </div>
+        <div
+          className={`${Styles.whiteBox} ${Styles.whiteBoxLeft} ${Styles.whiteBoxLeftButtom}`}
+        >
+          <h2>Last Badge Awarded:</h2>
+          <div className={Styles.withPadding}>
+            <div className={Styles.progressDiv}>
+              <Progress
+                strokeColor={{
+                  "0%": "#52c41a",
+                  "100%": "#52c41a",
+                }}
+                type="circle"
+                percent={99}
+                format={() => `${student.LastActivity} Days Ago`}
+                className={Styles.progressCircle}
+              />
             </div>
           </div>
         </div>
-        <div className={Styles.RightOverview}>
-          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
-            <h2>Pace</h2>
-            <div className={Styles.withPadding}>
-              <Statistic
-                valueStyle={{ lineHeight: 2.2 }}
-                title="Badges Awarded per week"
-                value={getPace()}
-              />
-            </div>
+      </div>
+      <div className={Styles.RightOverview}>
+        <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+          <h2>Pace</h2>
+          <div className={Styles.withPadding}>
+            <Statistic
+              valueStyle={{ lineHeight: 2.2 }}
+              title="Badges Awarded per week"
+              value={getPace()}
+            />
           </div>
-          {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRightRight}`}>
+        </div>
+        {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRightRight}`}>
               <div className={Styles.withPadding}>
                 <h2>Request Pause</h2>
                 <div className={Styles.centerContent}>
@@ -270,31 +269,32 @@ export default function Overview({
               </div>
             </div>*/}
 
-          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
-            <h2>Pause Progress:</h2>
-            <div className={Styles.withPadding}>
-              <p>
-                <strong>Start Date ()</strong>
-              </p>
-              <Progress percent={0} className={Styles.timeLine} />
-              <p>
-                <strong>End Date ()</strong>
-              </p>
-            </div>
+        <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+          <h2>Pause Progress:</h2>
+          <div className={Styles.withPadding}>
+            <p>
+              <strong>Start Date ()</strong>
+            </p>
+            <Progress percent={0} className={Styles.timeLine} />
+            <p>
+              <strong>End Date ()</strong>
+            </p>
           </div>
+        </div>
 
-          <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
-            <h2>Latest Activity</h2>
-            <div className={Styles.withPaddingBottom}>
-              <Table
-                columns={columns}
-                dataSource={studentLastActivity}
-                className={Styles.table}
-                pagination={false}
-              />
-            </div>
+        <div className={`${Styles.whiteBox} ${Styles.bottomWhiteBox}`}>
+          <h2>Latest Activity</h2>
+          <div className={Styles.withPaddingBottom}>
+            <Table
+              columns={columns}
+              dataSource={studentLastActivity}
+              className={Styles.table}
+              pagination={false}
+              rowKey={"0"}
+            />
           </div>
-          {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRight}`}>
+        </div>
+        {/*<div className={`${Styles.whiteBox} ${Styles.whiteBoxRight}`}>
             <div className={Styles.withPadding}>
               <h2>Today's Dynamite Session</h2>
 
@@ -318,14 +318,13 @@ export default function Overview({
               </div>
             </div>
           </div>*/}
-        </div>
-        <div className={Styles.BottomOverview}></div>
-        <Context.Provider
-          value={{ name: student.firstName + " " + student.lastName }}
-        >
-          {contextHolder}
-        </Context.Provider>
       </div>
-    </>
+      <div className={Styles.BottomOverview}></div>
+      <Context.Provider
+        value={{ name: student.firstName + " " + student.lastName }}
+      >
+        {contextHolder}
+      </Context.Provider>
+    </div>
   );
 }

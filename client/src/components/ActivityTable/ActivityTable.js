@@ -1,19 +1,19 @@
-import React from 'react';
-import Styles from './ActivityTable.module.scss';
-import { Table, Space, Tag } from 'antd';
+import React from "react";
+import Styles from "./ActivityTable.module.scss";
+import { Table, Space, Tag } from "antd";
 function ActivityTable({ data }) {
   const columns = [
     {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
       render: (text) => <p>{text}</p>,
     },
 
     {
-      title: 'Type',
-      key: 'type',
-      dataIndex: 'type',
+      title: "Type",
+      key: "type",
+      dataIndex: "type",
       render: (tag) => (
         <Tag color="geekblue" key={tag}>
           {tag.toUpperCase()}
@@ -21,13 +21,17 @@ function ActivityTable({ data }) {
       ),
     },
     {
-      title: 'Details',
-      key: 'details',
-      dataIndex: 'details',
+      title: "Details",
+      key: "details",
+      dataIndex: "details",
       render: (details) => (
         <>
-          {details.map((tag) => {
-            return <option value={tag}>{tag}</option>;
+          {details.map((tag, index) => {
+            return (
+              <option value={tag} key={index}>
+                {tag}
+              </option>
+            );
           })}
         </>
       ),
