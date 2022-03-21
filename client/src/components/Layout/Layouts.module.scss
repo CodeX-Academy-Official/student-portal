@@ -1,5 +1,12 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
 .layout {
   background-color: #f4faff;
+  margin-left: 200px;
+  @include respond-to-max(medium) {
+    margin-left: 0;
+  }
 }
 
 .spinnerContainer {
