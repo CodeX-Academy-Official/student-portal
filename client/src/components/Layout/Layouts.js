@@ -18,11 +18,10 @@ function Layouts() {
     useState(null);
   const [studentLastLeaveOfAbscence, setStudentLastLeaveOfAbscence] =
     useState(null);
-  // const [studentEnrollments, setStudentEnrollments] = useState([]);
+  const [studentEnrollments, setStudentEnrollments] = useState([]);
   const [meetingPreference, setmeetingPreference] = useState([]);
-  const [mentorsInformation, setMentorsInformation] = useState([]);
-
-  const [mentorsProPic, setMentorsProPic] = useState([]);
+  const [mentorsinformation, setMentorsinformation] = useState([]);
+  const [currentMentorInfo, setCurrentMentorInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
@@ -136,13 +135,17 @@ function Layouts() {
             return response.json();
           })
           .then((data) => {
-            // setStudentEnrollments(data);
+            setStudentEnrollments(data);
             data = data.filter(
               (value, index, self) =>
                 index === self.findIndex((t) => t.mentorId === value.mentorId)
             );
-            for (const enrollment of data) {
-              getMentorInformation(enrollment.mentorId);
+            for (const [index, enrollment] of data.entries()) {
+              getMentorInformation(
+                index,
+                enrollment.mentorId,
+                enrollment.isActive
+              );
             }
           });
       } catch (error) {
@@ -152,7 +155,7 @@ function Layouts() {
       return;
     }
 
-    async function getMentorInformation(id) {
+    async function getMentorInformation(index, id, isActive) {
       try {
         setIsLoading(true);
         await fetch(
@@ -163,11 +166,7 @@ function Layouts() {
           })
           .then((data) => {
             if (data.length !== 0) {
-              setMentorsInformation((mentorsInformation) => [
-                ...mentorsInformation,
-                data[0],
-              ]);
-              getMentorProPic(data[0].email);
+              getMentorProPic(index, data[0], isActive);
             }
           });
       } catch (error) {
@@ -177,20 +176,30 @@ function Layouts() {
       return;
     }
 
-    async function getMentorProPic(mentorEmail) {
+    async function getMentorProPic(index, information, isActive) {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${mentorEmail}`
+          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${information.email}`
         )
           .then((response) => {
             return response.json();
           })
           .then((data) => {
-            setMentorsProPic((mentorsProPic) => [
-              ...mentorsProPic,
-              { email: mentorEmail, image: data.user.profile.image_original },
-            ]);
+            if (index === 0 && isActive) {
+              setCurrentMentorInfo({
+                info: information,
+                image: data.user.profile.image_original,
+              });
+            } else {
+              setMentorsinformation((mentorsinformation) => [
+                ...mentorsinformation,
+                {
+                  info: information,
+                  image: data.user.profile.image_original,
+                },
+              ]);
+            }
           });
       } catch (error) {
         console.log(error);
@@ -254,8 +263,9 @@ function Layouts() {
                 studentLastThreeWeekActivity={studentLastThreeWeekActivity}
                 studentLastLeaveOfAbscence={studentLastLeaveOfAbscence}
                 location={location}
-                mentorsInformation={mentorsInformation}
-                mentorsProPic={mentorsProPic}
+                mentorsinformation={mentorsinformation}
+                studentEnrollments={studentEnrollments}
+                currentMentorInfo={currentMentorInfo}
               />
             </Content>
           </Layout>
