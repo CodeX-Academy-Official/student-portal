@@ -115,6 +115,17 @@ app.get("/student/mentor/propic/:email", (req, res) => {
   })();
 });
 
+app.put("/student/info/update/:id", (req, res) => {
+  student_model
+    .updateStudentInformation(req)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
