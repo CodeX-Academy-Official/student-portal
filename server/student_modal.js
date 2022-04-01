@@ -302,6 +302,36 @@ const getMentorInformation = (request) => {
   });
 };
 
+const updateStudentInformation = (request) => {
+  const id = request.params.id;
+  const {
+    firstName,
+    lastName,
+    meetingTimePreference,
+    birthDate,
+    coachingIntensity,
+    coachingHumor,
+  } = request.body;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `UPDATE public.people SET
+      "firstName"='${firstName}',
+      "lastName"='${lastName}',
+      "meetingTimePreference"='${meetingTimePreference}',
+      "birthDate"='${birthDate}',
+      "coachingIntensity"=${coachingIntensity},
+      "coachingHumor"=${coachingHumor} WHERE id = ${id}`,
+      (error, results) => {
+        if (error || results.rows === undefined) {
+          reject(error);
+        } else {
+          resolve(results.rows);
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
   getStudentInfo,
   getStudentActivity,
@@ -310,4 +340,5 @@ module.exports = {
   getStudentLeaveOfAbscences,
   getStudentEnrollments,
   getMentorInformation,
+  updateStudentInformation,
 };
