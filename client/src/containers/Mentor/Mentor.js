@@ -88,7 +88,6 @@ export default function Mentor({
                           ? smallImage
                           : currentMentorInfo?.image
                       }
-                      mentorsinformation
                       alt="Mentor ProPic"
                     />
                   </div>

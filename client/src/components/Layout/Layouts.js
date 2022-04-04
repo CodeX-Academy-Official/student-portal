@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Styles from "./Layouts.module.scss";
 import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
@@ -23,101 +23,10 @@ function Layouts() {
   const [mentorsinformation, setMentorsinformation] = useState([]);
   const [currentMentorInfo, setCurrentMentorInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const location = useLocation();
 
-  async function getStudent() {
-    try {
-      setIsLoading(true);
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setmeetingPreference(
-            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
-          );
-          setStudent(data);
-          getStudentLastLeaveofAbscence(data[0].id);
-          getStudentEnrollments(data[0].id);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-    return;
-  }
-  async function getStudentLastLeaveofAbscence(id) {
-    try {
-      setIsLoading(true);
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setStudentLastLeaveOfAbscence(data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-    return;
-  }
-  async function getStudentEnrollments(id) {
-    try {
-      setIsLoading(true);
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setStudentEnrollments(data);
-          data = data.filter(
-            (value, index, self) =>
-              index === self.findIndex((t) => t.mentorId === value.mentorId)
-          );
-          for (const [index, enrollment] of data.entries()) {
-            getMentorInformation(
-              index,
-              enrollment.mentorId,
-              enrollment.isActive
-            );
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-    return;
-  }
-
-  async function getMentorInformation(index, id, isActive) {
-    try {
-      setIsLoading(true);
-      await fetch(
-        `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          if (data.length !== 0) {
-            getMentorProPic(index, data[0], isActive);
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-    return;
-  }
-
-  async function getMentorProPic(index, information, isActive) {
+  const getMentorProPic = async (index, information, isActive) => {
     try {
       setIsLoading(true);
       await fetch(
@@ -147,9 +56,107 @@ function Layouts() {
     }
     setIsLoading(false);
     return;
-  }
+  };
+
+  const getMentorInformation = useCallback(async (index, id, isActive) => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length !== 0) {
+            getMentorProPic(index, data[0], isActive);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }, []);
+
+  const getStudentEnrollments = useCallback(
+    async (id) => {
+      try {
+        setIsLoading(true);
+        await fetch(
+          `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            setStudentEnrollments(data);
+            data = data.filter(
+              (value, index, self) =>
+                index === self.findIndex((t) => t.mentorId === value.mentorId)
+            );
+            for (const [index, enrollment] of data.entries()) {
+              getMentorInformation(
+                index,
+                enrollment.mentorId,
+                enrollment.isActive
+              );
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      return;
+    },
+    [getMentorInformation]
+  );
+
+  const getStudent = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setmeetingPreference(
+            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+          );
+          setStudent(data);
+          getStudentLastLeaveofAbscence(data[0].id);
+          getStudentEnrollments(data[0].id);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }, [currentUser.email, getStudentEnrollments]);
+
+  const getStudentLastLeaveofAbscence = async (id) => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentLastLeaveOfAbscence(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  };
+
   useEffect(() => {
-    async function getStudentActivity() {
+    const getStudentActivity = async () => {
       try {
         setIsLoading(true);
         await fetch(
@@ -166,7 +173,7 @@ function Layouts() {
       }
       setIsLoading(false);
       return;
-    }
+    };
 
     async function getStudentLastActivity() {
       try {
@@ -210,7 +217,7 @@ function Layouts() {
     getStudentActivity();
     getStudentLastActivity();
     getStudentLast3weekActivity();
-  }, [currentUser.email]);
+  }, [currentUser.email, getStudent]);
 
   function getMeetingTimeP(text, text2) {
     let str = text?.replace(/"/g, "").replace("[", "").replace("]", "");
