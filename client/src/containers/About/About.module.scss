@@ -16,6 +16,7 @@
   height: auto;
   border-radius: 0.5rem;
   margin-top: auto;
+  margin-bottom: 4rem;
 
   @include respond-to-max(medium) {
     margin-bottom: 8rem;
