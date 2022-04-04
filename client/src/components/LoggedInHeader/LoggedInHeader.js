@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import smallImage from "../../img/no-img.png";
 import Styles from "./LoggedInHeader.module.scss";
 import { Layout, Row, Col, Popover, Button, Alert } from "antd";
 import BottomNavBar from "../BottomNavbar/BottomNavbar";
