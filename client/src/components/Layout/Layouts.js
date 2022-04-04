@@ -25,30 +25,130 @@ function Layouts() {
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    async function getStudent() {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setmeetingPreference(
-              getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
-            );
-            setStudent(data);
-            getStudentLastLeaveofAbscence(data[0].id);
-            getStudentEnrollments(data[0].id);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
+  async function getStudent() {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setmeetingPreference(
+            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+          );
+          setStudent(data);
+          getStudentLastLeaveofAbscence(data[0].id);
+          getStudentEnrollments(data[0].id);
+        });
+    } catch (error) {
+      console.log(error);
     }
+    setIsLoading(false);
+    return;
+  }
+  async function getStudentLastLeaveofAbscence(id) {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentLastLeaveOfAbscence(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }
+  async function getStudentEnrollments(id) {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentEnrollments(data);
+          data = data.filter(
+            (value, index, self) =>
+              index === self.findIndex((t) => t.mentorId === value.mentorId)
+          );
+          for (const [index, enrollment] of data.entries()) {
+            getMentorInformation(
+              index,
+              enrollment.mentorId,
+              enrollment.isActive
+            );
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }
+
+  async function getMentorInformation(index, id, isActive) {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length !== 0) {
+            getMentorProPic(index, data[0], isActive);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }
+
+  async function getMentorProPic(index, information, isActive) {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${information.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (index === 0 && isActive) {
+            setCurrentMentorInfo({
+              info: information,
+              image: data.user.profile.image_original,
+            });
+          } else {
+            setMentorsinformation((mentorsinformation) => [
+              ...mentorsinformation,
+              {
+                info: information,
+                image: data.user.profile.image_original,
+              },
+            ]);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }
+  useEffect(() => {
     async function getStudentActivity() {
       try {
         setIsLoading(true);
@@ -98,108 +198,6 @@ function Layouts() {
           })
           .then((data) => {
             setStudentLastThreeWeekActivity(data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getStudentLastLeaveofAbscence(id) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setStudentLastLeaveOfAbscence(data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getStudentEnrollments(id) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setStudentEnrollments(data);
-            data = data.filter(
-              (value, index, self) =>
-                index === self.findIndex((t) => t.mentorId === value.mentorId)
-            );
-            for (const [index, enrollment] of data.entries()) {
-              getMentorInformation(
-                index,
-                enrollment.mentorId,
-                enrollment.isActive
-              );
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getMentorInformation(index, id, isActive) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.length !== 0) {
-              getMentorProPic(index, data[0], isActive);
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getMentorProPic(index, information, isActive) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${information.email}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (index === 0 && isActive) {
-              setCurrentMentorInfo({
-                info: information,
-                image: data.user.profile.image_original,
-              });
-            } else {
-              setMentorsinformation((mentorsinformation) => [
-                ...mentorsinformation,
-                {
-                  info: information,
-                  image: data.user.profile.image_original,
-                },
-              ]);
-            }
           });
       } catch (error) {
         console.log(error);
@@ -266,6 +264,7 @@ function Layouts() {
                 mentorsinformation={mentorsinformation}
                 studentEnrollments={studentEnrollments}
                 currentMentorInfo={currentMentorInfo}
+                getStudent={getStudent}
               />
             </Content>
           </Layout>

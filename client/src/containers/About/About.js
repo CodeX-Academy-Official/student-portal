@@ -11,7 +11,6 @@ import {
   Radio,
   notification,
 } from "antd";
-
 import {
   CheckCircleFilled,
   CloseCircleFilled,
@@ -21,10 +20,11 @@ import {
   CheckCircleTwoTone,
 } from "@ant-design/icons";
 import Styles from "./About.module.scss";
+
 const { Option } = Select;
 const Context = React.createContext({ name: "Default" });
 
-export default function About({ student, meetingPreference }) {
+export default function About({ student, meetingPreference, getStudent }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -44,12 +44,47 @@ export default function About({ student, meetingPreference }) {
     });
   };
 
-  const handleMentorChange = () => {
+  const handleMentorChange = async (values) => {
     setisLoading(true);
-    openNotification("Updated Information", "topRight");
-    setModalVisible(false);
-    setisLoading(false);
-    form.resetFields();
+    try {
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/info/update/${student?.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then(() => {
+          getStudent();
+          openNotification("Updated Information", "topRight");
+          setModalVisible(false);
+          setisLoading(false);
+          form.resetFields();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleMeetingTimePreference = (time) => {
+    let str = time?.replace(/"/g, "").replace("[", "").replace("]", "");
+    let result;
+    if (str !== undefined && str !== "no info") {
+      result = [str];
+      if (str.indexOf(";") !== -1) {
+        result = str.split(";");
+      }
+      if (str.indexOf(",") !== -1) {
+        result = str.split(",");
+      }
+      return result.map((s) => s.trim());
+    }
   };
 
   return (
@@ -85,6 +120,16 @@ export default function About({ student, meetingPreference }) {
               id="updateInfo"
               onFinish={handleMentorChange}
               form={form}
+              initialValues={{
+                firstName: student?.firstName,
+                lastName: student?.lastName,
+                meetingTimePreference: handleMeetingTimePreference(
+                  student?.meetingTimePreference
+                ),
+                birthDate: moment(student?.birthDate),
+                coachingIntensity: student?.coachingIntensity?.toString(),
+                coachingHumor: student?.coachingHumor?.toString(),
+              }}
             >
               <Form.Item
                 label="First Name"
@@ -112,6 +157,7 @@ export default function About({ student, meetingPreference }) {
               </Form.Item>
               <Form.Item
                 label="Meeting Time Preference"
+                name="meetingTimePreference"
                 rules={[
                   {
                     required: true,
@@ -119,13 +165,22 @@ export default function About({ student, meetingPreference }) {
                   },
                 ]}
               >
-                <Select placeholder="Select Meeting Time Preference">
+                <Select
+                  placeholder="Select Meeting Time Preference"
+                  mode="multiple"
+                  allowClear
+                >
+                  <Option value="Morning">Morning</Option>
                   <Option value="Mid-Day">Mid-Day</Option>
                   <Option value="Afternoon">Afternoon</Option>
+                  <Option value="Early Evening">Early Evening</Option>
+                  <Option value="Evening">Evening</Option>
+                  <Option value="Late-Night">Late-Night</Option>
                 </Select>
               </Form.Item>
               <Form.Item
                 style={{ display: "inline-block", width: "calc(50% - 12px)" }}
+                name="birthDate"
                 label="Birth Date"
               >
                 <DatePicker />
@@ -199,6 +254,30 @@ export default function About({ student, meetingPreference }) {
             ) : (
               <></>
             )}
+            {student?.coachingHumor ? (
+              <h3>
+                <strong>Coaching Humor: </strong>
+                {student?.coachingHumor}
+              </h3>
+            ) : (
+              <></>
+            )}
+            {student?.coachingIntensity ? (
+              <h3>
+                <strong>Coaching Intensity: </strong>
+                {student?.coachingIntensity}
+              </h3>
+            ) : (
+              <></>
+            )}
+            {student?.birthDate ? (
+              <h3>
+                <strong>Birth Date: </strong>
+                {moment(student.birthDate).format("MMMM Do YYYY")}
+              </h3>
+            ) : (
+              <></>
+            )}
             {student?.isActive ? (
               <h3>
                 <strong>Active: </strong>
@@ -262,7 +341,7 @@ export default function About({ student, meetingPreference }) {
         </div>
       </div>
       <Context.Provider
-        value={{ name: student.info?.firstName + " " + student.info?.lastName }}
+        value={{ name: student?.firstName + " " + student?.lastName }}
       >
         {contextHolder}
       </Context.Provider>
