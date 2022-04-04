@@ -102,7 +102,7 @@ app.get("/student/mentor/:id", (req, res) => {
     });
 });
 
-app.get("/student/mentor/propic/:email", (req, res) => {
+app.get("/student/propic/:email", (req, res) => {
   (async () => {
     try {
       const response = await web.users.lookupByEmail({
