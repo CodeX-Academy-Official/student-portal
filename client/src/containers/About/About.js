@@ -26,16 +26,19 @@ const Context = React.createContext({ name: "Default" });
 
 export default function About({ student, meetingPreference, getStudent }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
   const [isLoading, setisLoading] = useState(false);
+  const [isLoading2, setisLoading2] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
 
   const openNotification = (title, placement) => {
     api.info({
       message: `${title} Notification`,
       description: (
         <Context.Consumer>
-          {({ name }) => `Updated Information for ${name}!`}
+          {({ name }) => `Updated Information for ${name} !`}
         </Context.Consumer>
       ),
       placement,
@@ -44,7 +47,21 @@ export default function About({ student, meetingPreference, getStudent }) {
     });
   };
 
-  const handleMentorChange = async (values) => {
+  const openNotificationRequestEmail = (title, placement) => {
+    api.info({
+      message: `${title} Notification`,
+      description: (
+        <Context.Consumer>
+          {({ name }) => `Request sent for ${name} !`}
+        </Context.Consumer>
+      ),
+      placement,
+      duration: 5,
+      icon: <CheckCircleTwoTone twoToneColor="#52c41a" />,
+    });
+  };
+
+  const handleUpdateInfoChange = async (values) => {
     setisLoading(true);
     try {
       await fetch(
@@ -65,8 +82,25 @@ export default function About({ student, meetingPreference, getStudent }) {
           openNotification("Updated Information", "topRight");
           setModalVisible(false);
           setisLoading(false);
-          form.resetFields();
+          form2.resetFields();
         });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const requestEmailChange = (values) => {
+    setisLoading2(true);
+    try {
+      fetch(
+        `https://hooks.zapier.com/hooks/catch/6492165/b8ffnok/?firstName=${student.firstName}&lastName=${student.lastName}&currentEmail=${student.email}&newEmail=${values.email}`,
+        {
+          method: "POST",
+        }
+      );
+      openNotificationRequestEmail("Requested Email Change", "topRight");
+      setModalVisible2(false);
+      setisLoading2(false);
+      form2.resetFields();
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +152,7 @@ export default function About({ student, meetingPreference, getStudent }) {
             <Form
               layout="vertical"
               id="updateInfo"
-              onFinish={handleMentorChange}
+              onFinish={handleUpdateInfoChange}
               form={form}
               initialValues={{
                 firstName: student?.firstName,
@@ -223,6 +257,53 @@ export default function About({ student, meetingPreference, getStudent }) {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            visible={modalVisible2}
+            title="Request Email Change"
+            onCancel={() => setModalVisible2(false)}
+            footer={[
+              <Button
+                shape="round"
+                key="back"
+                onClick={() => setModalVisible2(false)}
+              >
+                Return
+              </Button>,
+              <Button
+                form="updateEmail"
+                shape="round"
+                key="submit"
+                type="primary"
+                loading={isLoading2}
+                htmlType="submit"
+              >
+                Submit
+              </Button>,
+            ]}
+          >
+            <Form
+              layout="vertical"
+              id="updateEmail"
+              onFinish={requestEmailChange}
+              form={form2}
+              initialValues={{
+                email: student?.email,
+              }}
+            >
+              <Form.Item
+                label="New Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your new email",
+                  },
+                ]}
+              >
+                <Input type="email" />
+              </Form.Item>
+            </Form>
+          </Modal>
           <h2>
             <strong>
               {student.firstName} {student.lastName}
@@ -230,8 +311,12 @@ export default function About({ student, meetingPreference, getStudent }) {
           </h2>
           <div className={Styles.details}>
             <h3>
+              <strong>Email: </strong>
+              {student?.email}
+            </h3>
+            <h3>
               <strong>Target Certification: </strong>
-              {student.targetCertification}
+              {student?.targetCertification}
             </h3>
             <h3>
               <strong>Current Level: </strong>
@@ -325,6 +410,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               icon={<MailOutlined />}
               size={"large"}
               className={Styles.secondary}
+              onClick={() => setModalVisible2(true)}
             >
               Request Email Change
             </Button>
