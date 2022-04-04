@@ -105,6 +105,24 @@ export default function About({ student, meetingPreference, getStudent }) {
       console.log(error);
     }
   };
+  const handlePlacementService = () => {
+    if (student.level >= 3) {
+      console.log(student);
+      requestPlacementService();
+      success();
+    } else {
+      error();
+    }
+  };
+
+  const requestPlacementService = () => {
+    fetch(
+      `https://hooks.zapier.com/hooks/catch/6492165/bbltgp1/?studentId=${student.id}&Level=${student.level}`,
+      {
+        method: "POST",
+      }
+    );
+  };
 
   const handleMeetingTimePreference = (time) => {
     let str = time?.replace(/"/g, "").replace("[", "").replace("]", "");
@@ -120,6 +138,19 @@ export default function About({ student, meetingPreference, getStudent }) {
       return result.map((s) => s.trim());
     }
   };
+
+  function success() {
+    Modal.success({
+      content: "Requested placement service!",
+    });
+  }
+
+  function error() {
+    Modal.error({
+      title: "Not Qualified yet",
+      content: "You have to be on level 3 or above to request placement",
+    });
+  }
 
   return (
     <div className={Styles.About}>
@@ -420,6 +451,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               icon={<VerticalAlignBottomOutlined />}
               size={"large"}
               className={Styles.third}
+              onClick={handlePlacementService}
             >
               Request Placement Service
             </Button>
