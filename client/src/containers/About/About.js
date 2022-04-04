@@ -157,6 +157,7 @@ export default function About({ student, meetingPreference, getStudent }) {
       <div className={Styles.whiteBox}>
         <div className={Styles.withPadding}>
           <Modal
+            centered
             visible={modalVisible}
             title="Request Change of Information"
             onCancel={() => setModalVisible(false)}
@@ -289,6 +290,7 @@ export default function About({ student, meetingPreference, getStudent }) {
             </Form>
           </Modal>
           <Modal
+            centered
             visible={modalVisible2}
             title="Request Email Change"
             onCancel={() => setModalVisible2(false)}
