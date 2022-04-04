@@ -27,7 +27,7 @@
 
 .withPadding {
   display: flex;
-
+  padding-left: 2.2rem;
   flex-direction: column;
   flex-wrap: wrap;
   h2 {
@@ -41,9 +41,7 @@
     padding-left: 6.2rem;
     padding-right: 5rem;
   }
-  @include respond-to(small) {
-    padding-left: 2.2rem;
-  }
+
   input {
     height: 5rem;
     border: 1px solid black;
