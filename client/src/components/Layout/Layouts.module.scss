@@ -1,12 +1,31 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
 
+*,
+*::after,
+*::before {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: inherit;
+  scrollbar-color: #ff9b36;
+}
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #ff9b36;
+  border-radius: 5px;
+}
+
 .layout {
   background-color: #f4faff;
   margin-left: 200px;
   @include respond-to-max(medium) {
     margin-left: 0;
   }
+  overflow-x: hidden;
 }
 
 .spinnerContainer {

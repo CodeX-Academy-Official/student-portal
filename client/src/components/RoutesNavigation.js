@@ -22,6 +22,7 @@ function RoutesNavigation(props) {
         <About
           student={props.student}
           meetingPreference={props.meetingPreference}
+          getStudent={props.getStudent}
         />
       );
     case "/mentor":

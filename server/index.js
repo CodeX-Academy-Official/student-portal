@@ -12,7 +12,7 @@ const web = new WebClient(token);
 app.use(express.json());
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Methods", "GET,PUT");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Content-Type, Access-Control-Allow-Headers"
@@ -102,7 +102,7 @@ app.get("/student/mentor/:id", (req, res) => {
     });
 });
 
-app.get("/student/mentor/propic/:email", (req, res) => {
+app.get("/student/propic/:email", (req, res) => {
   (async () => {
     try {
       const response = await web.users.lookupByEmail({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Styles from "./Layouts.module.scss";
 import { Layout } from "antd";
 import LoggedInHeader from "../LoggedInHeader/LoggedInHeader";
@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import SideBar from "../SideBar/SideBar";
 import RoutesNavigation from "../RoutesNavigation";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
+import smallImage from "../../img/no-img.png";
 
 import { useLocation } from "react-router-dom";
 const { Content } = Layout;
@@ -22,34 +23,168 @@ function Layouts() {
   const [meetingPreference, setmeetingPreference] = useState([]);
   const [mentorsinformation, setMentorsinformation] = useState([]);
   const [currentMentorInfo, setCurrentMentorInfo] = useState(null);
+  const [studentProPic, setStudentProPic] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const isMounted = useRef(null);
+
   const location = useLocation();
 
-  useEffect(() => {
-    async function getStudent() {
+  const getMentorProPic = async (index, information, isActive) => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/propic/${information.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (index === 0 && isActive) {
+            setCurrentMentorInfo({
+              info: information,
+              image: data.user.profile.image_original,
+            });
+          } else {
+            setMentorsinformation((mentorsinformation) => [
+              ...mentorsinformation,
+              {
+                info: information,
+                image: data.user.profile.image_original,
+              },
+            ]);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  };
+
+  const getStudentProPic = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/propic/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data?.data?.ok === true || data?.ok) {
+            setStudentProPic(data.user.profile.image_original);
+          } else {
+            setStudentProPic(smallImage);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }, [currentUser.email]);
+
+  const getMentorInformation = useCallback(async (index, id, isActive) => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length !== 0) {
+            getMentorProPic(index, data[0], isActive);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  }, []);
+
+  const getStudentEnrollments = useCallback(
+    async (id) => {
       try {
         setIsLoading(true);
         await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+          `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
         )
           .then((response) => {
             return response.json();
           })
           .then((data) => {
-            setmeetingPreference(
-              getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+            setStudentEnrollments(data);
+            data = data.filter(
+              (value, index, self) =>
+                index === self.findIndex((t) => t.mentorId === value.mentorId)
             );
-            setStudent(data);
-            getStudentLastLeaveofAbscence(data[0].id);
-            getStudentEnrollments(data[0].id);
+            for (const [index, enrollment] of data.entries()) {
+              getMentorInformation(
+                index,
+                enrollment.mentorId,
+                enrollment.isActive
+              );
+            }
           });
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
       return;
+    },
+    [getMentorInformation]
+  );
+
+  const getStudent = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/info/${currentUser.email}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setmeetingPreference(
+            getMeetingTimeP(data[0].meetingTimePreference, data[0].attributes)
+          );
+          setStudent(data);
+          getStudentLastLeaveofAbscence(data[0].id);
+          getStudentEnrollments(data[0].id);
+          getStudentProPic();
+        });
+    } catch (error) {
+      console.log(error);
     }
-    async function getStudentActivity() {
+    setIsLoading(false);
+    return;
+  }, [currentUser.email, getStudentEnrollments, getStudentProPic]);
+
+  const getStudentLastLeaveofAbscence = async (id) => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setStudentLastLeaveOfAbscence(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+    return;
+  };
+
+  useEffect(() => {
+    isMounted.current = true;
+    const getStudentActivity = async () => {
       try {
         setIsLoading(true);
         await fetch(
@@ -66,7 +201,7 @@ function Layouts() {
       }
       setIsLoading(false);
       return;
-    }
+    };
 
     async function getStudentLastActivity() {
       try {
@@ -106,113 +241,14 @@ function Layouts() {
       return;
     }
 
-    async function getStudentLastLeaveofAbscence(id) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/leaveofabcenses/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setStudentLastLeaveOfAbscence(data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getStudentEnrollments(id) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/enrollments/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setStudentEnrollments(data);
-            data = data.filter(
-              (value, index, self) =>
-                index === self.findIndex((t) => t.mentorId === value.mentorId)
-            );
-            for (const [index, enrollment] of data.entries()) {
-              getMentorInformation(
-                index,
-                enrollment.mentorId,
-                enrollment.isActive
-              );
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getMentorInformation(index, id, isActive) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/${id}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (data.length !== 0) {
-              getMentorProPic(index, data[0], isActive);
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
-    async function getMentorProPic(index, information, isActive) {
-      try {
-        setIsLoading(true);
-        await fetch(
-          `https://codex-student-portal-server.herokuapp.com/student/mentor/propic/${information.email}`
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            if (index === 0 && isActive) {
-              setCurrentMentorInfo({
-                info: information,
-                image: data.user.profile.image_original,
-              });
-            } else {
-              setMentorsinformation((mentorsinformation) => [
-                ...mentorsinformation,
-                {
-                  info: information,
-                  image: data.user.profile.image_original,
-                },
-              ]);
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-      return;
-    }
-
     getStudent();
     getStudentActivity();
     getStudentLastActivity();
     getStudentLast3weekActivity();
-  }, [currentUser.email]);
+    return () => {
+      isMounted.current = false;
+    };
+  }, [currentUser.email, getStudent]);
 
   function getMeetingTimeP(text, text2) {
     let str = text?.replace(/"/g, "").replace("[", "").replace("]", "");
@@ -247,12 +283,13 @@ function Layouts() {
     <Layout style={{ minHeight: "100vh" }} hasSider>
       <SideBar location={location} />
       {student ? (
-        student.map((student) => (
-          <Layout key={student.id} className={Styles.layout}>
+        student.map((student, index) => (
+          <Layout key={index} className={Styles.layout}>
             <LoggedInHeader
               logout={logout}
               student={student}
               location={location}
+              studentProPic={studentProPic}
             />
             <Content className={Styles.content}>
               <RoutesNavigation
@@ -266,6 +303,7 @@ function Layouts() {
                 mentorsinformation={mentorsinformation}
                 studentEnrollments={studentEnrollments}
                 currentMentorInfo={currentMentorInfo}
+                getStudent={getStudent}
               />
             </Content>
           </Layout>

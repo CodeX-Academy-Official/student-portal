@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import smallImage from "../../img/no-img.png";
 import Styles from "./LoggedInHeader.module.scss";
 import { Layout, Row, Col, Popover, Button, Alert } from "antd";
 import BottomNavBar from "../BottomNavbar/BottomNavbar";
@@ -79,7 +78,7 @@ function LoggedInHeader(props) {
                 <Row>
                   <Col xs={23} sm={18} lg={16} xl={14}>
                     <div className={Styles.imgContainer}>
-                      <img src={smallImage} alt="CodeXAcademy Logo" />
+                      <img src={props.studentProPic} alt="CodeXAcademy Logo" />
                     </div>
                   </Col>
                   <Col xs={1} sm={1} lg={1} xl={1}>

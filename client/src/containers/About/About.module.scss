@@ -4,7 +4,7 @@
 .About {
   display: flex;
   width: 100%;
-  height: 70vh;
+
   flex-direction: row;
   justify-content: center;
 }
@@ -15,8 +15,14 @@
   padding: 3.6rem 0 3.6rem;
   height: auto;
   border-radius: 0.5rem;
-  margin: auto;
+  margin-top: auto;
+  margin-bottom: 4rem;
+
+  @include respond-to-max(medium) {
+    margin-bottom: 8rem;
+  }
   text-align: center;
+  padding-bottom: 5rem;
   width: 60%;
   @include respond-to-max(large) {
     width: 100%;
@@ -24,9 +30,10 @@
 }
 
 .withPadding {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom: 2rem;
+  display: flex;
+  padding-left: 2.2rem;
+  flex-direction: column;
+  flex-wrap: wrap;
   h2 {
     margin-bottom: 4rem;
   }
@@ -38,6 +45,7 @@
     padding-left: 6.2rem;
     padding-right: 5rem;
   }
+
   input {
     height: 5rem;
     border: 1px solid black;
@@ -66,4 +74,77 @@
 
 .meetingPreferenceList {
   float: left;
+}
+
+// .actions {
+//   display: flex;
+//   justify-content: center;
+//   flex-wrap: wrap;
+//   :not(:last-child) {
+//     margin-right: 2rem;
+//     margin-bottom: 2rem;
+//   }
+//   @include respond-to-max(custom-action) {
+//     :not(:last-child) {
+//       margin-bottom: 2rem;
+//       // margin-right: 0rem;
+//     }
+//   }
+// }
+
+.actions {
+  margin: 10px auto;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  button {
+    padding: 1em;
+    font-size: 0.9em;
+    margin: 0.3em;
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+.primary {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+}
+
+.secondary {
+  background-color: $primary-btn-color;
+  border-color: $primary-btn-color;
+}
+
+.third {
+  background-color: $status-color;
+  border-color: $status-color;
+}
+
+.secondary:hover {
+  background-color: $primary-btn-color_hover;
+  border-color: $primary-btn-color_hover;
+  color: #fff;
+}
+.secondary:focus {
+  color: $primary-btn-color_hover;
+  background: $white-color;
+  border-color: $primary-btn-color_hover;
+}
+
+.third:hover {
+  background-color: $status-color_hover;
+  border-color: $status-color_hover;
+  color: #fff;
+}
+.third:focus {
+  color: $status-color_hover;
+  background: $white-color;
+  border-color: $status-color_hover;
+}
+
+.modalStyle .ant-modal-content {
+  background-color: #01579b;
 }
