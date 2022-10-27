@@ -79,8 +79,6 @@ export default function Overview({
     return noDuplicated.length || 0;
   };
 
-  // const currentBadges = getEarnedBadges();
-
   const progressBarCertificationPercentage = () => {
     let targetCertification = 0;
     if (targetCertificationName === "Full-Stack Developer") {
@@ -113,13 +111,17 @@ export default function Overview({
       student?.expectedStartDate === undefined
         ? ""
         : student?.expectedStartDate;
-    return moment(startDate).format("MMMM Do YYYY");
+    const parts = startDate.split("T");
+    const onlyDate = parts.length ? parts[0] : "";
+    return moment(onlyDate).format("MMMM Do, YYYY");
   };
 
   const getEndDate = () => {
     const endDate =
       student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
-    return moment(endDate).format("MMMM Do YYYY");
+    const parts = endDate.split("T");
+    const onlyDate = parts.length ? parts[0] : "";
+    return moment(onlyDate).format("MMMM Do YYYY");
   };
 
   const getTimeLinePercentage = () => {
