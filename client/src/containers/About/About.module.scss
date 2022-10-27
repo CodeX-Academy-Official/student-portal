@@ -100,7 +100,7 @@
   button {
     padding: 1em;
     font-size: 0.9em;
-    margin: 0.3em;
+    margin: 0.75em;
     color: white;
     text-decoration: none;
     flex-grow: 1;
@@ -123,6 +123,11 @@
   border-color: $status-color;
 }
 
+.danger {
+  background-color: $danger-color;
+  border-color: $danger-color;
+}
+
 .secondary:hover {
   background-color: $primary-btn-color_hover;
   border-color: $primary-btn-color_hover;
@@ -143,6 +148,17 @@
   color: $status-color_hover;
   background: $white-color;
   border-color: $status-color_hover;
+}
+
+.danger:hover {
+  background-color: $danger-color_hover;
+  border-color: $danger-color_hover;
+  color: #fff;
+}
+.danger:focus {
+  color: $danger-color_hover;
+  background: $white-color;
+  border-color: $danger-color_hover;
 }
 
 .modalStyle .ant-modal-content {

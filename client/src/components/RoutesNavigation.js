@@ -5,7 +5,8 @@ import Mentor from "../containers/Mentor/Mentor";
 import DynamiteSessions from "../containers/DynamiteSessions/DynamiteSessions";
 import Requests from "../containers/Requests/Requests";
 import NoMatch from "../containers/NoMatch/NoMatch";
-function RoutesNavigation(props) {
+
+export default function RoutesNavigation(props) {
   switch (props.location.pathname) {
     case "/":
       return (
@@ -42,5 +43,3 @@ function RoutesNavigation(props) {
       return <NoMatch />;
   }
 }
-
-export default RoutesNavigation;

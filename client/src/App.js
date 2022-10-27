@@ -10,6 +10,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./PrivateRoute";
 import Layouts from "./components/Layout/Layouts";
 import NoMatch from "./containers/NoMatch/NoMatch";
+
 function App() {
   const app = (
     <BrowserRouter>

@@ -16,22 +16,27 @@ import {
   CloseCircleFilled,
   FormOutlined,
   VerticalAlignBottomOutlined,
+  WarningOutlined,
   MailOutlined,
   CheckCircleTwoTone,
 } from "@ant-design/icons";
 import Styles from "./About.module.scss";
 
 const { Option } = Select;
+const { TextArea } = Input;
 const Context = React.createContext({ name: "Default" });
 
 export default function About({ student, meetingPreference, getStudent }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisible2, setModalVisible2] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
-  const [isLoading2, setisLoading2] = useState(false);
+  const [updateInfoModalVisible, setUpdateInfoModalVisible] = useState(false);
+  const [changeEmailModalVisible, setChangeEmailModalVisible] = useState(false);
+  const [withdrawModalVisible, setWithdrawModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [isLoading3, setIsLoading3] = useState(false);
   const [api, contextHolder] = notification.useNotification();
-  const [form] = Form.useForm();
-  const [form2] = Form.useForm();
+  const [updateInformationForm] = Form.useForm();
+  const [changeEmailForm] = Form.useForm();
+  const [withdrawForm] = Form.useForm();
 
   const openNotification = (title, placement) => {
     api.info({
@@ -62,7 +67,7 @@ export default function About({ student, meetingPreference, getStudent }) {
   };
 
   const handleUpdateInfoChange = async (values) => {
-    setisLoading(true);
+    setIsLoading(true);
     try {
       await fetch(
         `https://codex-student-portal-server.herokuapp.com/student/info/update/${student?.id}`,
@@ -80,16 +85,17 @@ export default function About({ student, meetingPreference, getStudent }) {
         .then(() => {
           getStudent();
           openNotification("Updated Information", "topRight");
-          setModalVisible(false);
-          setisLoading(false);
-          form2.resetFields();
+          setUpdateInfoModalVisible(false);
+          setIsLoading(false);
+          changeEmailForm.resetFields();
         });
     } catch (error) {
       console.log(error);
     }
   };
+
   const requestEmailChange = (values) => {
-    setisLoading2(true);
+    setIsLoading2(true);
     try {
       fetch(
         `https://hooks.zapier.com/hooks/catch/6492165/b8ffnok/?firstName=${student.firstName}&lastName=${student.lastName}&currentEmail=${student.email}&newEmail=${values.email}`,
@@ -98,20 +104,26 @@ export default function About({ student, meetingPreference, getStudent }) {
         }
       );
       openNotificationRequestEmail("Requested Email Change", "topRight");
-      setModalVisible2(false);
-      setisLoading2(false);
-      form2.resetFields();
+      setChangeEmailModalVisible(false);
+      setIsLoading2(false);
+      changeEmailForm.resetFields();
     } catch (error) {
       console.log(error);
     }
   };
+
   const handlePlacementService = () => {
     if (student.level >= 3) {
       console.log(student);
       requestPlacementService();
-      success();
+      Modal.success({
+        content: "Requested placement service!",
+      });
     } else {
-      error();
+      Modal.error({
+        title: "Not Qualified yet",
+        content: "You have to be on level 3 or above to request placement",
+      });
     }
   };
 
@@ -122,6 +134,37 @@ export default function About({ student, meetingPreference, getStudent }) {
         method: "POST",
       }
     );
+  };
+
+  const handleWithdraw = (values) => {
+    setIsLoading3(true);
+    requestWithdraw(values);
+    setWithdrawModalVisible(false);
+    setIsLoading3(false);
+  };
+
+  const requestWithdraw = (formData) => {
+    try {
+      fetch(`https://eooooena9evuq5h.m.pipedream.net`, {
+        method: "POST",
+        body: JSON.stringify({
+          student: student,
+          withdrawDate:
+            formData.withdrawDate || moment(new Date(), "YYYY-MM-DD"),
+          withdrawReason: formData.withdrawReason || "",
+        }),
+      });
+      withdrawForm.resetFields();
+      Modal.success({
+        content: "Withdraw requested!",
+      });
+    } catch (error) {
+      Modal.error({
+        title: "Sorry",
+        content: "There was an error requesting your withdraw",
+      });
+      console.error(error);
+    }
   };
 
   const handleMeetingTimePreference = (time) => {
@@ -139,18 +182,11 @@ export default function About({ student, meetingPreference, getStudent }) {
     }
   };
 
-  function success() {
-    Modal.success({
-      content: "Requested placement service!",
-    });
-  }
-
-  function error() {
-    Modal.error({
-      title: "Not Qualified yet",
-      content: "You have to be on level 3 or above to request placement",
-    });
-  }
+  const parseDate = (date) => {
+    const parts = date.split("T");
+    const onlyDate = parts.length ? parts[0] : "";
+    return moment(onlyDate).format("MMMM Do, YYYY");
+  };
 
   return (
     <div className={Styles.About}>
@@ -158,14 +194,14 @@ export default function About({ student, meetingPreference, getStudent }) {
         <div className={Styles.withPadding}>
           <Modal
             centered
-            visible={modalVisible}
+            visible={updateInfoModalVisible}
             title="Request Change of Information"
-            onCancel={() => setModalVisible(false)}
+            onCancel={() => setUpdateInfoModalVisible(false)}
             footer={[
               <Button
                 shape="round"
                 key="back"
-                onClick={() => setModalVisible(false)}
+                onClick={() => setUpdateInfoModalVisible(false)}
               >
                 Return
               </Button>,
@@ -185,7 +221,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               layout="vertical"
               id="updateInfo"
               onFinish={handleUpdateInfoChange}
-              form={form}
+              form={updateInformationForm}
               initialValues={{
                 firstName: student?.firstName,
                 lastName: student?.lastName,
@@ -291,14 +327,14 @@ export default function About({ student, meetingPreference, getStudent }) {
           </Modal>
           <Modal
             centered
-            visible={modalVisible2}
+            visible={changeEmailModalVisible}
             title="Request Email Change"
-            onCancel={() => setModalVisible2(false)}
+            onCancel={() => setChangeEmailModalVisible(false)}
             footer={[
               <Button
                 shape="round"
                 key="back"
-                onClick={() => setModalVisible2(false)}
+                onClick={() => setChangeEmailModalVisible(false)}
               >
                 Return
               </Button>,
@@ -318,7 +354,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               layout="vertical"
               id="updateEmail"
               onFinish={requestEmailChange}
-              form={form2}
+              form={changeEmailForm}
               initialValues={{
                 email: student?.email,
               }}
@@ -337,6 +373,71 @@ export default function About({ student, meetingPreference, getStudent }) {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            centered
+            visible={withdrawModalVisible}
+            title="Request Withdraw"
+            onCancel={() => setWithdrawModalVisible(false)}
+            footer={[
+              <Button
+                shape="round"
+                key="back"
+                onClick={() => setWithdrawModalVisible(false)}
+              >
+                Return
+              </Button>,
+              <Button
+                form="withdraw"
+                shape="round"
+                key="submit"
+                type="primary"
+                loading={isLoading3}
+                htmlType="submit"
+              >
+                Submit
+              </Button>,
+            ]}
+          >
+            <Form
+              layout="vertical"
+              id="withdraw"
+              onFinish={handleWithdraw}
+              form={withdrawForm}
+              initialValues={{
+                withdrawDate: moment(new Date(), "YYYY-MM-DD"),
+                withdrawReason: "",
+              }}
+            >
+              <Form.Item
+                label="Withdraw reason"
+                name="withdrawReason"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please tell us why you want to withdraw",
+                  },
+                ]}
+              >
+                <TextArea
+                  rows={4}
+                  placeholder="Please tell us why you want to withdraw"
+                />
+              </Form.Item>
+              <Form.Item
+                label="Withdraw Date"
+                name="withdrawDate"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your withdraw date",
+                  },
+                ]}
+              >
+                <DatePicker />
+              </Form.Item>
+            </Form>
+          </Modal>
+
           <h2>
             <strong>
               {student.firstName} {student.lastName}
@@ -359,7 +460,7 @@ export default function About({ student, meetingPreference, getStudent }) {
             {student?.expectedStartDate ? (
               <h3>
                 <strong>Expected Start Date: </strong>
-                {moment(student.expectedStartDate).format("MMMM Do YYYY")}
+                {parseDate(student.expectedStartDate)}
               </h3>
             ) : (
               <></>
@@ -367,7 +468,7 @@ export default function About({ student, meetingPreference, getStudent }) {
             {student?.expectedEndDate ? (
               <h3>
                 <strong>Expected End Date: </strong>
-                {moment(student.expectedEndDate).format("MMMM Do YYYY")}
+                {parseDate(student.expectedEndDate)}
               </h3>
             ) : (
               <></>
@@ -391,7 +492,7 @@ export default function About({ student, meetingPreference, getStudent }) {
             {student?.birthDate ? (
               <h3>
                 <strong>Birth Date: </strong>
-                {moment(student.birthDate).format("MMMM Do YYYY")}
+                {parseDate(student.birthDate)}
               </h3>
             ) : (
               <></>
@@ -433,7 +534,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               icon={<FormOutlined />}
               size={"large"}
               className={Styles.primary}
-              onClick={() => setModalVisible(true)}
+              onClick={() => setUpdateInfoModalVisible(true)}
             >
               Update Information
             </Button>
@@ -443,7 +544,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               icon={<MailOutlined />}
               size={"large"}
               className={Styles.secondary}
-              onClick={() => setModalVisible2(true)}
+              onClick={() => setChangeEmailModalVisible(true)}
             >
               Request Email Change
             </Button>
@@ -456,6 +557,16 @@ export default function About({ student, meetingPreference, getStudent }) {
               onClick={handlePlacementService}
             >
               Request Placement Service
+            </Button>
+            <Button
+              type="primary"
+              shape="round"
+              icon={<WarningOutlined />}
+              size={"large"}
+              className={Styles.danger}
+              onClick={() => setWithdrawModalVisible(true)}
+            >
+              Withdraw from Codex Academy
             </Button>
           </div>
         </div>
