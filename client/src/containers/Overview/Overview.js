@@ -59,10 +59,28 @@ export default function Overview({
       return attributes;
     }
   };
-  const currentBadges =
-    getAttributes()?.badges === undefined
-      ? ""
-      : Number(getAttributes()?.badges);
+
+  const getEarnedBadges = () => {
+    // TODO: improve this function.
+    if (!studentActivity) {
+      return 0;
+    }
+    const awardedBadges = studentActivity.filter(
+      (badge) => badge.type === "badge award"
+    );
+    const uniqBy = (collection, callbackProp) => {
+      var seen = {};
+      return collection.filter(function (item) {
+        var prop = callbackProp(item);
+        return seen.hasOwnProperty(prop) ? false : (seen[prop] = true);
+      });
+    };
+    const noDuplicated = uniqBy(awardedBadges || [], (b) => b.info);
+    return noDuplicated.length || 0;
+  };
+
+  // const currentBadges = getEarnedBadges();
+
   const progressBarCertificationPercentage = () => {
     let targetCertification = 0;
     if (targetCertificationName === "Full-Stack Developer") {
@@ -74,7 +92,7 @@ export default function Overview({
     } else {
       targetCertification = 0;
     }
-    return Math.round((currentBadges / targetCertification) * 100);
+    return Math.round((getEarnedBadges() / targetCertification) * 100);
   };
 
   const getTargetCertifications = () => {
@@ -173,7 +191,7 @@ export default function Overview({
           <h2>Badge Progress:</h2>
           <div className={Styles.withPadding}>
             <p>
-              <strong>Current ({currentBadges})</strong>
+              <strong>Current ({getEarnedBadges()})</strong>
             </p>
             <Progress
               percent={progressBarCertificationPercentage()}
