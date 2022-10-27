@@ -72,7 +72,7 @@ function Layouts() {
         })
         .then((data) => {
           if (data?.data?.ok === true || data?.ok) {
-            setStudentProPic(data.user.profile.image_original);
+            setStudentProPic(data.user.profile.image_512);
           } else {
             setStudentProPic(smallImage);
           }
