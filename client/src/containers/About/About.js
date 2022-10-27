@@ -188,6 +188,25 @@ export default function About({ student, meetingPreference, getStudent }) {
     return moment(onlyDate).format("MMMM Do, YYYY");
   };
 
+  const getStatusStyle = () => {
+    const statusMap = {
+      "In Program (Active)": "#8BC34A",
+      "Withdrawn (not active)": "#E53935",
+      Withdrawing: "#E53935",
+      Graduated: "#4CAF50",
+      "In Placement": "#3F51B5",
+      Placed: "#2196F3",
+      "(In Program) Paused": "#FFEB3B",
+      "Extra time": "#9C27B0",
+    };
+
+    if (!student?.status) {
+      return { color: undefined };
+    }
+    const color = statusMap[student?.status];
+    return { color: color, fontWeight: 800 };
+  };
+
   return (
     <div className={Styles.About}>
       <div className={Styles.whiteBox}>
@@ -523,6 +542,14 @@ export default function About({ student, meetingPreference, getStudent }) {
                   </h3>
                 </ul>
               </div>
+            ) : (
+              <></>
+            )}
+            {student?.status ? (
+              <h3>
+                <strong>Status: </strong>
+                <span style={getStatusStyle()}>{student?.status}</span>
+              </h3>
             ) : (
               <></>
             )}
