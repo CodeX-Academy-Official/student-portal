@@ -121,7 +121,7 @@ export default function Overview({
       student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
     const parts = endDate.split("T");
     const onlyDate = parts.length ? parts[0] : "";
-    return moment(endDate).format("MMMM Do YYYY");
+    return moment(onlyDate).format("MMMM Do YYYY");
   };
 
   const getTimeLinePercentage = () => {
