@@ -395,7 +395,7 @@ export default function About({ student, meetingPreference, getStudent }) {
           <Modal
             centered
             visible={withdrawModalVisible}
-            title="Request Withdraw"
+            title="Request Withdrawn"
             onCancel={() => setWithdrawModalVisible(false)}
             footer={[
               <Button
@@ -428,7 +428,7 @@ export default function About({ student, meetingPreference, getStudent }) {
               }}
             >
               <Form.Item
-                label="Withdraw reason"
+                label="Withdrawal reason"
                 name="withdrawReason"
                 rules={[
                   {
