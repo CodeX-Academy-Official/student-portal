@@ -121,7 +121,7 @@ export default function Overview({
       student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
     const parts = endDate.split("T");
     const onlyDate = parts.length ? parts[0] : "";
-    return moment(onlyDate).format("MMMM Do YYYY");
+    return moment(endDate).format("MMMM Do YYYY");
   };
 
   const getTimeLinePercentage = () => {
@@ -146,6 +146,14 @@ export default function Overview({
     }
 
     return Math.round(pace);
+  };
+
+  const getLastActivityRelativeTime = () => {
+    if (studentLastActivity.length) {
+      return moment(studentLastActivity[0].time).fromNow();
+    } else {
+      return `${student.LastActivity} Days Ago`;
+    }
   };
 
   const columns = [
@@ -217,7 +225,7 @@ export default function Overview({
                 }}
                 type="circle"
                 percent={99}
-                format={() => `${student.LastActivity} Days Ago`}
+                format={() => getLastActivityRelativeTime()}
                 className={Styles.progressCircle}
               />
             </div>
