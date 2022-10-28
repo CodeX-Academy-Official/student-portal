@@ -12,12 +12,13 @@ function useQuery() {
 }
 
 function ResetPassword() {
+  const passwordRef = useRef();
   const navigate = useNavigate();
   const query = useQuery();
   const { resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [resetPasswordError, setResetPasswordError] = useState("");
-  const passwordRef = useRef();
+
   const openNotification = () => {
     notification.open({
       message: "Password Changed",
@@ -25,6 +26,7 @@ function ResetPassword() {
       icon: <SmileOutlined style={{ color: "#108ee9" }} />,
     });
   };
+
   async function handleSubmit() {
     try {
       setIsLoading(true);
@@ -39,14 +41,20 @@ function ResetPassword() {
     }
     setIsLoading(false);
   }
+
   useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
         setIsLoading(false);
       }, 3000);
     }
-    return () => console.log("unmounting...");
+
+    return function cleanup() {
+      setIsLoading(false);
+      setResetPasswordError("");
+    };
   }, [isLoading]);
+
   return (
     <div className={Styles.LogIn}>
       <div className={Styles.whiteBox}>

@@ -10,6 +10,7 @@ import smallImage from "../../img/no-img.png";
 
 import { useLocation } from "react-router-dom";
 const { Content } = Layout;
+
 function Layouts() {
   const { currentUser, logout } = useAuth();
   const [student, setStudent] = useState(null);
@@ -245,8 +246,20 @@ function Layouts() {
     getStudentActivity();
     getStudentLastActivity();
     getStudentLast3weekActivity();
-    return () => {
+
+    return function cleanup() {
       isMounted.current = false;
+      setStudent(null);
+      setStudentActivity(null);
+      setStudentLastActivity(null);
+      setStudentLastThreeWeekActivity(null);
+      setStudentLastLeaveOfAbscence(null);
+      setStudentEnrollments([]);
+      setmeetingPreference([]);
+      setMentorsinformation([]);
+      setCurrentMentorInfo(null);
+      setStudentProPic(null);
+      setIsLoading(false);
     };
   }, [currentUser.email, getStudent]);
 

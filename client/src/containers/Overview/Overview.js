@@ -149,7 +149,7 @@ export default function Overview({
   };
 
   const getLastActivityRelativeTime = () => {
-    if (studentLastActivity.length) {
+    if (studentLastActivity && studentLastActivity.length) {
       return moment(studentLastActivity[0].time).fromNow();
     } else {
       return `${student.LastActivity} Days Ago`;
