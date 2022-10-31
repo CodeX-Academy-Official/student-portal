@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../img/logo.png";
 import { useAuth } from "../../contexts/AuthContext";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
+
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -50,7 +51,13 @@ export default function SignUp() {
         setIsLoading(false);
       }, 5000);
     }
+
+    return function cleanup() {
+      setSignUpError("");
+      setIsLoading(false);
+    };
   }, [isLoading]);
+
   return (
     <div className={Styles.SignUp}>
       <div className={Styles.whiteBox}>

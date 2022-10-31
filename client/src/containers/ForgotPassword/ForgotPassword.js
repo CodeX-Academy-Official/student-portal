@@ -6,12 +6,14 @@ import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
 import { SmileOutlined } from "@ant-design/icons";
 import Styles from "./ForgotPassword.module.scss";
+
 function ForgotPassword() {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const { forgotPassword } = useAuth();
-  const [forgetPasswordError, setforgetPasswordError] = useState("");
   const emailRef = useRef();
+  const navigate = useNavigate();
+  const { forgotPassword } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [forgetPasswordError, setforgetPasswordError] = useState("");
+
   const openNotification = (email) => {
     notification.open({
       message: "Email Sent",
@@ -19,6 +21,7 @@ function ForgotPassword() {
       icon: <SmileOutlined style={{ color: "#108ee9" }} />,
     });
   };
+
   async function handleSubmit() {
     try {
       setIsLoading(true);
@@ -30,14 +33,20 @@ function ForgotPassword() {
     }
     setIsLoading(false);
   }
+
   useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
         setIsLoading(false);
       }, 3000);
     }
-    return () => console.log("unmounting...");
+
+    return function cleanup() {
+      setIsLoading(false);
+      setforgetPasswordError("");
+    };
   }, [isLoading]);
+
   return (
     <div className={Styles.LogIn}>
       <div className={Styles.whiteBox}>

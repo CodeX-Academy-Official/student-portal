@@ -59,10 +59,26 @@ export default function Overview({
       return attributes;
     }
   };
-  const currentBadges =
-    getAttributes()?.badges === undefined
-      ? ""
-      : Number(getAttributes()?.badges);
+
+  const getEarnedBadges = () => {
+    // TODO: improve this function.
+    if (!studentActivity) {
+      return 0;
+    }
+    const awardedBadges = studentActivity.filter(
+      (badge) => badge.type === "badge award"
+    );
+    const uniqBy = (collection, callbackProp) => {
+      var seen = {};
+      return collection.filter(function (item) {
+        var prop = callbackProp(item);
+        return seen.hasOwnProperty(prop) ? false : (seen[prop] = true);
+      });
+    };
+    const noDuplicated = uniqBy(awardedBadges || [], (b) => b.info);
+    return noDuplicated.length || 0;
+  };
+
   const progressBarCertificationPercentage = () => {
     let targetCertification = 0;
     if (targetCertificationName === "Full-Stack Developer") {
@@ -74,7 +90,7 @@ export default function Overview({
     } else {
       targetCertification = 0;
     }
-    return Math.round((currentBadges / targetCertification) * 100);
+    return Math.round((getEarnedBadges() / targetCertification) * 100);
   };
 
   const getTargetCertifications = () => {
@@ -95,13 +111,17 @@ export default function Overview({
       student?.expectedStartDate === undefined
         ? ""
         : student?.expectedStartDate;
-    return moment(startDate).format("MMMM Do YYYY");
+    const parts = startDate.split("T");
+    const onlyDate = parts.length ? parts[0] : "";
+    return moment(onlyDate).format("MMMM Do, YYYY");
   };
 
   const getEndDate = () => {
     const endDate =
       student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
-    return moment(endDate).format("MMMM Do YYYY");
+    const parts = endDate.split("T");
+    const onlyDate = parts.length ? parts[0] : "";
+    return moment(onlyDate).format("MMMM Do YYYY");
   };
 
   const getTimeLinePercentage = () => {
@@ -126,6 +146,14 @@ export default function Overview({
     }
 
     return Math.round(pace);
+  };
+
+  const getLastActivityRelativeTime = () => {
+    if (studentLastActivity && studentLastActivity.length) {
+      return moment(studentLastActivity[0].time).fromNow();
+    } else {
+      return `${student.LastActivity} Days Ago`;
+    }
   };
 
   const columns = [
@@ -173,7 +201,7 @@ export default function Overview({
           <h2>Badge Progress:</h2>
           <div className={Styles.withPadding}>
             <p>
-              <strong>Current ({currentBadges})</strong>
+              <strong>Current ({getEarnedBadges()})</strong>
             </p>
             <Progress
               percent={progressBarCertificationPercentage()}
@@ -197,7 +225,7 @@ export default function Overview({
                 }}
                 type="circle"
                 percent={99}
-                format={() => `${student.LastActivity} Days Ago`}
+                format={() => getLastActivityRelativeTime()}
                 className={Styles.progressCircle}
               />
             </div>

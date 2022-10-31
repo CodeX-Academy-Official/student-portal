@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import logo from "../../img/logo.png";
 import CircularSpinner from "../../components/CircularSpinner/CircularSpinner";
+
 export default function LogIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -12,6 +13,7 @@ export default function LogIn() {
   const { login } = useAuth();
   const [signInError, setSignUpError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   async function handleSubmit() {
     try {
       setIsLoading(true);
@@ -32,7 +34,11 @@ export default function LogIn() {
         setIsLoading(false);
       }, 3000);
     }
-    return () => console.log("unmounting...");
+
+    return function cleanup() {
+      setSignUpError("");
+      setIsLoading(false);
+    };
   }, [isLoading]);
 
   return (

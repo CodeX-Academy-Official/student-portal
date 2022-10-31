@@ -35,7 +35,9 @@ export function AuthProvider({ children }) {
       setLoading(false);
     });
 
-    return unsubscribe;
+    return function cleanup() {
+      unsubscribe();
+    };
   }, []);
 
   const value = {
