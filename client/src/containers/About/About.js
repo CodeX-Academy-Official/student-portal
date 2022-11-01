@@ -527,6 +527,14 @@ export default function About({ student, meetingPreference, getStudent }) {
                 <CloseCircleFilled className={Styles.inactive} />
               </h3>
             )}
+            {student?.status ? (
+              <h3>
+                <strong>Status: </strong>
+                <span style={getStatusStyle()}>{student?.status}</span>
+              </h3>
+            ) : (
+              <></>
+            )}
             {student?.meetingTimePreference ? (
               <div>
                 <h3 className={Styles.meetingPreferenceTitle}>
@@ -542,14 +550,6 @@ export default function About({ student, meetingPreference, getStudent }) {
                   </h3>
                 </ul>
               </div>
-            ) : (
-              <></>
-            )}
-            {student?.status ? (
-              <h3>
-                <strong>Status: </strong>
-                <span style={getStatusStyle()}>{student?.status}</span>
-              </h3>
             ) : (
               <></>
             )}
