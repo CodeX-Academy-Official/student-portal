@@ -107,19 +107,17 @@ export default function Overview({
   };
 
   const getStartDate = () => {
-    const startDate =
-      student?.expectedStartDate === undefined
-        ? ""
-        : student?.expectedStartDate;
-    const parts = startDate.split("T");
+    const startDate = student?.expectedStartDate
+      ? student.expectedStartDate
+      : "";
+    const parts = startDate?.split("T");
     const onlyDate = parts.length ? parts[0] : "";
     return moment(onlyDate).format("MMMM Do, YYYY");
   };
 
   const getEndDate = () => {
-    const endDate =
-      student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
-    const parts = endDate.split("T");
+    const endDate = student?.expectedEndDate ? student.expectedEndDate : "";
+    const parts = endDate?.split("T");
     const onlyDate = parts.length ? parts[0] : "";
     return moment(onlyDate).format("MMMM Do YYYY");
   };

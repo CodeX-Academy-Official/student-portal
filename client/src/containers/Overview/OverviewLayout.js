@@ -85,16 +85,14 @@ export default function Overview({
   };
 
   const getStartDate = () => {
-    const startDate =
-      student?.expectedStartDate === undefined
-        ? ""
-        : student?.expectedStartDate;
+    const startDate = student?.expectedStartDate
+      ? student.expectedStartDate
+      : "";
     return moment(startDate).format("MMMM Do YYYY");
   };
 
   const getEndDate = () => {
-    const endDate =
-      student?.expectedEndDate === undefined ? "" : student?.expectedEndDate;
+    const endDate = student?.expectedEndDate ? student.expectedEndDate : "";
     return moment(endDate).format("MMMM Do YYYY");
   };
 
